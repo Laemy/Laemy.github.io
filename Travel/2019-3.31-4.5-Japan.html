@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="zh-TW" itemscope="" itemtype="http://schema.org/Blog">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>2019.3.31-4.5 - Japan Tokyo</title>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+$(function () {
+
+	$(".conn").find("a").attr("target","_blank")
+	
+	// 幫 div.qa_title 加上 hover 及 click 事件
+	// 同時把兄弟元素 div.qa_content 隱藏起來
+	$('#qaContent ul.accordionPart li div.qa_title').hover(function(){
+		$(this).addClass('qa_title_on');
+	}, function(){
+		$(this).removeClass('qa_title_on');
+	}).click(function(){
+		// 當點到標題時，若答案是隱藏時則顯示它；反之則隱藏
+		$(this).next('div.qa_content').slideToggle();
+	}).siblings('div.qa_content').hide();
+	
+	//GO TOP
+	$("#gotop").click(function(){
+        jQuery("html,body").animate({
+            scrollTop:0
+        },1000);
+    });
+    $(window).scroll(function() {
+        if ( $(this).scrollTop() > 100){
+            $('#gotop').fadeIn("fast");
+        } else {
+            $('#gotop').stop().fadeOut("fast");
+        }
+    });
+	
+	$('#D1').click(function(){
+		$('html,body').animate({scrollTop:$('#D11').offset().top}, 400);
+	});
+	$('#D2').click(function(){
+		$('html,body').animate({scrollTop:$('#D21').offset().top}, 400);
+	});
+	$('#D3').click(function(){
+		$('html,body').animate({scrollTop:$('#D31').offset().top}, 400);
+	});
+	$('#D4').click(function(){
+		$('html,body').animate({scrollTop:$('#D41').offset().top}, 400);
+	});
+	$('#D5').click(function(){
+		$('html,body').animate({scrollTop:$('#D51').offset().top}, 400);
+	});
+	$('#D6').click(function(){
+		$('html,body').animate({scrollTop:$('#D61').offset().top}, 400);
+	});
+
+});
+
+</script>
+<style>
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+ul.dot, ul.dot li{
+	list-style: circle;
+	margin-left:20px;
+}
+#qaContent {
+	background-color:#e7f8e5;
+}
+#qaContent h3 {
+	height: 22px;
+	text-indent: -9999px;
+}
+#qaContent ul.accordionPart {
+	margin: 10px;
+}
+#qaContent ul.accordionPart li ul li {
+	border-bottom: solid 1px #e3e3e3;
+	padding-bottom: 12px;
+	margin-top: 12px;
+}
+#qaContent ul.accordionPart li .qa_title {
+	padding-left: 3px;
+	font-size:110%;
+	color: #5ecf53;
+	cursor: pointer;
+}
+#qaContent ul.accordionPart li .qa_title_on {
+	text-decoration: underline;
+}
+#qaContent ul.accordionPart li .qa_content {
+	margin: 6px 0 0;
+	padding-bottom:20px;
+}
+
+.traffic #qaContent {
+	background-color:#f1daff;
+	margin-left:25px;
+}
+.traffic #qaContent ul.accordionPart li .qa_title {
+	color: #9202e9;
+}
+#gotop {
+    display: none;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;    
+    padding: 10px 15px;    
+    font-size: 20px;
+    background: #777;
+    color: white;
+    cursor: pointer;
+}
+</style>
+<style>
+div.All{
+	width:100%;
+	margin:0 auto;
+}
+div.conn {
+	margin-top:50px;
+}
+.listA a {
+	margin:5px 10px;
+}
+a{
+	text-decoration:none;
+	color:#61ba21;
+}
+a:hover{
+	color:crimson;
+}
+span{
+	color:#888;
+	margin-left:5px;
+}
+.conn{
+	margin-left:10px;
+	line-height:170%;
+}
+.l{
+	margin:0 0 0 20px;
+}
+div.p{
+	margin:0;
+}
+.ps{
+	color:#e88888;
+}
+.small{
+	font-size:70%;
+}
+.plan{
+    color:#FEBB05;
+    font-size:130%;
+    font-weight:bold;
+}
+.line{
+    border:2px solid #FEBB05;;
+}
+.IM,.im{
+	background:url(http://www.veryicon.com/icon/png/System/Silk/heart.png) no-repeat 0px 7px ;
+	background-size: 14px 14px;
+	padding-left:20px;
+}
+
+img{
+	vertical-align:middle;
+	margin-left:5px;
+	max-width:100%;
+}
+.station{
+	font-weight:bold;
+	text-decoration:underline;
+}
+.conn div.p ul.list, .conn div.p .list li{
+	list-style-type:circle;
+	margin-left:15px;
+}
+.star{
+    background:url(http://goo.gl/EW0jWD) no-repeat 0px 1px ;
+    background-size: 14px 14px;
+    padding-left:20px;
+    
+}
+
+</style>
+</head>
+<body>
+<div id="gotop">˄</div>
+<div class="All">
+	<div class="listA">
+		<h2><a id="D1">Day 1</a> | 
+		<a id="D2">Day 2</a> | 
+		<a id="D3">Day 3</a></h2>
+		<h2><a id="D4">Day 4</a> | 
+		<a id="D5">Day 5</a> | 
+		<a id="D6">Day 6</a></h2>
+	</div>
+	
+</div>
+<hr />
+2019
+<div class="All">
+	<div class="conn"><a id="D11" name="DAY1"></a>
+		<h1>=Day 1=<span class="ps small">3/31 (日)</span> </h1>
+
+		<div>
+			<div class="p">06:15 小港機場</div>
+			<div class="p">08:15 香草起飛(JW130)</div>
+			<div class="l">|</div>
+			<div class="l">|</div>
+			<div class="p">12:50 成田空港ポートターミナル</div>
+			<div class="ps">香草 in 第三航廈</div>
+			<div class="p">14:20 空港第２ビル(鉄道)</div>
+			<div class="p IM">1.東京廣域周遊券-10000円</div>
+			<div class="ps">劃位：
+				<ul>
+					<li>1.成田機場->新宿(當下時間)</li>
+					<li>2.新宿->河口湖(4/1 AM 9:00)</li>
+					<li>3.河口湖->新宿(4/2 PM 3:05)</li>
+				<ul>
+			</div>
+			<div class="p IM">2.Keisei Skyliner & Tokyo Subway Ticket 套票(48HR)-3200円<br/>
+			(24HR-)</div>
+			<div class="ps">劃位：上野->成田機場第2·第3候機樓</li>
+
+				<ul>
+			</div>
+			<div class="p">搭乘N'EX</div>
+			<div class="ps">(時刻: 13:48 | 14:20 | 14:48 | 15:18)
+			<a href="https://www.jreast.co.jp/nex/pdf_new/timetable_from_narita.pdf"><span class="star"></span></a></div>
+			
+			<div class="ps">・JR東日本旅行服務中心 - 成田機場第2·第3候機樓 <br/>
+				<img src="https://www.jreast.co.jp/tc/customer_support/img/renew/sc_img_location02.jpg" /></div>
+			<div class="l">|</div>
+			
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">
+								<div class="ps station">空港第２ビル(鉄道)→新宿</div>
+								<div class="ps">ＪＲ特急成田エクスプレス26号・池袋行</div>
+								<div class="ps">第一月台，橘色</div>
+								<div class="ps">共4或5站/約1小時22分鐘/來回票 4,000円</div>
+								<div class="ps">13:48 | 14:20 | 14:48 | 15:18</div>
+								<div class="ps"><a href="https://www.jreast.co.jp/nex/pdf_new/timetable_from_narita.pdf">時刻表</a></div>
+								
+								<div class="ps station">新宿三丁目→東新宿</div>
+								<div class="ps">東京メトロ副都心線・和光市行</div>
+								<div class="ps">共1站/約2分鐘/165円</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="l">|</div>
+			<div class="p">15:50 東新宿</div>
+			<div class="ps">電梯位於A3出口。飯店離A1出口較近</div>
+			<div class="p">新宿格蘭貝爾飯店 (Shinjuku Granbell Hotel)<a href="http://www.granbellhotel.jp/tw/shinjuku/access/">官網交通資訊</a></div>
+			<div class="l">(2-14-5 Kabuki Cho 東京 日本 160-0021)<br/>
+			〒160-0021 東京都新宿區歌舞伎町2-14-5 <br/>
+			<a href="https://goo.gl/eJwv7S">MAP</a> | <a href="https://goo.gl/k6MrXd">A3出口路線</a>
+			</div>
+			<div class="ps">
+				<ul class="dot">
+					<li>自東京地下鐵副都心線・東新宿站A1出口步行4分鐘。</li>
+					<li>自東京地下鐵副都心線的丸之内線・新宿三丁目站E1出口步行7分。</li>
+					<li>自JR線新宿站東口步行約15分鐘。</li>
+					<li>自西武新宿線・西武新宿站北口步行約10分鐘。</li>
+				</ul>
+			</div>
+			<div class="l"><img src="https://i.imgur.com/V8R6fRSr.jpg"/></div>
+			<div class="l">|</div>
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">
+								<div class="ps station">東新宿→新宿三丁目</div>
+								<div class="ps">東京メトロ副都心線・元町・中華街行</div>
+								<div class="ps">共1站/2分/165円</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="l">|</div>
+			<div class="p">新宿御苑</div>
+			<div class="l">|</div>
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">
+								<div class="ps station">東新宿→明治神宮前</div>
+								<div class="ps">東京メトロ副都心線・元町・中華街行</div>
+								<div class="ps">共4站/3分/165円</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="l">|</div>
+			<div class="p">明治神宮</div>
+			<div class="l">|</div>
+			<div class="l">|</div>
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">
+								<div class="ps station">明治神宮前→東新宿</div>
+								<div class="ps">東京メトロ副都心線・和光市行</div>
+								<div class="ps">共1站/約2分鐘/165円</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="p">新宿格蘭貝爾飯店 (Shinjuku Granbell Hotel)</div>
+
+		</div>
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+							<li>ザクザク ZAKUZAKU 泡芙(￥250)
+								<a href="http://wp.me/p5nbNB-1fe"><span class="star"></span></a>
+								<div class="ps">營業時間：10:00-20:00</div>
+								<div class="ps">地址：東京都渋谷区神宮前 1-7-1 (CUTE CUBE HARAJUKU 1F)</div>
+							</li>
+							<li>Calbee+ 》卡樂比現炸洋芋片(￥260)
+								<a href="http://wp.me/p5nbNB-1eM"><span class="star"></span></a>
+								<div class="ps">營業時間：09：30～20：30 <br/>
+									(現炸商品提供時間 10:00～20:00)</div>
+								<div class="ps">地址：東京都渋谷区神宮前1丁目16-8</div>
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+</div>
+<hr />
+<div class="All">
+	<div class="conn"><a id="D21" name="DAY2"></a>
+		<h1>=Day 2= <span class="ps small">4/1 (一)</span></h1>
+		<div class="p">07:30 起床 + 吃早餐</div> 
+		<div class="p">東新宿</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">東新宿→新宿三丁目→新宿→河口湖</div>
+							<br/>
+							<div class="ps station">東新宿→新宿三丁目</div>
+							<div class="ps">東京メトロ副都心線・元町・中華街行</div>
+							<div class="ps">共1站/2分/165円</div>
+							<br/>
+							<div class="ps station">新宿→河口湖</div>
+							<div class="ps">ＪＲ特急富士回遊1号・河口湖行</div>
+							<div class="ps">N站/1時52分/4060円</div>
+							<div class="ps"><a href="http://www.fujikyu-railway.jp/fujikaiyuu/information.php">官網</a>&nbsp;|&nbsp;<a href="https://lazyjapan.com/regions/kawaguchiko/transport/?fbclid=IwAR3ErTAYBYUp9itkf5FAdKvOq2gFk6lkD0HkqiIzPQOUnc0xln6djlgnowg">河口湖交通教學網站</a></div>
+							<br/>
+							<div class="ps">1+N站/約2小時/4225円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">河口湖</div>
+		<div class="ps"><a href="http://bus.fujikyu.co.jp/pdf/rosen/fujigoko/20160502/omni_map.pdf">周圍地圖</a></div>
+		<div class="ps">買2日券(纜車+船+公車)2600円</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">河口湖→サニーデ前長崎公園入口(紅線20號站牌)</div>
+							<div class="ps">河口湖駅発 河口湖自然生活館方面行き自然生活館</div>
+							<div class="ps">(富士山駅発 芦川農産物直売所方面行き芦川農産物直売所)</div>
+							<div class="ps">共1站/2分/165円</div>
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		
+		
+		<div class="l">|</div>
+		<div class="p">艷陽天度假區 酒店 <a href="https://goo.gl/Bzumsu">Map</a></div>
+		<div class="p">Sunnide Resort: Hotel / サニーデリゾート＜ホテル＞</div>
+		<div class="ps">訂單號碼:5796173423</div>
+		<div class="ps">山梨縣南都留郡富士河口湖町大石2549-1</div>
+		<div class="ps">+81-555-76-6004</div>
+		<div class="ps">河口湖駛請旅客服務中心的櫃檯人員打電話，就會有專車來接送。</div>
+		<div class="ps"><img src="https://i.imgur.com/t8zqMin.png" /></div>
+		<div class="l">|</div>
+		
+		<div class="ps"></div>
+		<div class="ps"></div>
+		<div class="ps"></div>
+		
+		<div class="ps">
+			<ul>
+				<li>-カチカチ山纜車（カチカチ山ロープウェイ）:搭富士山全景纜車到「天上山公園」<br/>
+					[Bus]11號站牌「遊覧船・ロープウェイ入口」</li>
+				<li>-河口湖遊覽船「アンソレイユ（ensoleillé）」號￥930<br/>
+					[Bus]11號站牌「遊覧船・ロープウェイ入口」</li>
+				<li>-「河口湖圓形大廳」，河口湖北岸，可拍到河口湖大橋和富士山！<br/>
+					[Bus]河口湖猿回劇場・木之花美術館
+				</li>
+				<li>-河口湖音樂盒之森美術館(門票:1500)<br/>
+					[Bus][紅線]河口湖音樂盒之森美術館站)</li>
+				<li>-大石公園/河口湖自然生活館<br/>
+					[Bus]河口湖自然生活館(尾站)</li>
+			</ul></div>
+		<div class="l">|</div>
+		<div class="l">|</div>
+
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+					    <ul>
+						    
+							
+							<!--<li>BAKE Cheese tart 自由之丘店
+								<a href="http://wp.me/p5nbNB-1eM"><span class="star"></span></a>
+								<div class="ps">營業時間：09：30～20：30 <br/>
+									(現炸商品提供時間 10:00～20:00)</div>
+								<div class="ps">地址：東京都渋谷区神宮前1丁目16-8</div>
+							</li>
+							<li>Mont St. Clair
+								<a href="http://wp.me/p5nbNB-1eM"><span class="star"></span></a>
+								<div class="ps">營業時間：11：00～19：00</div>
+								<div class="ps">地址：152-0035 東京都目黒区自由が丘2-22-4</div>
+							</li>
+							<li class="IM"><a href="http://afuri.com/menu/">AFURI阿夫利</a>
+								<a href="https://goo.gl/6adZEr"><span class="star"></span></a>
+								<div class="ps">營業時間：10:30～翌3:00 (原宿)</div>
+								<div class="ps">營業時間：11:00am - 11:00pm (六本木ヒルズ)</div>
+								<div class="ps">地址：六本木ヒルズノースタワー B1F</div>
+							</li>-->
+						</ul>
+
+					</div>
+				</li>
+			</ul>
+
+			<ul class="accordionPart">
+				<!--<li>
+					<div class="qa_title">View:</div>
+					<div class="qa_content">
+						<ul>
+							<li class="im">Craftholic Outlet (Accent Bazaar)
+								<a href="https://goo.gl/SIhEEm"><span class="star"></span></a>
+								<div class="ps"><a href="https://goo.gl/fyNYCG">東京都目黒区自由が丘1-5-9 リバティビル1F</a></div>
+								<div class="ps">營業時間：11：30～19：30</div>
+						    </li>
+						    <li class="im">Craftholic 自由之丘店
+							    <a href="https://goo.gl/SIhEEm"><span class="star"></span></a>
+							    <div class="ps"><a href="https://goo.gl/H3OCXX">東京都目黒区自由ヶ丘2-9-2 辻田ビルディング1F-B</a></div>
+							    <div class="ps">營業時間：11：30～19：30</div>
+							</li>
+						</ul>
+					</div>
+				</li>-->
+			</ul>
+		</div> 
+	</div>
+		
+</div>
+<hr />
+<div class="All">
+
+	<div class="conn"><a id="D31" name="DAY3"></a>
+		<h1>=Day 3= <span class="ps small">4/2 (二)</span></h1>
+		<div class="p">07:30 起床、8:30 吃早餐</div>
+		<div class="l">|</div>
+		<div class="p">河口湖</div>
+		
+		<div class="ps">
+			<ul>
+				<li>-カチカチ山纜車（カチカチ山ロープウェイ）:搭富士山全景纜車到「天上山公園」<br/>
+					[Bus]11號站牌「遊覧船・ロープウェイ入口」</li>
+				<li>-河口湖遊覽船「アンソレイユ（ensoleillé）」號￥930<br/>
+					[Bus]11號站牌「遊覧船・ロープウェイ入口」</li>
+				<li>-「河口湖圓形大廳」，河口湖北岸，可拍到河口湖大橋和富士山！<br/>
+					[Bus]河口湖猿回劇場・木之花美術館
+				</li>
+				<li>-河口湖音樂盒之森美術館(門票:1500)<br/>
+					[Bus][紅線]河口湖音樂盒之森美術館站)</li>
+				<li>-大石公園/河口湖自然生活館<br/>
+					[Bus]河口湖自然生活館(尾站)</li>
+			</ul></div>
+		<div class="l">|</div>
+		<div class="p">搭15:00車離開 (只有兩班：15:05 | 17:38)</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">河口湖→新宿</div>
+							<div class="ps">ＪＲ特急富士回遊16号・新宿行</div>
+							<div class="ps">N站/1時52分/4060円</div>
+							<br/>
+							<div class="ps station">新宿→大塚</div>
+							<div class="ps">ＪＲ山手線外回り・池袋・上野方面</div>
+							<div class="ps">5站/11分/165円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">大塚</div>
+		<div class="p">OMO5東京大塚 | <a href="https://omo-hotels.com/">官網</a></div>
+		<div class="ps">
+			地址：東京都豊島区北大塚2-26-1<br/> 
+			東京都豊島区北大塚2丁目26番地1<br/>
+			電話：+81-570-073-022 <br/>
+			チェックイン：15:00 <br/>
+			チェックアウト：11:00 <br/>
+			￥68,700 (已付、含早餐)<br/>
+			預約編號：6r73rhh9f6 / 1577c1
+		</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">大塚→池袋</div>
+							<div class="ps">ＪＲ山手線内回り・池袋・新宿方面</div>
+							<div class="ps">9站/15分</div>
+						</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">池袋</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">大塚→池袋</div>
+							<div class="ps">ＪＲ山手線外回り・上野・東京方面</div>
+							<div class="ps">9站/15分</div>
+						</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="p">大塚</div>
+		<div class="p">OMO5東京大塚</div>
+	</div>
+</div>
+<hr />
+<div class="All">
+	<div class="conn"><a id="D41" name="DAY4"></a>
+		<h1>=Day 4= <span class="ps small">4/3 (三)</span></h1>
+		<div class="p">07:30 起床、8:30 吃早餐</div>
+		<div class="l">|</div>
+		<div class="p">大塚</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">大塚→上野→浅草</div>
+							<br/>
+							<div class="ps">大塚→上野</div>
+							<div class="ps">ＪＲ山手線外回り・上野・東京方面</div>
+							<div class="ps">7站/14分/165円</div>
+							<br/>
+							<div class="ps">上野→浅草</div>
+							<div class="ps">東京メトロ銀座線・浅草行</div>
+							<div class="ps">4站/5分/165円</div>
+							<br/>
+							1.<div class="ps">淺草→晴空塔(とうきょうスカイツリ)</div>
+							<div class="ps">東武スカイツリーライン・竹ノ塚行</div>
+							<div class="ps">東武スカイツリーライン・北千住行</div>
+							<div class="ps">1站/3分/144円</div>
+							<br/>
+							2.<div class="ps">浅草→押上</div>
+							<div class="ps">都営浅草線快速・京成佐倉行</div>
+							<div class="ps">都営浅草線・印旛日本医大行</div>
+							<div class="ps">都営浅草線・京成高砂行</div>
+							<div class="ps">2站/3分/165円</div>
+							<br/>轉二次、三班車
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">押上(晴空塔-とうきょうスカイツリ)</div>
+		<div class="p IM">Skytree 30F 敘敘苑午餐時段</div>
+		<div class="p">11:30開始</div>
+		<div class="p">晴空塔SKY TREE <a href="http://www.tokyo-skytree.jp/cn_t/"><span class="star"></span></a>
+		</div>
+		<div class="ps">售票時間:8:00 ~ 21:00</div>
+		<div class="ps">外國旅客可購買快速進場門票<br/>
+		單一票（350樓）:3000円、組合票（350樓+450樓）:4000円</div>
+		<div class="ps">門票:天望甲板2060円、天望回廊1030円</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">晴空塔(とうきょうスカイツリ)→淺草</div>
+							<div class="ps">東武スカイツリーライン区間急行・浅草行</div>
+							<div class="ps">1站/3分/144円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">浅草</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">：
+							1.<div class="ps station">浅草→押上→錦糸町</div>
+							<br/>
+							<div class="ps">浅草→押上</div>
+							<div class="ps">都営浅草線・京成高砂行</div>
+							<div class="ps">都営浅草線・押上行</div>
+							<div class="ps">2站/3分</div>
+							<br/>
+							<div class="ps">浅草→押上</div>
+							<div class="ps">東京メトロ半蔵門線・中央林間行</div>
+							<div class="ps">都営浅草線・西馬込行</div>
+							<div class="ps">1站/1分/269円</div>
+							<br/>
+							2.<div class="ps station">浅草→浅草橋→錦糸町</div>
+							<br/>
+							<div class="ps">浅草→浅草橋</div>
+							<div class="ps">都営浅草線快特・三崎口行</div>
+							<div class="ps">2站/3分/174円</div>
+							<br/>
+							<div class="ps">浅草橋→錦糸町</div>
+							<div class="ps">ＪＲ総武線・千葉行</div>
+							<div class="ps">2站/5分/133円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">錦糸町</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">錦糸町→秋葉原→大塚</div>
+							<br/>
+							<div class="ps">錦糸町→秋葉原→大塚</div>
+							<div class="ps">ＪＲ総武線・三鷹行</div>
+							<div class="ps">ＪＲ総武線・中野行</div>
+							<div class="ps">3站/7分</div>
+							<br/>
+							<div class="ps">秋葉原→大塚</div>
+							<div class="ps">ＪＲ山手線内回り・上野・池袋方面</div>
+							<div class="ps">9站/17分/216円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">大塚</div>
+		<div class="l">|</div>
+
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+							<li>淺草メンチ炸肉餅
+								<div class="ps">營業時間:10:00-19:00</div>
+								<div class="ps">東京都台東区浅草 2-3-3</div>
+								<div class="ps">位在淺草寺旁的傳法院通上<a href="https://oneonehsu.com/jp-asakusa-streetfood/">
+									<span class="star"></span></a></div>
+								</li>
+							<li>東京淺草豊福 Toyofuku – 黑毛和牛咖哩麵包
+							    <div class="ps">營業時間: 10:00-19:00</div>
+								<div class="ps">東京都 台東区 浅草 2-3-4</div>
+							</li>	
+							<li><a href="http://www.asakusa-kagetudo.com/">淺草 花月堂</a> – 波蘿麵包
+								<div class="ps">營業時間：09:00-售完為止</div>
+							    <div class="ps">東京都 台東区 浅草 2-7-13</div>
+							</li>
+							<li><a href="https://tabelog.com/tw/tokyo/A1311/A131102/13059060/">淺草 PAKUPAKU</a> – 便當
+								<div class="ps">營業時間: 24小時營業</div>
+							    <div class="ps">東京都 台東区 浅草 1-43-8</div>
+							</li>
+							<!--<li>ザクザク ZAKUZAKU 泡芙(￥250)
+								<a href="http://wp.me/p5nbNB-1fe"><span class="star"></span></a>
+								<div class="ps">營業時間：10:00-20:00</div>
+								<div class="ps">地址：東京都渋谷区神宮前 1-7-1 (CUTE CUBE HARAJUKU 1F)</div>
+							</li>
+							<li>Calbee+ 》卡樂比現炸洋芋片(￥260)
+								<a href="http://wp.me/p5nbNB-1eM"><span class="star"></span></a>
+								<div class="ps">營業時間：09：30～20：30 <br/>
+									(現炸商品提供時間 10:00～20:00)</div>
+								<div class="ps">地址：東京都渋谷区神宮前1丁目16-8</div>
+							</li>
+							<li class="im">
+							    <a href="http://www.momijido.com/">紅葉堂弐番屋</a>
+							    <a href="http://www.alberthsieh.com/?p=1315">
+									<span class="star"></span></a>
+								<div class="ps">營業時間：9:00～18:00</div>
+								<div class="ps"></div>
+								<div class="ps"></div>
+							</li>
+							<li>hara dounts豆乳甜甜圈
+							    <a href="http://agathachiu66.pixnet.net/blog/post/373999930">
+									<span class="star"></span></a>
+								<div class="ps">広島県広島市中区三川町3-13 <br/>
+								    (廣島路面電車紙屋町東站下車，步行約五分鐘)</div>
+								<div class="ps">AM10:00~PM20:00</div>
+							</li>
+							<li>DANISH HEART (ANDERSEN)-可頌
+								<div class="ps">広島市中区本通7-1 <a href="http://www.andersen.co.jp/hiroshima/">ANDERSEN</a></div>
+								<div class="ps">10:00-20:00</div>
+							</li>
+							-->
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<hr />
+<div class="All">
+
+	<div class="conn"><a id="D51" name="DAY5"></a>
+		<h1>=Day 5= <span class="ps small">4/4 (四)</span></h1>
+		<div class="p">07:00 起床 + 吃早餐</div> 
+		<div class="p">08:00 退房</div>
+		<div class="p">大塚</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							方案一：
+							<div class="ps station">大塚→高田馬場→九段下</div>
+							<br/>
+							<div class="ps station">大塚→高田馬場</div>
+							<div class="ps">ＪＲ山手線内回り・池袋・新宿方面</div>
+							<div class="ps">3站/7分/154円</div>
+							<br/>
+							<div class="ps station">高田馬場→九段下</div>
+							<div class="ps">東京メトロ東西線・妙典行</div>
+							<div class="ps">4站/9分/165円</div>
+							
+							方案二：起床直接<br/>
+							1.<div class="ps station">大塚站前→庚申塚車站</div>
+							<div class="ps">都電荒川線・三ノ輪橋行</div>
+							<div class="ps">2站/2分/165円</div>
+							<br/>
+							2.<div class="ps station">大塚→巣鴨</div>
+							<div class="ps">ＪＲ山手線外回り・上野・東京方面</div>
+							<div class="ps">1站/2分/133円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">九段下</div>
+		<div class="ps">千鳥之淵</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">九段下→神保町→巣鴨</div>
+							<br/>
+							<div class="ps station">九段下→神保町</div>
+							<div class="ps">東京メトロ半蔵門線・押上行</div>
+							<div class="ps">都営新宿線・本八幡行</div>
+							<div class="ps">都営新宿線・大島行</div>
+							<div class="ps">1站/1分</div>
+							<br/>
+							<div class="ps station">神保町→巣鴨</div>
+							<div class="ps">都営三田線・西高島平行</div>
+							<div class="ps">5站/9分/216円</div>
+						
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>	
+		<div class="p">巣鴨</div>
+		<div class="ps">-巢鴨地藏通商店街</div>
+		<div class="ps">-手作仙貝雷神堂 巢鴨本店</div>
+		<div class="ps">-巢鴨萬盛堂藥局／OS藥局=>據說便宜</div>
+		<div class="l">|</div>	
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">庚申塚車站→大塚站前</div>
+							<div class="ps">都電荒川線・早稲田行</div>
+							<div class="ps">2站/4分/165円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>	
+		<div class="p">大塚</div>
+		<div class="l">|</div>	
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							1.<div class="ps station">大塚→恵比寿→中目黒</div>
+							<br/>
+							<div class="ps station">大塚→恵比寿</div>
+							<div class="ps">ＪＲ山手線内回り・池袋・新宿方面</div>
+							<div class="ps">9站/22分/194円</div>
+							<br/>
+							<div class="ps station">恵比寿→中目黒</div>
+							<div class="ps">東京メトロ日比谷線・中目黒行</div>
+							<div class="ps">1站/3分/165円</div>
+							<br/>
+							2.<div class="ps station">大塚→渋谷→中目黒</div>
+							<br/>
+							<div class="ps station">大塚→渋谷</div>
+							<div class="ps">ＪＲ山手線内回り・池袋・新宿方面</div>
+							<div class="ps">8站/19分/165円</div>
+							<br/>
+							<div class="ps station">渋谷→中目黒</div>
+							<div class="ps">東急東横線・元町・中華街行</div>
+							<div class="ps">2站/4分/124円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		
+		<div class="l">|</div>
+		<div class="p">中目黑</div>
+		<div class="p">代官山</div>
+		<div class="ps">
+			<ul>
+				<li class="IM">星巴克&nbsp; 
+					<a href="https://www.google.com.tw/maps/place/Starbucks+Reserve+Roastery+%E6%98%9F%E5%B7%B4%E5%85%8B%E8%87%BB%E9%81%B8%C2%AE%E6%9D%B1%E4%BA%AC%E7%83%98%E7%84%99%E5%B7%A5%E5%9D%8A/@35.6494335,139.6927172,17z/data=!4m5!3m4!1s0x60188b870112d945:0x52dea04318d7eb83!8m2!3d35.6493507!4d139.6925992?hl=zh-TW">MAP</a></li>
+				<li class="IM">蔦屋書店</li>
+				<li>舊朝倉家住宅(100円)</li>
+				<li>(中目黑)traveler factory:文具店</li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							1.<div class="ps station">中目黒→恵比寿→大塚</div>
+							<br/>
+							<div class="ps station">中目黒→恵比寿</div>
+							<div class="ps">東京メトロ日比谷線・南栗橋行</div>
+							<div class="ps">1站/2分/165円</div>
+							<br/>
+							<div class="ps station">恵比寿→大塚</div>
+							<div class="ps">ＪＲ山手線外回り・渋谷・新宿方面</div>
+							<div class="ps">9站/19分/194円</div>
+							<br/>
+							2.<div class="ps station">中目黒→渋谷→大塚</div>
+							<br/>
+							<div class="ps station">中目黒→渋谷</div>
+							<div class="ps">東急東横線・渋谷行</div>
+							<div class="ps">2站/5分/124円</div>
+							<br/>
+							<div class="ps station">渋谷→大塚</div>
+							<div class="ps">ＪＲ山手線外回り・新宿・池袋方面</div>
+							<div class="ps">8站/18分/165円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		
+		<div class="l">|</div>
+		<div class="l">|</div>
+		<div class="p">大塚</div>
+
+		
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<!--<ul>
+							<li class="im">神田達摩鲷魚
+								<div class="ps"><a href="https://goo.gl/AcgtEX">東京都台東区上野6-12-17 田中ビル1階</a>(阿美橫町)</div>
+						    </li>
+						    <li class="im">大章魚燒
+							    <div class="ps">阿美橫町</div>
+							</li>
+							<li>Domremy Outlet 上野不忍店
+								<div class="ps"><a href="https://goo.gl/S7XKVu">東京都台東區上野2-12-14</a></div>
+							</li>
+							<li>六厘舎つけめん舎鈴 沾麵
+								<div class="ps"><a href="https://goo.gl/RqIots">東京都台東区上野７丁目1-1</a></div>
+							</li>
+							<li>麵屋武藏 武骨相傳 
+								<div class="ps">東京都台東區上野6-11-15</div>
+							</li>
+							<li>三矢堂製麵-超濃郁起司沾麵 
+								<div class="ps">東京都台東区上野6-5-7JUNビル１F</div>
+							</li>
+							<li>
+								<div class="ps"></div>
+							</li>
+							<li>
+								<div class="ps"></div>
+							</li>
+						</ul>-->
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="All">
+
+	<div class="conn"><a id="D61" name="DAY6"></a>
+		<h1>=Day 6= <span class="ps small">4/5 (五)</span></h1>
+		<div class="p">07:00 起床 + 吃早餐</div> 
+		<div class="p">08:30 退房</div>
+		<div class="p">大塚</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+
+							<div class="ps station">大塚→原宿</div>
+							<div class="ps">ＪＲ山手線内回り・池袋・新宿方面</div>
+							<div class="ps">7站/17分/165円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="p">明治神宮</div>
+		<div class="ps">表參道、原宿、竹下通</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+
+							<div class="ps station">原宿→大塚</div>
+							<div class="ps">ＪＲ山手線外回り・新宿・池袋方面</div>
+							<div class="ps">7站/15分/165円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">大塚</div>
+		<div class="ps">拿行李</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+
+							<div class="ps station">大塚→上野</div>
+							<div class="ps">ＪＲ山手線外回り・上野・東京方面</div>
+							<div class="ps">7站/14分/165円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		<div class="l">|</div>
+		<div class="p">上野購物</div>
+		<div class="ps">寄行李</div>
+		<div class="l">|</div>
+		<div class="p">14:40 京成上野駛</div>
+		<div class="l">|</div>	
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">上野→成田空港(東京)</div>
+							<div class="ps">京成特急スカイライナー39号・成田空港行</div>
+							<div class="ps">2站/41分/2465円</div>
+							<div class="ps">(<a href="http://www.keisei.co.jp/keisei/tetudou/skyliner/tc/ae_timetable/index.php">時刻表</a>)</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		<div class="l">|</div>
+		<div class="p">15:21 成田空港(NRT) 成田機場第2・第3候機樓</div>
+		<div class="ps">香草:第三航廈2F E櫃台<br/>
+			<img src="https://www.vanilla-air.com/tw/terminal3/img/map02.png" />
+		</div>
+		<div class="p">18:40 飛機起飛 (JW135)</div>
+		<div class="p">21:50 Taiwan Kaohsiung (KHH)</div>
+		
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+							<li class="im">神田達摩鲷魚
+								<div class="ps"><a href="https://goo.gl/AcgtEX">東京都台東区上野6-12-17 田中ビル1階</a>(阿美橫町)</div>
+						    </li>
+						    <li class="im">大章魚燒
+							    <div class="ps">阿美橫町</div>
+							</li>
+							<li>Domremy Outlet 上野不忍店
+								<div class="ps"><a href="https://goo.gl/S7XKVu">東京都台東區上野2-12-14</a></div>
+							</li>
+							<li>六厘舎つけめん舎鈴 沾麵
+								<div class="ps"><a href="https://goo.gl/RqIots">東京都台東区上野７丁目1-1</a></div>
+							</li>
+							<li>麵屋武藏 武骨相傳 
+								<div class="ps">東京都台東區上野6-11-15</div>
+							</li>
+							<li>三矢堂製麵-超濃郁起司沾麵 
+								<div class="ps">東京都台東区上野6-5-7JUNビル１F</div>
+							</li>
+							<li>
+								<div class="ps"></div>
+							</li>
+							<li>
+								<div class="ps"></div>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<hr />
+<div class="All">
+    <div class="conn">
+        <h1>金額概算</h1>
+        <div class="ps small">住宿</div>
+        <div>
+            <div class="p">新宿グランベルホテル</div>
+			<div class="ps">(SHINJUKU GRANBELL HOTEL)</div>
+			<div class="ps">NT 7,573.46</div>
+			<div class="ps">2019/3/31(日) ～ 4/1(月) 1泊</div>
+			<div class="ps">agoda 訂單編號：341782912</div> / YICHIENLi</div>
+			<div class="ps">+81-3-5155-2666</div>
+			<div class="ps">〒160-0021 東京都新宿區歌舞伎町2-14-5 <a href="https://goo.gl/eJwv7S">MAP</a></div>
+
+        
+		<div>
+			<div class="p">艷陽天度假區 酒店 <a href="https://goo.gl/Bzumsu">Map</a></div>
+			<div class="p">Sunnide Resort: Hotel / サニーデリゾート＜ホテル＞</div>
+			<div class="ps">訂單號碼:5796173423</div>
+			<div class="ps">山梨縣南都留郡富士河口湖町大石2549-1</div>
+			<div class="ps">+81-555-76-6004</div>
+			
+		</div>
+		<div>
+			<div class="p">OMO5東京大塚 | <a href="https://omo-hotels.com/">官網</a></div>
+			<div class="ps">地址：東京都豊島区北大塚2-26-1 <a href="https://goo.gl/S6cRHi">MAP</a></div>
+			<div class="ps">東京都豊島区北大塚2丁目26番地1</div>
+			<div class="ps">電話：+81-570-073-022 </div>
+			<div class="ps">チェックイン：15:00 </div>
+			<div class="ps">チェックアウト：11:00 </div>
+			<div class="ps">￥68,700 (已付、含早餐)</div>
+			<div class="ps">預約編號：6r73rhh9f6 / 1577c1</div>
+		</div>
+   
+        <div>
+            <div class="ps small">其他</div>
+            <ul>
+                <li>第1天: </li>
+                <li>第2天: -円車資</li>
+                <li>第3天: 円車資</li>
+                <li>第4天: 円車資</li>
+                <li>第5天: -円車資</li>
+            </ul>
+        </div>
+        
+        <h2 style="color:red;">共円、</h2>
+    </div>
+    
+</div>
+
+
+<hr />
+<div class="All conn">
+<div>←↑→↓↖↙↗↘↕</div>
+<div>△ ▲ ☆ ★ ￥ </div>
+<a href="http://www.osaka-info.jp/osp/cht/index.html"> 大阪周遊卡</a><br />
+<a href="http://transit.yahoo.co.jp/">日本轉乘資訊</a><br />
+<a href="http://www.arukumachikyoto.jp/">京都交通查詢</a><br />
+<a href="http://www.coinlocker-navi.com/osaka/eki/11602/1160213/">置物櫃</a><br />
+<a href="http://www.keisei.co.jp/keisei/tetudou/skyliner/tc/value_ticket/pdf/routemap.pdf">東京私鐵地圖</a><br />
+
+
+曜日: 月 火 水 木 金 土 日
+<br /><br />
+<div>
+註解：<br />
+綠字-連結 / 有底色-點選可打開 / 粉紅字-附註文字
+</div>
+</div>
+</body>
+</html>
