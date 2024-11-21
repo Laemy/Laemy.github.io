@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-TW" itemscope="" itemtype="http://schema.org/Blog">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>2015.12.11-15 - Japan</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(function () {
+
+	$(".conn").find("a").attr("target","_blank")
+	
+	// 幫 div.qa_title 加上 hover 及 click 事件
+	// 同時把兄弟元素 div.qa_content 隱藏起來
+	$('#qaContent ul.accordionPart li div.qa_title').hover(function(){
+		$(this).addClass('qa_title_on');
+	}, function(){
+		$(this).removeClass('qa_title_on');
+	}).click(function(){
+		// 當點到標題時，若答案是隱藏時則顯示它；反之則隱藏
+		$(this).next('div.qa_content').slideToggle();
+	}).siblings('div.qa_content').hide();
+	
+	//GO TOP
+	$("#gotop").click(function(){
+        jQuery("html,body").animate({
+            scrollTop:0
+        },1000);
+    });
+    $(window).scroll(function() {
+        if ( $(this).scrollTop() > 100){
+            $('#gotop').fadeIn("fast");
+        } else {
+            $('#gotop').stop().fadeOut("fast");
+        }
+    });
+	
+	
+	
+	$('#D1').click(function(){
+		$('html,body').animate({scrollTop:$('#D11').offset().top}, 400);
+	});
+	
+	$('#D2').click(function(){
+		$('html,body').animate({scrollTop:$('#D21').offset().top}, 400);
+	});
+	$('#D3').click(function(){
+		$('html,body').animate({scrollTop:$('#D31').offset().top}, 400);
+	});
+	$('#D4').click(function(){
+		$('html,body').animate({scrollTop:$('#D41').offset().top}, 400);
+	});
+	$('#D5').click(function(){
+		$('html,body').animate({scrollTop:$('#D51').offset().top}, 400);
+	});
+
+});
+
+</script>
+<style>
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#qaContent {
+	background-color:#e7f8e5;
+}
+#qaContent h3 {
+	height: 22px;
+	text-indent: -9999px;
+}
+#qaContent ul.accordionPart {
+	margin: 10px;
+}
+#qaContent ul.accordionPart li ul li {
+	border-bottom: solid 1px #e3e3e3;
+	padding-bottom: 12px;
+	margin-top: 12px;
+}
+#qaContent ul.accordionPart li .qa_title {
+	padding-left: 3px;
+	font-size:110%;
+	color: #5ecf53;
+	cursor: pointer;
+}
+#qaContent ul.accordionPart li .qa_title_on {
+	text-decoration: underline;
+}
+#qaContent ul.accordionPart li .qa_content {
+	margin: 6px 0 0;
+	padding-bottom:20px;
+}
+
+.traffic #qaContent {
+	background-color:#f1daff;
+	margin-left:25px;
+}
+.traffic #qaContent ul.accordionPart li .qa_title {
+	color: #9202e9;
+}
+#gotop {
+    display: none;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;    
+    padding: 10px 15px;    
+    font-size: 20px;
+    background: #777;
+    color: white;
+    cursor: pointer;
+}
+</style>
+<style>
+div.All{
+	width:345px;
+	margin:0 auto;
+}
+div.conn {
+	margin-top:50px;
+}
+.listA a {
+	margin:5px 10px;
+}
+a{
+	text-decoration:none;
+	color:#61ba21;
+}
+a:hover{
+	color:crimson;
+}
+span{
+	color:#888;
+	margin-left:5px;
+}
+.conn{
+	margin-left:10px;
+	line-height:170%;
+}
+.l{
+	margin:0 0 0 20px;
+}
+div.p{
+	margin:0;
+}
+.ps{
+	color:#e88888;
+}
+.small{
+	font-size:70%;
+}
+.im{
+	background:url(http://www.veryicon.com/icon/png/System/Silk/heart.png) no-repeat 0px 7px ;
+	background-size: 14px 14px;
+	padding-left:20px;
+}
+img{
+	vertical-align:middle;
+	margin-left:5px;
+}
+.station{
+	font-weight:bold;
+	text-decoration:underline;
+}
+.conn div.p ul.list, .conn div.p .list li{
+	list-style-type:circle;
+	margin-left:15px;
+}
+
+</style>
+</head>
+<body>
+<div id="gotop">˄</div>
+<div class="All">
+	<div class="listA">
+		<h2><a id="D1">Day 1</a> | 
+		<a id="D2">Day 2</a> | 
+		<a id="D3">Day 3</a></h2>
+		<h2><a id="D4">Day 4</a> | <a id="D5">Day 5</a></h2>
+	</div>
+	
+</div>
+<hr />
+<div class="All">
+	<div class="conn"><a id="D11" name="DAY1"></a>
+		<h1>=Day 1=<span class="ps small">12/11 (五)</span> </h1>
+		
+
+		<div>
+			<div class="p">05:30 小港機場</div>
+			<div class="p">07:30 華航起飛</div>
+			<div class="l">|</div>
+			<div class="l">|</div>
+			<div class="p">11:10 關西空港ポートターミナル</div>
+			<div class="p">12:39 關西空港(鉄道)</div>
+			<div class="l">|</div>
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">
+								<div class="ps station">関西空港(鉄道)→りんくうタウン</div>
+								1.
+								<div class="ps">南海空港線空港急行・難波行</div>
+								<div class="ps">(空港急行 なんば)</div>
+								<div class="ps">共1站/約6分鐘/370円</div>
+								<div class="ps">12:05特/12:09空/12:26空</div>
+								<div class="ps">12:35特/12:39空/12:56空</div>
+								<div class="ps small">空：空港急行、 特：特急(較貴)</div>
+								<div class="ps">到Rinku城後步行6分到Outlet</div>
+								<br />
+								2.
+								<div class="ps">ＪＲ関空快速・天王寺行</div>
+								<div class="ps">共1站/約5分鐘/370円</div>
+								<div class="ps">到Rinku城後步行6分到Outlet</div>
+								<br />
+								3.
+								<div class="ps">接駁巴士</div>
+								<div class="ps">200円/20分一班</div>
+								<div class="ps">直達Outlet</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="l">|</div>
+			<div class="p">12:15 <a href="http://www.premiumoutlets.co.jp/cht/rinku/access/">りんくうタウン</a></div>
+			<div class="ps">Rinku 臨空 (10:00～20:00)</div>
+			<div class="ps">大阪府泉佐野市りんくう往来南3-28</div>
+			<div class="l">|</div>
+			
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">
+								<div class="ps station">りんくうタウン→難波</div>
+								<div class="ps"><a href="http://transit.yahoo.co.jp/station/time/25891/?gid=4000&pref=27&done=time" >
+									南海空港線空港急行・難波行</a> </div>
+								<div class="ps">(空港急行 なんば)</div>
+								<div class="ps">共10站/約38分鐘/760円</div>
+				
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+				
+			<div class="l">|</div>
+			<div class="p">難波 なんば</div>
+			<div class="p">東橫inn 難波 check in</div>
+			<div class="l">|</div>
+			<div class="l">|</div>
+			<div class="p">
+				<ul class="list">
+					<li>難波</li>
+					<li>道頓掘</li>
+					<li>心齋橋</li>
+					<li>美國村</li>
+				</ul>
+			</div>
+			<div class="l">|</div>
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">1. 
+								<div class="ps station">心齋橋→天王寺</div>
+								<div class="ps">大阪市營 御堂筋線 (往中百舌鳥)</div>
+								<div class="ps">4站/6分/240円</div>
+								<br />2.
+								<div class="ps station"> 難波→天王寺</div>
+								<div class="ps">大阪市營 御堂筋線 (往中百舌鳥)</div>
+								<div class="ps">3站/6分/240円</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="l">|</div>
+			<div class="p">20:00 天王寺</div>
+			<div class="p">阿倍野 HARUKAS 300 展望台</div>
+			<div class="ps">ハルカス300 展望台</div>
+			<div class="ps">大阪府大阪市 阿倍野区阿倍野筋１丁目１−４３</div>
+			<div class="ps">9:00 ~ 22:00 / 1500円</div>
+			<div class="l">|</div>
+			<div class="traffic">
+				<div id="qaContent">
+					<ul class="accordionPart">
+						<li>
+							<div class="qa_title">交通:</div>
+							<div class="qa_content">1.
+								<div class="ps">天王寺→ＪＲ難波</div>
+								<div class="ps">ＪＲ関西本線・ＪＲ難波行</div>
+								<div class="ps">3站/7分/160円</div>
+								<div class="ps">終電 00:30</div>
+								<br />
+								2.
+								<div class="ps">天王寺→なんば</div>
+								<div class="ps">大阪市営御堂筋線・中津行</div>
+								<div class="ps">3站/6分/240円</div>
+								<div class="ps">終電 00:04</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="l">|</div>
+			<div class="p">難波 なんば</div>
+			<div class="p">東橫inn 難波</div>
+			
+		</div>
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+						    <li class="im">四天王拉麵(道頓堀店)
+						        <a href="http://lohas.pixnet.net/blog/post/28635853">
+									<img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps">大阪市中央區道頓堀1-7-25</div>
+								<div class="ps">AM11:00-AM03:00 全年無休</div>
+						        
+						    </li>
+							<li class="im">新世界元祖串炸だるま
+								<div class="ps">(心齋橋店、道頓崛店，到處都有分店)</div></li>
+							<li class="im">たこ家 道頓堀 くくる
+							    <a href="http://aerrr1.pixnet.net/blog/post/29743269">
+									<img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps">章魚燒專賣店</div></li>
+							<li>福太郎(お好み焼き) 
+								<div class="ps">大阪燒(in 難波高島屋、梅田)</div></li>
+							<li>一蘭拉麵
+								<div class="ps">(大阪府大阪市中央区宗右衛門町7-18-1F)</div></li>
+							<li>551 HORAI 蓬萊包子</li>
+							<li>道頓堀 今井本店 烏龍麵
+								<div class="ps">(大阪府大阪市中央区道頓堀1ー7ー22)</div></li>
+							<li>天地人炭火燒肉飯
+								<a href="http://blog.yam.com/hahasue/article/104781663">
+									<img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps">in 黑門市場門口處 11:00AM~11:00PM<br/>
+								(大阪市中央区日本橋2-4-10)</div>
+							</li>
+							<li>ザめしや THE飯屋 24H
+							<a href="http://amanda390.pixnet.net/blog/post/199239735">
+									<img src="http://goo.gl/EW0jWD" /></a>
+							
+							
+							
+							</li>
+							<li>-------------------------甜點---------------------------</li>
+							<li class="im">PABLO半熟起司蛋糕
+								<a href="http://travel98.com/article/8281"><img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps"><a href="http://www.pablo3.com/shops.html">店舖一覽</a>(半熟基本款850円)</div>
+							</li>
+							<li class="im"> HARBS 蛋糕 - 大丸梅田店
+								<div class="ps">低消一杯飲料</div>
+								<div class="ps">1.<a href="：https://goo.gl/maps/XOPc7">
+									大阪難波車站南海電鐵旁 難波Parks 3F</a>
+									/ 11:00-21:00</div>
+								<div class="ps">2.心齋橋大丸百貨北館 北館的三樓</div>
+								<div class="ps">3.大阪市北区芝田1-1-3 阪急三番街B2F南館 /10:00-22:00</div>
+							</li>
+							<li class="im">Rikuro 老爺爺起司蛋糕
+								<a href="http://goo.gl/CQETEq"><img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps"><a href="http://www.rikuro.co.jp/shoplist/">店舖一覽</a>(648円)</div>
+							</li>
+							<li>ほっぷしゅうくりーむ‧心齋橋店(爆漿泡芙)
+							    <a href="http://maruko088.pixnet.net/blog/post/363350066"><img src="http://goo.gl/EW0jWD" /></a>
+							    <div class="ps">大阪市中央區南船場3-12-3</div>
+							    <div>10:00-22:00</div>
+							    
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+			</ul>
+			
+			
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">View:</div>
+					<div class="qa_content">
+						<ul>
+							<li class="im">ARANZI ARONZO 南船場 本店
+							<a href="http://haruhii.pixnet.net/blog/post/39117649"><img src="http://goo.gl/EW0jWD" /></a>
+							    <div class="ps">大阪市中央区南船場4-13-4</div>
+							    <div class="ps">週日到週四11：00～19：00 / 週五週六 11：00～20：00</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			
+		</div>
+	</div>
+</div>
+<hr />
+<div class="All">
+	<div class="conn"><a id="D21" name="DAY2"></a>
+		<h1>=Day 2= <span class="ps small">12/12 (六)</span></h1>
+
+		<div class="p">08:30 出發 なんば</div>
+		<div class="l">|</div>
+
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">なんば→谷町九丁目→谷町四丁目</div>
+							<br />
+							<div class="ps">なんば→谷町九丁目</div>
+							<div class="ps">大阪市営千日前線・南巽行</div>
+							<div class="ps">2站</div>
+							<br />
+							<div class="ps">谷町九丁目→谷町四丁目</div>
+							<div class="ps">大阪市営谷町線・都島行</div>
+							<div class="ps">2站</div>
+							<br />
+							<div class="ps">共240円</div>
+							<div class="ps"><a href="http://goo.gl/UWVmYl">其他路線</a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">谷町四丁目</div>
+		<div class="p im">大阪城/天守閣/西之丸庭園
+		<div class="ps">大阪周遊卡免費觀光設施<br/>
+			天守閣 9：00〜17：00<br/>
+			地鐵中央線C18谷町四丁目駅1B、9號出口 <br />
+			森ノ宮離開<br />
+			(<a href="http://www.osakanojin400.com/tw/access/index.html">交通指引</a>)</div></div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">往梅田(從大阪步行到梅田)</div>
+							<div class="ps station">森ノ宮→大阪</div>
+							<div class="ps">ＪＲ大阪環状線内回り・京橋・大阪方面</div>
+							<div class="ps">5站/11分/160円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">
+		<ul class="list">
+			<li>大阪生活今昔館<br />
+				<span class="ps">大阪周遊卡免費觀光設施<br/>
+				(10:00開)不玩穿和服可不去，約10分可逛完</span></li>
+			<li>梅田</li>
+			<li class="im">梅田藍天大廈空中庭園<span class="ps">(夜景)</span>
+			<div class="ps">在地下鐵梅田駅走5號出口,然後從Yodobasi Camera的電扶梯上來,沿著馬路往北走,過馬路看到First Kitchen往左轉一直走然後就會看到了</div>
+			<div><a href="http://pic.pimg.tw/missliu/1384001469-1441619177_l.jpg"><img src="http://pic.pimg.tw/missliu/1384001469-1441619177_l.jpg" style="width:350px;"/></a></div>
+			
+			
+			</li>
+			<li class="im">HEP FIVE摩天輪<br />
+				<span class="ps">11:00-23:00 (最後入場時間：22:45)</span></li>
+		</ul>
+		</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">梅田(大阪市営)→なんば</div>
+							<div class="ps">大阪市営御堂筋線・なかもず行</div>
+							<div class="ps">4站/8分/240円</div>
+							<div class="ps">終電 00:02</div>
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">難波 なんば</div>
+		<div class="p">東橫inn 難波</div>
+
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+							<li class="im">きじ木地大阪燒<br />
+								<span class="ps">(滝見小路 B1-大阪市北區大淀中1-1-88(梅田藍天大樓Ｂ1)、11:30~21:30)</span>
+							</li>
+							<li>梅田はがくれ 烏龍麵 <br />
+								<span class="ps">(梅田駅前第 3 大樓的地庫)<br/>
+								(梅田駅前第3ビルB2)<br />
+								-天ぷらうどん (天婦羅烏龍麵) <br />
+								-きつね，柚子清湯、2油揚、1魚板</span>
+							</li>
+							<li> HARBS 蛋糕 - 大丸梅田店
+								<div class="ps">低消一杯飲料 /10：00~20：30 (周五周六到21：00)</div>
+								<div class="ps">大阪市北区梅田3-1-1 大丸梅田店6F </div>
+
+							</li>
+							<li>中村藤吉大阪店(抹茶)
+							    <div class="ps">大阪府大阪市北區角田町8-7阪急梅田總店 B1樓<br />
+							    (各線梅田站，ＪＲ大阪站出站即到)</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+		
+</div>
+<hr />
+<div class="All">
+
+	<div class="conn"><a id="D31" name="DAY3"></a>
+		<h1>=Day 3= <span class="ps small">12/13 (日)</span></h1>
+		<div class="p">08:30 難波東橫inn <span class="ps">退房(借放行李)</span></div>
+		<div class="l">|</div>
+		<div class="l">|</div>
+		<div class="p">難波</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps"><a href="http://goo.gl/3v9fxh">なんば→京都</a></div>
+							<br />1.
+							<div class="ps station">なんば→西梅田→大阪→京都</div>
+							<div class="ps">なんば→西梅田</div>
+							<div class="ps">大阪市営四つ橋線・西梅田行</div>
+							<div class="ps">4站/8分/240円</div>
+							<div class="ps">西梅田→大阪 (walk)</div>
+							<div class="ps">大阪→京都</div>
+							<div class="ps">ＪＲ東海道本線<b>新快速</b>・長浜行</div>
+							<div class="ps">3站/29分/560円</div>
+							<div class="ps">共37分/800円</div>
+							<br />2.
+							<div class="ps station">なんば→新大阪→京都</div>
+							<div class="ps">なんば→新大阪</div>
+							<div class="ps">大阪市営御堂筋線・千里中央行</div>
+							<div class="ps">7站/15分/280円</div>
+							<div class="ps">新大阪→京都</div>
+							<div class="ps">ＪＲ東海道本線新快速・長浜行</div>
+							<div class="ps">2站/25分/560円</div>
+							<div class="ps">共40分/840円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">京都</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+						    <div class="ps station">京都駅前→金閣寺道</div>
+						    <br />
+							<div class="ps">1.市バス 101系統</div>
+							<div class="ps">13站/38分/230円</div>
+							<div class="ps"><a href="http://goo.gl/1OEAF6">時刻表</a></div>
+							<br />
+							<div class="ps">2. 市バス 205系統</div>
+							<div class="ps">22站/42分/230円</div>
+							<div class="ps"><a href="http://goo.gl/NCYpZQ">時刻表</a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		
+		<div class="l">|</div>
+		<div class="p">金閣寺</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+						    <div class="ps station">金閣寺道→西ノ京円町→円町→龜岡</div>
+						    <br />
+							<div class="ps">金閣寺道→西ノ京円町</div>
+							<div class="ps">1.市バス 205系統</div>
+							<div class="ps">6站/9分/230円</div>
+							<div class="ps"><a href="http://goo.gl/EAIB9s">時刻表</a></div>
+							<div class="ps">2.市バス 204系統</div>
+							<div class="ps">6站/9分/230円</div>
+							<div class="ps"><a href="http://goo.gl/4ceUH4">時刻表</a></div>
+							<div class="ps">步行至円町駛</div>
+							<br />
+							<div class="ps">円町→龜岡</div>
+							<div class="ps">JR 山陰本線 往龜岡</div>
+							<div class="ps">6站/22分/240円</div>
+							<div class="ps"><a href="http://goo.gl/TB7QWE">時刻表</a></div>
+							<br />
+							<div class="ps">共38分/470円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">嵐山
+			<div class="ps">
+			    <ul>
+			        <li>渡月橋</li>
+			        <li>嵯峨野小火車</li>
+			        <li>竹林</li>
+			        <li>天龍寺</li>
+			    </ul>
+			    
+			
+			</div>
+		    <div class="ps">
+				<a href="http://goo.gl/fu39Zu"><img src="http://goo.gl/fu39Zu" style="width:350px;" /></a></div>
+		
+		</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+						    <div class="ps station">阪急嵐山駅→桂→河原町→京都市役所前</div>
+						    <br />
+							<div class="ps">阪急嵐山駅→桂</div>
+							<div class="ps">阪急嵐山線（普通）[桂 行き]</div>
+							<div class="ps">3站/8分/220円</div>
+							<div class="ps"><a href="http://goo.gl/tLRQDs">時刻表</a></div>
+							<br />
+							<div class="ps">桂→河原町</div>
+							<div class="ps">阪急京都本線（準急）[河原町 行き]</div>
+							<div class="ps">3站/11分/0円</div>
+							<div class="ps"><a href="http://goo.gl/dTTCx6">時刻表</a></div>
+							<br />
+							<div class="ps">四条河原町→京都市役所前</div>
+							<div class="ps">京都市バス</div>
+							<div class="ps">市バス 4系統 or 市バス 3系統</div>
+							<div class="ps">2站/4分/230円</div>
+							<div class="ps"><a href="http://goo.gl/udR0UE">Detail</a></div>
+							<br />
+							<div class="ps">共23分/450円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		
+		
+		<div class="l">|</div>
+		<div class="l">|</div>
+		<div class="p">18:00 柊家別館
+			<div class="ps">@ 17000円附晚餐&早餐</div>
+			<div class="ps">訂check in 後直接晚餐</div>
+			<div class="ps">泡湯洗澡需預約</div>
+			<div class="ps">--</div>
+		</div>
+		<div class="l">|</div>
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+							<li class="im">
+								<a href="http://kavanachang.pixnet.net/blog/post/96726643">山元麵藏</a>
+								<div class="ps">排隊美食、烏龍麵、平安神宮附近、下午3-5點較沒人、11:00-19:45</div></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<hr />
+<div class="All">
+
+	<div class="conn"><a id="D41" name="DAY4"></a>
+		<h1>=Day 4= <span class="ps small">12/14 (一)</span></h1>
+		<div class="p">06:00 起床 + 吃早餐</div> 
+		<div class="p">07:00 退房</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps"><u>線1：</u>步行1km(13分)至<span class="ps station">三條</span></div>
+							<div class="ps"><u>線2：</u></div>
+							<div class="ps">步行400m(6分)至<span class="ps station">京都市役所前</span></div>
+							<div class="ps"><span class="ps station">京都市役所前→三條京阪</span></div>
+							<div class="ps">京都市交通 東西線 (往六地藏)</div>
+							<div class="ps">1站/1分/210円</div>
+							<div class="ps">步行到<span class="ps station">三條</span></div>
+							<br/>
+							<div class="ps"><span class="ps station">三條→伏見稻荷</span></div>
+							<div class="ps">京阪本線 (往中之島方向)</div>
+							<div class="ps">6站/10分/210円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>	
+		<div class="p">08:00 伏見稻荷<span class="ps">步行500m(6分)</span></div>
+		<div class="p">伏見稻荷大社 </div>
+		<div class="l">|</div>
+		<div class="l">|</div>
+		<div class="p">9:50 稲荷(離開)</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+						    <div class="ps station">稲荷→東福寺→清水道</div>
+							<div class="ps">稲荷→東福寺</div>
+							<div class="ps">JR奈良線(京都行)</div>
+							<div class="ps">1站/2分/140円</div>
+							<div class="ps">搭09:59的車</div>
+							<div class="ps"><a href="http://goo.gl/BKKbyj">時刻表</a></div>
+							<br />
+							<div class="ps">東福寺→清水道</div>
+							<div class="ps">市バス 207系統</div>
+							<div class="ps">6站/10分/230円</div>
+							<div class="ps">搭10:20的車</div>
+							<div class="ps"><a href="http://goo.gl/OEsidI">各站時刻表</a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+	    </div>
+		<div class="l">|</div>
+		<div class="p">11:00 染匠</div>
+		<div class="p" style="width:380px;overflow:hidden;">
+		    <a href="http://goo.gl/r4O1FY"><img src="http://goo.gl/r4O1FY" style="width:570px;" /></a></div>
+		    
+		    
+		<div class="l">|</div>
+		<div class="l">|</div>
+		<div class="p"><a href="https://goo.gl/ql2Ehu">路線圖Google Map</a></div>
+		<div class="p">二條坂</div>
+		<div class="p">三條坂</div>
+		<div class="p">清水寺</div>
+		<div class="p">祇園</div>
+		<div class="p">花見小路</div>
+		<div class="p">八坂神社</div>
+		<div class="l">|</div>
+		<div class="p">16:00 染匠</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">1.[京都市バス] 100 (往京都駅前行)</div>
+							<div class="ps">(均一運賃系統（洛バス）)</div>
+							<div class="ps"><span class="ps station">清水道→岡崎公園［動物園前］</span></div>
+							<div class="ps">4站/13分/230円</div>
+							<div class="ps"><a href="http://goo.gl/sfeUuy">各站時刻表</a></div>
+							<br />
+							<div class="ps">2.[京都市バス] 202甲 (反時計回り循環)</div>
+							<div class="ps"><span class="ps station">東山安井→東山二条・岡崎公園口</span></div>
+							<div class="ps">5站/10分/230円</div>
+							<div class="ps"><a href="http://goo.gl/OK3uns">各站時刻表</a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="l">|</div>
+		<div class="p">山元麵藏</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps">1.[京都市バス] 5系統 (往京都駅前行)</div>
+							<div class="ps"><span class="ps station">岡崎公園［動物園前］→京都駅前</span></div>
+							<div class="ps">13站/31分/230円</div>
+							<div class="ps"><a href="http://goo.gl/uFZUo7">各站時刻表</a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">京都車站</div>
+		<div class="l">|</div>
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">京都→新大阪→なんば</div>
+							<br/>
+							<div class="ps">京都→新大阪</div>
+							<div class="ps">ＪＲ東海道本線新快速・姫路行</div>
+							<div class="ps">2站/24分/560円</div>
+							<div class="ps">最晚22:49搭上</div>
+							<br />
+							<div class="ps station">新大阪→なんば</div>
+							<div class="ps">大阪市営御堂筋線・なかもず行</div>
+							<div class="ps">7站/14分/280円</div>
+							<div class="ps">最晚23:44搭上</div>
+							<br />
+							<div class="ps">ˇ38分/840円</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="l">|</div>
+		<div class="p">難波</div>
+		<div class="p">東橫inn 難波</div>
+		<div class="l">|</div>
+		<div class="l">|</div>
+
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:</div>
+					<div class="qa_content">
+						<ul>
+							<li class="im">
+								山元麵藏 <a href="http://kavanachang.pixnet.net/blog/post/96726643"><img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps">排隊美食、烏龍麵、平安神宮附近、下午3-5點較沒人、11:00-19:45</div></li>
+							<li>六盛<a href="http://lohas.pixnet.net/blog/post/30964103"><img src="http://goo.gl/EW0jWD" /></a>
+								<div class="ps">排隊美食、舒芙雷甜點、平安神宮附近</div>
+								<div class="ps">京都市左京区岡崎西天王町71（平安神宮西横・疏水北側）</div>
+								<div class="ps">甜點14:00-17:00、週一公休</div>
+							</li>
+							<li>SHIN-SETSU-シンセツ(鐵板鬆餅)
+								<div class="ps">京都府京都市中京区寺町通り錦小路上る円福寺前町277 2F</div>
+								<div class="ps">平日 11:30～18:00 / 六日假 11:30～19:00</div>
+							
+							</li>
+							<li>gram cafe & cafe - 新京極店 (鬆餅)
+								<div class="ps">京都市中京区新京極通三条下る桜之町406-3 (京都ＭＯＶＩＸ映画館前)</div>
+								<div class="ps">11：00～21：00 
+								<a href="http://popo320pig.pixnet.net/blog/post/439482169"><img src="http://goo.gl/EW0jWD" /></a></div>
+								<div class="ps">每天11點、3點、6點各限量20份</div>
+							</li>
+							<li>中村藤吉 京都駅店 (抹茶)
+								<div class="ps">JR京都駅西改札口前 スバコ･ジェイアール京都伊勢丹3F</div>
+								<div class="ps">11：00～22：00(Last order - 21：15)
+								<a href="http://lohas.pixnet.net/blog/post/31002805"><img src="http://goo.gl/EW0jWD" /></a></div>
+							</li>
+							<li>ARINCO嵐山本店 (蛋糕)<a href="http://tkjoseph.pixnet.net/blog/post/30449849"><img src="http://goo.gl/EW0jWD" /></a>
+							<div class="ps">京都府京都市右京区嵯峨天龍寺造路町20-1</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+</div>
+<hr />
+<div class="All">
+
+	<div class="conn"><a id="D51" name="DAY5"></a>
+		<h1>=Day 5= <span class="ps small">12/15 (二)</span></h1>
+		<div class="p">07:00 起床 + 吃早餐</div> 
+		<div class="p">08:00 退房</div>
+		<div class="l">|</div>
+		<div class="l">|</div>	
+		<div class="p">
+			<span class="ps small">補貨日</span>
+			<ul class="list">
+				<li>通天閣</li>
+				<li>難波</li>
+				<li>道頓掘</li>
+				<li>心齋橋</li>
+				<li>美國村</li>
+			</ul>
+		</div>
+		<div class="l">|</div>
+		<div class="l">|</div>
+		<div class="p">16:30 難波</div>
+		<div class="l">|</div>
+		
+		<div class="traffic">
+			<div id="qaContent">
+				<ul class="accordionPart">
+					<li>
+						<div class="qa_title">交通:</div>
+						<div class="qa_content">
+							<div class="ps station">難波→関西空港(鉄道)</div>
+							<div class="ps">南海線空港急行・関西空港行</div>
+							<div class="ps">11站/43分/920円</div>
+							<div class="ps">(<a href="http://goo.gl/Z1tvhk">時刻表</a>)</div>
+							<br />
+							<div class="ps"><a href="http://goo.gl/1KLiqR">其他路線</a></div>
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="l">|</div>
+		<div class="p">17:30 関西空港</div>
+		<div class="p">20:35 飛機起飛</div>
+		<div class="p">23:30 Taiwan</div>
+		
+		<div id="qaContent">
+			<ul class="accordionPart">
+				<li>
+					<div class="qa_title">Eat:(同第一天)</div>
+					<div class="qa_content">
+						none
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<hr />
+<div class="All">
+    <div class="conn">
+        <h1>金額概算</h1>
+        <div class="ps small">住宿</div>
+        <div>
+            東橫inn- 東橫INN 大阪難波府立體育會館西
+            <div class="ps">大阪府大阪市浪速區元町2-8-7</div>
+            <div class="ps">南海電鐵 5號出口(有手扶梯)</div>
+            <div class="ps">22,785円(3晚)---112,93円(一人)</div>
+        </div>
+        
+        <div>
+            柊家別館
+            <div class="ps">京都府京都市中京区御幸町二条下る山本町431</div>
+            <div class="ps">34,000円(一晚)---17,000円(一人)---18,360円</div>
+        </div>
+        
+        <div>
+            <div class="ps small">其他</div>
+            <ul>
+                <li>第1天: 1,610円車資，1,500円展望台</li>
+                <li>第2天: 2,300円大阪周遊卷，160円車資</li>
+                <li>第3天: 500円巴士一日卷，1,300円車資，600円嵐山小火車</li>
+                <li>第4天: 500円巴士一日卷，1,400円車資，5,400円和服</li>
+                <li>第5天: 920円車資</li>
+            </ul>
+        </div>
+        
+        <h2 style="color:red;">共45,843円</h2>
+    </div>
+    
+</div>
+
+
+<hr />
+<div class="All conn">
+<div>←↑→↓↖↙↗↘↕</div>
+<a href="http://www.osaka-info.jp/osp/cht/index.html"> 大阪周遊卡</a><br />
+<a href="http://transit.yahoo.co.jp/">日本轉乘資訊</a><br />
+<a href="http://www.arukumachikyoto.jp/">京都交通查詢</a><br />
+<a href="http://www.kyoto-np.co.jp/kp/koto/momiji/oshirase.html">京都楓葉</a><br />
+
+<br /><br />
+<div>
+註解：<br />
+綠字-連結 / 有底色-點選可打開 / 粉紅字-附註文字
+</div>
+</div>
+</body>
+</html>
