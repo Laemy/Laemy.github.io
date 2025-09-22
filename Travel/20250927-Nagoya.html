@@ -8,17 +8,17 @@
 </head>
 <body>
 <div id="gotop">˄</div>
-<div class="All">
+<div class="menu">
 	<div class="listA">
 		<h2 style="display:flex;flex-wrap: wrap;">
-		<a id="D1">9/27-Day 1</a> |
-		<a id="D2">9/28-Day 2</a> |
-		<a id="D3">9/29-Day 3</a> |
-		<a id="D4">9/30-Day 4</a> |
-		<a id="D5">10/1-Day 5</a> |
-		<a id="D6">10/2-Day 6</a> |
-		<a id="D7">10/3-Day 7</a> |
-		<a id="D8">10/4-Day 8</a> 
+		<a id="D1" class="daybtn">9/27-Day 1</a> |
+		<a id="D2" class="daybtn">9/28-Day 2</a> |
+		<a id="D3" class="daybtn">9/29-Day 3</a> |
+		<a id="D4" class="daybtn">9/30-Day 4</a> |
+		<a id="D5" class="daybtn">10/1-Day 5</a> |
+		<a id="D6" class="daybtn">10/2-Day 6</a> |
+		<a id="D7" class="daybtn">10/3-Day 7</a> |
+		<a id="D8" class="daybtn">10/4-Day 8</a> 
 		</h2>
 	</div>
 	
@@ -28,7 +28,7 @@
 	<h1><a href="https://www.google.com/maps/d/edit?mid=1OvjBo_EGTWGqeaZo9b5SlSMlvY4lPOA&usp=sharing">我的地圖</a></h1>
 </div>
 <hr/>
-<div class="All">
+<div class="All" id="D1_c">
 	<div class="conn"><a id="D11" class='goDay' name="DAY1"></a>
 		<h1>=Day 1=<span class="ps small">9/27 (六)</span> </h1>
 
@@ -111,8 +111,8 @@
 		</div>
 	</div>
 </div>
-<hr />
-<div class="All">
+
+<div class="All" id="D2_c">
 	<div class="conn"><a id="D21" name="DAY2"></a>
 		<h1>=Day 2= <span class="ps small">9/28 (日)</span></h1>
 		<div class="p">08:30 起床 + 吃早餐</div> 
@@ -165,8 +165,8 @@
 	</div>
 		
 </div>
-<hr />
-<div class="All">
+
+<div class="All" id="D3_c">
 
 	<div class="conn"><a id="D31" name="DAY3"></a>
 		<h1>=Day 3= <span class="ps small">9/29 (一)</span></h1>
@@ -193,8 +193,8 @@
 
 	</div>
 </div>
-<hr />
-<div class="All">
+
+<div class="All" id="D4_c">
 	<div class="conn"><a id="D41" name="DAY4"></a>
 		<h1>=Day 4= <span class="ps small">9/30 (二)</span></h1>
 		<div class="p">9:00 出發</div>
@@ -232,7 +232,7 @@
 	
 </div>
 <hr />
-<div class="All">
+<div class="All" id="D5_c">
 
 	<div class="conn"><a id="D51" name="DAY5"></a>
 	
@@ -264,7 +264,7 @@
 
 	</div>
 </div>
-<div class="All">
+<div class="All" id="D6_c">
 
 	<div class="conn"><a id="D61" name="DAY6"></a>
 		<h1>=Day 6= <span class="ps small">10/2 (四)</span></h1>
@@ -325,7 +325,7 @@
 
 	</div>
 </div>
-<div class="All">
+<div class="All" id="D7_c">
 
 	<div class="conn"><a id="D71" name="DAY7"></a>
 		<h1>=Day 7= <span class="ps small">10/3 (五)</span></h1>
@@ -361,7 +361,7 @@
 	</div>
 </div>
 
-<div class="All">
+<div class="All" id="D8_c">
 
 	<div class="conn"><a id="D81" name="DAY8"></a>
 		<h1>=Day 8= <span class="ps small">10/4 (六)</span></h1>
@@ -378,7 +378,7 @@
 		<div class="p">方案三：熱田神宮</div>
 		<div class="ps">搭名古屋市營到 神宮前</div>
 		<div class="ps">直接帶行李前往[神宮前]車站，在車站寄放行李。</div>
-		<div class="ps">使用ecbo寄放行李。【<a href="https://cloak.ecbo.io/zh-TW/jpn/city/aichi/1064">連結</a>】
+		<div class="ps">使用ecbo寄放行李。【<a href="https://cloak.ecbo.io/zh-TW/jpn/city/aichi/1064">連結</a>】</div>
 		<div class="l">|</div>
 	
 		<div class="l">|</div>
@@ -399,12 +399,13 @@
 	</div>
 </div>
 
-<hr />
 
 
 
-<hr />
+
+
 <div class="All conn">
+<hr />
 <div>←↑→↓↖↙↗↘↕</div>
 <div>△ ▲ ☆ ★ ￥ </div>
 <a href="http://www.osaka-info.jp/osp/cht/index.html"> 大阪周遊卡</a><br />
@@ -454,6 +455,17 @@ $(function () {
         }
     });
 	
+	$(".daybtn").click(function(){
+		$(".act").removeClass("act");
+		$this = $(this);
+		
+		let id= $this.attr("id");
+		
+		$("#"+id+"_c").addClass("act");
+	
+	});
+	
+/*
 	$('#D1').click(function(){
 		$('html,body').animate({scrollTop:$('#D11').offset().top}, 400);
 	});
@@ -478,7 +490,7 @@ $(function () {
 	$('#D8').click(function(){
 		$('html,body').animate({scrollTop:$('#D81').offset().top}, 400);
 	});
-	
+*/	
 	$('img').click(function(){
 	
 	 /*$(this).toggle(function(){
@@ -555,12 +567,20 @@ ul.dot, ul.dot li{
 div.All{
 	width:100%;
 	margin:0 auto;
+	display:none;
+}
+div.All.act{
+	display:block;
 }
 div.conn {
 	margin-top:50px;
 }
+a.daybtn{
+	
+}
 .listA a {
 	margin:5px 10px;
+	cursor: pointer;
 }
 a{
 	text-decoration:none;
@@ -647,3 +667,4 @@ img.maximg{
 
 </body>
 </html>
+
