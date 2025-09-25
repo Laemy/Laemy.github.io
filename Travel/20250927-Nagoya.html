@@ -15,14 +15,14 @@
 <div class="menu">
 	<div class="listA">
 		<h2>
-		<a id="D1" class="daybtn"><span>9/27-Day </span>1</a>
-		<a id="D2" class="daybtn"><span>9/28-Day </span>2</a>
-		<a id="D3" class="daybtn"><span>9/29-Day </span>3</a>
-		<a id="D4" class="daybtn"><span>9/30-Day </span>4</a>
-		<a id="D5" class="daybtn"><span>10/1-Day </span>5</a>
-		<a id="D6" class="daybtn"><span>10/2-Day </span>6</a>
-		<a id="D7" class="daybtn"><span>10/3-Day </span>7</a>
-		<a id="D8" class="daybtn"><span>10/4-Day </span>8</a> 
+		<a id="D1" class="daybtn"><span>9/27-Day</span>1</a>
+		<a id="D2" class="daybtn"><span>9/28-Day</span>2</a>
+		<a id="D3" class="daybtn"><span>9/29-Day</span>3</a>
+		<a id="D4" class="daybtn"><span>9/30-Day</span>4</a>
+		<a id="D5" class="daybtn"><span>10/1-Day</span>5</a>
+		<a id="D6" class="daybtn"><span>10/2-Day</span>6</a>
+		<a id="D7" class="daybtn"><span>10/3-Day</span>7</a>
+		<a id="D8" class="daybtn"><span>10/4-Day</span>8</a> 
 		</h2>
 	</div>
 	
@@ -354,6 +354,9 @@
 		<div class="ps">樂高樂園萬聖節派對-10/3起</div>
 		<div class="ps">日本樂高樂園：10:00 - 18:00</div>
 		<div class="ps">Sea Life水族館：11:00 - 18:30</div>
+		<div class="ps">LEGOLAND® Japan：Child(3-18) ¥3,500 、Adult ¥4,700<br>
+		LEGOLAND® + SEA LIFE：Child(3-18) ¥4,300、Adult ¥5,500</div>
+		<img src="https://vivianjourney.tw/wp-content/uploads/2025/06/%E6%A8%82%E9%AB%98%E6%A8%82%E5%9C%92%E5%9C%B0%E5%9C%96.jpg"/>
 		<div class="l">|</div>
 		<div class="p">🏨住宿：Gold Stay Nagoya Osu (ゴールドステイ名古屋 大須) 【<a href="https://maps.app.goo.gl/Qd75Q5JGjrTTpVo89">Map</a>】 </div>
 	
@@ -583,12 +586,18 @@ div.conn {
 	justify-content: space-evenly;
 }
 
-.listA a.daybtn,.listA a.daybtn span{
+.listA a.daybtn{
 	background-color: #f2a8a8;
-    padding: 5px 10px;
+    padding: 5px 15px;
 	margin:5px 1px;
 	color:#fff;
 	
+}
+.listA a.daybtn span{
+	background-color: #f2a8a8;
+	padding: 5px 0 6px 0;
+	margin:5px 0;
+	color:#fff;
 }
 .listA a.daybtn:hover,.listA a.daybtn:hover span{
 	background-color: #f1dafe;
@@ -598,29 +607,6 @@ div.conn {
 	background-color: #f1dafe;
 	color:#7e809d;
 	box-shadow: inset 0 -5px 0 0 #f2a8a8;
-}
-@media (max-width: 600px) {
-	body{
-		font-size:20px;
-	}
-	.listA a.daybtn span{
-		display:none;
-	}
-	h1{
-		font-size:150%;
-		padding:5px 0;
-		margin:0;
-	}
-	.menu .listA h2{
-		font-size:130%;
-	}
-	img{
-
-		max-width:1000px;
-	}
-	img.maximg{
-		width:auto;
-	}
 }
 .listA a {
 	margin:5px 10px;
@@ -706,11 +692,33 @@ img.maximg{
     padding-left:20px;
     
 }
-img.maximg{
-	max-width:80vw;
-	width:100%;
+@media (max-width: 600px) {
+	body{
+		font-size:20px;
+	}
+	.listA a.daybtn span{
+		display:none;
+	}
+	h1{
+		font-size:150%;
+		padding:5px 0;
+		margin:0;
+	}
+	.menu .listA h2{
+		font-size:130%;
+	}
+	.conn img{
+		max-width:1000px;
+	}
+	.conn img.maximg{
+		width:auto;
+		max-width:1000px;
+	}
+	.ps {
+		padding: 5px 0 0 10px;
+		font-size:95%;
+	}
 }
-
 </style>
 
 </body>
