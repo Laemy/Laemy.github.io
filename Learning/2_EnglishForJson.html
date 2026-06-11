@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動式英文語法學習平台 (選擇題版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto+Sans+TC', sans-serif;
+            background-color: #fcfaf7;
+            color: #4a4a4a;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        .select-correct {
+            border-color: #10b981 !important;
+            background-color: #ecfdf5 !important;
+            color: #065f46 !important;
+        }
+
+        .select-wrong {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #991b1b !important;
+        }
+
+        .tab-active {
+            border-bottom: 4px solid #0d9488;
+            color: #0d9488;
+            font-weight: bold;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Customizing the select to look like a blank line */
+        .grammar-select {
+            appearance: none;
+            background: transparent;
+            border-bottom: 2px solid #cbd5e1;
+            padding: 0 4px;
+            margin: 0 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px 4px 0 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .grammar-select:hover {
+            border-bottom-color: #0d9488;
+            background-color: #f1f5f9;
+        }
+
+        .grammar-select:focus {
+            outline: none;
+            border-bottom-color: #0d9488;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <!-- Header -->
+    <header class="bg-teal-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tight">English Grammar Master</h1>
+            <nav class="flex gap-2 mt-4 md:mt-0 text-xs md:text-sm overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
+                <button onclick="switchTab('dashboard')" class="tab-btn px-3 py-1 whitespace-nowrap" id="tab-dashboard">學習概況</button>
+                <button onclick="switchTab('part1')" class="tab-btn px-3 py-1 whitespace-nowrap" id="tab-part1">動詞變化</button>
+                <button onclick="switchTab('part2')" class="tab-btn px-3 py-1 whitespace-nowrap" id="tab-part2">Have/Has</button>
+                <button onclick="switchTab('part3')" class="tab-btn px-3 py-1 whitespace-nowrap" id="tab-part3">頻率副詞</button>
+                <button onclick="switchTab('part4')" class="tab-btn px-3 py-1 whitespace-nowrap" id="tab-part4">冠詞數量</button>
+                <button onclick="switchTab('final')" class="tab-btn px-3 py-1 whitespace-nowrap font-bold text-yellow-300" id="tab-final">綜合測驗</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 mt-8">
+        
+        <!-- Dashboard Section -->
+        <section id="section-dashboard" class="content-section">
+            <div class="bg-white rounded-2xl shadow-sm p-6 mb-8 border border-orange-100">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <span class="text-teal-600">📈</span> 學習進度即時統計
+                </h2>
+                <div class="bg-teal-50 p-4 rounded-xl mb-6 text-sm text-teal-800">
+                    這是一個互動式的英文學習平台。請點擊上方單元進行練習，系統將自動記錄您的正確率。<strong>雷達圖</strong>會顯示您在不同文法領域的掌握程度。
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-sm font-bold text-gray-600 mb-4">整體學習達成率</h3>
+                        <div class="chart-container">
+                            <canvas id="overallProgressChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-sm font-bold text-gray-600 mb-4">文法領域掌握度 (%)</h3>
+                        <div class="chart-container">
+                            <canvas id="categoryRadarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Area -->
+        <div id="practice-container" class="max-w-4xl mx-auto"></div>
+
+    </main>
+
+    <script>
+        const appState = {
+            activeTab: 'dashboard',
+            userSelections: {}, // Stores index-based selections per category
+            scores: {
+                part1: { correct: 0, total: 14 },
+                part2: { correct: 0, total: 10 },
+                part3: { correct: 0, total: 6 },
+                part4: { correct: 0, total: 14 },
+                final: { correct: 0, total: 10 }
+            },
+            data: {
+                part1: {
+                    answers: ["gets", "washes", "brushes", "drinks", "eats", "goes", "does", "lives", "has", "plays", "reads", "loves", "eats", "goes"],
+                    options: [
+                        ["get", "gets", "getting"], ["wash", "washes", "washed"], ["brush", "brushed", "brushes"],
+                        ["drinks", "drink", "drinking"], ["eat", "eats", "eating"], ["go", "goes", "going"], ["do", "doing", "does"],
+                        ["live", "lives", "lived"], ["have", "has", "had"], ["play", "plays", "played"],
+                        ["read", "reads", "reading"], ["love", "loves", "loved"], ["eat", "eats", "eating"], ["go", "goes", "going"]
+                    ]
+                },
+                part2: {
+                    answers: ["has", "has", "have", "has", "have", "have", "has", "have", "has", "have"],
+                    options: Array(10).fill(["have", "has", "had"])
+                },
+                part3: {
+                    answers: ["always", "usually", "never", "usually", "sometimes", "never"],
+                    options: Array(6).fill(["always", "usually", "often", "sometimes", "never"])
+                },
+                part4: {
+                    answers: ["a", "an", "some", "some", "an", "a", "some", "a", "some", "any", "some", "some", "any", "some"],
+                    options: [
+                        ["a", "an", "some"], ["a", "an", "some"], ["a", "an", "some"], ["a", "an", "some"], 
+                        ["a", "an", "some"], ["a", "an", "some"], ["a", "an", "some"], ["a", "an", "some"],
+                        ["some", "any", "a"], ["some", "any", "an"], ["some", "any", "has"],
+                        ["some", "any", "a"], ["some", "any", "an"], ["some", "any", "has"]
+                    ]
+                },
+                final: {
+                    answers: ["goes", "teaches", "draws", "likes", "reads", "plays", "wags", "eats", "runs", "sleeps"],
+                    options: [
+                        ["go", "goes", "going"], ["teach", "teaches", "taught"], ["draw", "draws", "drawn"],
+                        ["like", "likes", "liked"], ["read", "reads", "reading"], ["play", "plays", "playing"],
+                        ["wag", "wags", "wagged"], ["eat", "eats", "eating"], ["run", "runs", "running"], ["sleep", "sleeps", "slept"]
+                    ]
+                }
+            }
+        };
+
+        let overallChart, categoryChart;
+
+        function initCharts() {
+            const ctx1 = document.getElementById('overallProgressChart').getContext('2d');
+            overallChart = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['正確', '待完成/錯誤'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#14b8a6', '#f3f4f6'],
+                        hoverOffset: 4,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '75%',
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
+                }
+            });
+
+            const ctx2 = document.getElementById('categoryRadarChart').getContext('2d');
+            categoryChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['動詞變化', 'Have/Has', '頻率副詞', '冠詞量詞', '綜合測驗'],
+                    datasets: [{
+                        label: '得分率 %',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(20, 184, 166, 0.7)',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: { x: { beginAtZero: true, max: 100 } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function updateCharts() {
+            let totalCorrect = 0, totalPossible = 0;
+            const rates = [];
+
+            for (let key in appState.scores) {
+                totalCorrect += appState.scores[key].correct;
+                totalPossible += appState.scores[key].total;
+                rates.push(Math.round((appState.scores[key].correct / appState.scores[key].total) * 100));
+            }
+
+            const overallRate = Math.round((totalCorrect / totalPossible) * 100);
+            overallChart.data.datasets[0].data = [overallRate, 100 - overallRate];
+            overallChart.update();
+
+            categoryChart.data.datasets[0].data = rates;
+            categoryChart.update();
+        }
+
+        function generateSelect(category, index) {
+            const options = appState.data[category].options[index];
+            const currentVal = appState.userSelections[`${category}-${index}`] || "";
+            
+            let html = `<select id="${category}-s${index}" onchange="handleSelect('${category}', ${index}, this.value)" class="grammar-select w-28 text-center text-sm ${getClass(category, index, currentVal)}">`;
+            html += `<option value="" disabled ${currentVal === "" ? "selected" : ""}>選擇...</option>`;
+            options.forEach(opt => {
+                html += `<option value="${opt}" ${currentVal === opt ? "selected" : ""}>${opt}</option>`;
+            });
+            html += `</select>`;
+            return html;
+        }
+
+        function getClass(cat, idx, val) {
+            if (!val) return "";
+            return val === appState.data[cat].answers[idx] ? "select-correct" : "select-wrong";
+        }
+
+        function handleSelect(category, index, value) {
+            appState.userSelections[`${category}-${index}`] = value;
+            
+            // Re-render class immediately
+            const el = document.getElementById(`${category}-s${index}`);
+            if (value === appState.data[category].answers[index]) {
+                el.className = "grammar-select w-28 select-correct";
+            } else {
+                el.className = "grammar-select w-28 select-wrong";
+            }
+
+            // Calculate section score
+            let correctCount = 0;
+            for (let i = 0; i < appState.data[category].answers.length; i++) {
+                if (appState.userSelections[`${category}-${i}`] === appState.data[category].answers[i]) {
+                    correctCount++;
+                }
+            }
+            appState.scores[category].correct = correctCount;
+            updateCharts();
+        }
+
+        const viewTemplates = {
+            part1: () => `
+                <div class="fade-in">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-teal-500 mb-6">
+                        <h2 class="font-bold text-lg text-teal-800 mb-2">單元一：現在簡單式 (主詞+動詞加 s/es)</h2>
+                        <p class="text-sm text-gray-500">提示：請點擊底線，選擇適合 Kevin 與 Lucy 的動詞型態。</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm leading-loose">
+                            <h3 class="font-bold text-teal-600 mb-4 italic">A. My School Day</h3>
+                            Every weekday, Kevin ${generateSelect('part1', 0)} up at half past six. 
+                            He ${generateSelect('part1', 1)} his face and ${generateSelect('part1', 2)} his teeth before breakfast. 
+                            After that, he ${generateSelect('part1', 3)} some milk and ${generateSelect('part1', 4)} bread with eggs. 
+                            Kevin ${generateSelect('part1', 5)} to school by bus, and he always ${generateSelect('part1', 6)} his homework after school.
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm leading-loose">
+                            <h3 class="font-bold text-teal-600 mb-4 italic">B. My Best Friend</h3>
+                            My best friend Lucy ${generateSelect('part1', 7)} in a small house. 
+                            She ${generateSelect('part1', 8)} two brothers. 
+                            Every afternoon, Lucy ${generateSelect('part1', 9)} tennis in the park. 
+                            She also ${generateSelect('part1', 10)} storybooks because she ${generateSelect('part1', 11)} reading. 
+                            At night, she ${generateSelect('part1', 12)} dinner and ${generateSelect('part1', 13)} to bed early.
+                        </div>
+                    </div>
+                </div>`,
+            part2: () => `
+                <div class="fade-in">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-teal-500 mb-6">
+                        <h2 class="font-bold text-lg text-teal-800 mb-2">單元二：Have / Has 的選擇</h2>
+                        <p class="text-sm text-gray-500">提示：單數主詞用 has，複數主詞與 I/You 用 have。</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm leading-relaxed">
+                            <h3 class="font-bold mb-4 text-teal-600">A. Our Pet Shop</h3>
+                            Our town ${generateSelect('part2', 0)} a pet shop. It ${generateSelect('part2', 1)} cute animals. 
+                            My sister and I ${generateSelect('part2', 2)} a turtle. The turtle ${generateSelect('part2', 3)} a shell, 
+                            and we ${generateSelect('part2', 4)} fun.
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm leading-relaxed">
+                            <h3 class="font-bold mb-4 text-teal-600">B. My Dream House</h3>
+                            I ${generateSelect('part2', 5)} a big house. It ${generateSelect('part2', 6)} three floors. 
+                            My parents ${generateSelect('part2', 7)} a balcony. Each room ${generateSelect('part2', 8)} a window, 
+                            and we ${generateSelect('part2', 9)} a cozy room.
+                        </div>
+                    </div>
+                </div>`,
+            part3: () => `
+                <div class="fade-in">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-teal-500 mb-6">
+                        <h2 class="font-bold text-lg text-teal-800 mb-2">單元三：頻率副詞 (Always to Never)</h2>
+                        <p class="text-sm text-gray-500">提示：依據敘述的邏輯推理最適合的頻率。</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm max-w-2xl mx-auto leading-loose">
+                        1. I ${generateSelect('part3', 0)} wake up early because I don't want to be late. 
+                        I ${generateSelect('part3', 1)} eat bread, but today I want noodles. 
+                        I ${generateSelect('part3', 2)} run to school because it is very close.<br><br>
+                        2. On rainy days, we ${generateSelect('part3', 3)} stay inside. 
+                        We ${generateSelect('part3', 4)} play games when bored. 
+                        My brother ${generateSelect('part3', 5)} plays soccer inside because he doesn't want to break windows.
+                    </div>
+                </div>`,
+            part4: () => `
+                <div class="fade-in">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-teal-500 mb-6">
+                        <h2 class="font-bold text-lg text-teal-800 mb-2">單元四：A / An / Some / Any</h2>
+                        <p class="text-sm text-gray-500">提示：母音開頭單數選 An，複數/不可數選 Some，否定選 Any。</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm leading-loose">
+                            <h3 class="font-bold text-teal-600 mb-4">A. Picnic & Bedroom</h3>
+                            There is ${generateSelect('part4', 0)} desk and ${generateSelect('part4', 1)} armchair. 
+                            There are ${generateSelect('part4', 2)} notebooks. 
+                            I brought ${generateSelect('part4', 3)} apples, ${generateSelect('part4', 4)} orange, and ${generateSelect('part4', 5)} sandwich.
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm leading-loose">
+                            <h3 class="font-bold text-teal-600 mb-4">B. Pencil Case & Toy Shop</h3>
+                            There are ${generateSelect('part4', 6)} pens. But there isn't ${generateSelect('part4', 7)} ruler. 
+                            I need ${generateSelect('part4', 8)} pencils. In the shop, there are ${generateSelect('part4', 9)} toy cars. 
+                            But there aren't ${generateSelect('part4', 10)} robots. I will buy ${generateSelect('part4', 11)} puzzles.
+                        </div>
+                    </div>
+                </div>`,
+            final: () => `
+                <div class="fade-in">
+                    <div class="bg-orange-600 text-white p-6 rounded-2xl shadow-md mb-6">
+                        <h2 class="font-bold text-lg">✨ 綜合挑戰測驗</h2>
+                        <p class="text-sm opacity-90">綜合練習所有已學過的動詞規則。</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-3xl shadow-xl border-2 border-orange-100 space-y-4">
+                        <p>1. Miss White ${generateSelect('final', 0)} to school early. (go)</p>
+                        <p>2. She ${generateSelect('final', 1)} us English. (teach)</p>
+                        <p>3. She ${generateSelect('final', 2)} pictures on the board. (draw)</p>
+                        <p>4. Miss White ${generateSelect('final', 3)} music. (like)</p>
+                        <p>5. She often ${generateSelect('final', 4)} books. (read)</p>
+                        <hr class="my-6">
+                        <p>6. My puppy ${generateSelect('final', 5)} in the garden. (play)</p>
+                        <p>7. He ${generateSelect('final', 6)} his tail. (wag)</p>
+                        <p>8. Max ${generateSelect('final', 7)} dog food. (eat)</p>
+                        <p>9. He ${generateSelect('final', 8)} with his ball. (run)</p>
+                        <p>10. At night, he ${generateSelect('final', 9)} next to me. (sleep)</p>
+                    </div>
+                </div>`
+        };
+
+        function switchTab(tabId) {
+            appState.activeTab = tabId;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
+            document.getElementById(`tab-${tabId}`).classList.add('tab-active');
+
+            const dashboard = document.getElementById('section-dashboard');
+            const container = document.getElementById('practice-container');
+
+            if (tabId === 'dashboard') {
+                dashboard.style.display = 'block';
+                container.innerHTML = '';
+                updateCharts();
+            } else {
+                dashboard.style.display = 'none';
+                container.innerHTML = viewTemplates[tabId]();
+            }
+        }
+
+        window.onload = () => {
+            initCharts();
+            switchTab('dashboard');
+        };
+    </script>
+</body>
+</html>
