@@ -1,0 +1,198 @@
+{
+"tag": "Ver. C (50題實戰)",
+"content": {
+"part1": {
+"title": "動詞變化練習",
+"desc": "練習主詞為第三人稱單數時的動詞變化 (-s/-es)。",
+"segments": [
+{
+"header": "A. My School Day",
+"text": "Every weekday, Kevin [0] up at half past six. He [1] his face and [2] his teeth before breakfast. After that, he [3] some milk and [4] bread with eggs. Kevin [5] to school by bus, and he always [6] his homework after school.",
+"questions": [
+{"options": ["get", "gets", "getting"], "ans": "gets"},
+{"options": ["wash", "washes", "washed"], "ans": "washes"},
+{"options": ["brush", "brushed", "brushes"], "ans": "brushes"},
+{"options": ["drinks", "drink", "drinking"], "ans": "drinks"},
+{"options": ["eat", "eats", "eating"], "ans": "eats"},
+{"options": ["go", "goes", "going"], "ans": "goes"},
+{"options": ["do", "doing", "does"], "ans": "does"}
+]
+},
+{
+"header": "B. My Best Friend",
+"text": "My best friend Lucy [0] in a small house near our school. She [1] two brothers and one sister. Every afternoon, Lucy [2] tennis in the park. She also [3] storybooks because she [4] reading. At night, she [5] dinner with her family and [6] to bed at nine o'clock.",
+"questions": [
+{"options": ["live", "lives", "lived"], "ans": "lives"},
+{"options": ["have", "has", "having"], "ans": "has"},
+{"options": ["play", "plays", "played"], "ans": "plays"},
+{"options": ["read", "reads", "reading"], "ans": "reads"},
+{"options": ["love", "loves", "loved"], "ans": "loves"},
+{"options": ["eat", "eats", "eating"], "ans": "eats"},
+{"options": ["go", "goes", "going"], "ans": "goes"}
+]
+},
+{
+"header": "C. Our Teacher Mr. Brown",
+"text": "Mr. Brown is our English teacher. He [0] to school very early every morning. He [1] a heavy blue bag and [2] into the classroom with a smile. During class, he [3] grammar rules carefully and [4] a black marker to write on the whiteboard. He [5] his students kindly and never [6] angry. Everyone [7] his classes very much.",
+"questions": [
+{"options": ["come", "comes", "coming"], "ans": "comes"},
+{"options": ["carry", "carries", "carrying"], "ans": "carries"},
+{"options": ["walk", "walks", "walked"], "ans": "walks"},
+{"options": ["explain", "explains", "explaining"], "ans": "explains"},
+{"options": ["use", "using", "uses"], "ans": "uses"},
+{"options": ["treat", "treating", "treats"], "ans": "treats"},
+{"options": ["get", "getting", "gets"], "ans": "gets"},
+{"options": ["enjoy", "enjoys", "enjoyed"], "ans": "enjoys"}
+]
+},
+{
+"header": "D. A Busy Farmer",
+"text": "Uncle Sam is a hard-working farmer. He [0] his day at five in the morning. He [1] the cows and [2] fresh vegetables from his field. His wife [3] him make delicious cheese. In the afternoon, he [4] his old tractor to the market and [5] the fresh food to local townsfolk. He [6] back home at sunset, [7] a big dinner, and [8] asleep early.",
+"questions": [
+{"options": ["start", "starts", "starting"], "ans": "starts"},
+{"options": ["feed", "feeds", "feeding"], "ans": "feeds"},
+{"options": ["pick", "picking", "picks"], "ans": "picks"},
+{"options": ["help", "helps", "helped"], "ans": "helps"},
+{"options": ["drive", "drives", "driving"], "ans": "drives"},
+{"options": ["sell", "selling", "sells"], "ans": "sells"},
+{"options": ["arrive", "arrives", "arriving"], "ans": "arrives"},
+{"options": ["cook", "cooks", "cooked"], "ans": "cooks"},
+{"options": ["fall", "falls", "falling"], "ans": "falls"}
+]
+},
+{
+"header": "E. The Talented Chef",
+"text": "Chef Marco [0] in a famous Italian restaurant downtown. He [1] special recipes that everyone loves. Every morning, he [2] the freshest ingredients at the market. In the kitchen, he [3] onions quickly and [4] wonderful spices into the soup. He [5] each dish before it leaves the kitchen. When customers admire the meal, he [6] them politely and [7] a warm smile. He [8] hard but feels proud.",
+"questions": [
+{"options": ["work", "works", "working"], "ans": "works"},
+{"options": ["create", "creates", "creating"], "ans": "creates"},
+{"options": ["buy", "buys", "buying"], "ans": "buys"},
+{"options": ["chop", "chops", "chopping"], "ans": "chops"},
+{"options": ["mix", "mixing", "mixes"], "ans": "mixes"},
+{"options": ["test", "tests", "testing"], "ans": "tests"},
+{"options": ["thank", "thanks", "thanked"], "ans": "thanks"},
+{"options": ["share", "sharing", "shares"], "ans": "shares"},
+{"options": ["labor", "labors", "laboring"], "ans": "labors"}
+]
+},
+{
+"header": "F. A Day at the Zoo",
+"text": "The zookeeper, David, [0] after many animals. A giant panda [1] in a large bamboo garden. It [2] sweet bamboo sticks and [3] up trees slowly. Nearby, a playful monkey [4] bananas and [5] from branch to branch to catch the visitors' attention. A beautiful parrot [6] high in the cage and [7] human words when David [8] to it. Every visitor [9] a wonderful time here.",
+"questions": [
+{"options": ["look", "looks", "looking"], "ans": "looks"},
+{"options": ["live", "living", "lives"], "ans": "lives"},
+{"options": ["chew", "chews", "chewing"], "ans": "chews"},
+{"options": ["climb", "climbs", "climbing"], "ans": "climbs"},
+{"options": ["like", "likes", "liking"], "ans": "likes"},
+{"options": ["swing", "swings", "swinging"], "ans": "swings"},
+{"options": ["sit", "sits", "sitting"], "ans": "sits"},
+{"options": ["repeat", "repeats", "repeating"], "ans": "repeats"},
+{"options": ["talk", "talks", "talked"], "ans": "talks"},
+{"options": ["have", "has", "having"], "ans": "has"}
+]
+}
+]
+},
+"part2": {
+"title": "Have / Has ",
+"desc": "動詞 have/has 的用法",
+"segments": [
+{
+"header": "A. Our New Pet Shop",
+"text": "Our town [0] a new pet shop. It [1] many cute animals. My sister and I [2] a small turtle from there. The turtle [3] a beautiful green shell, and we all [4] a lot of fun playing with it.",
+"questions": [
+{"options": ["have", "has", "had"], "ans": "has"},
+{"options": ["have", "has", "had"], "ans": "has"},
+{"options": ["have", "has", "had"], "ans": "have"},
+{"options": ["have", "has", "had"], "ans": "has"},
+{"options": ["have", "has", "had"], "ans": "have"}
+]
+},{
+"header": "B. My Dream House",
+"text": "I [0] a big dream house in my mind. It [1] three floors and a beautiful garden. My parents [2] a large balcony in their bedroom. Each room [3] a big window, and we [4] a cozy living room to watch movies together.",
+"questions": [
+{"options": ["have", "has", "had"], "ans": "have"},
+{"options": ["have", "has", "had"], "ans": "has"},
+{"options": ["have", "has", "had"], "ans": "have"},
+{"options": ["have", "has", "had"], "ans": "has"},
+{"options": ["have", "has", "had"], "ans": "have"}
+]
+}
+]
+},
+"part3": {
+"title": "Frequency Adverbs",
+"desc": "頻率副詞的用法",
+"segments": [
+{
+"header": "A. My Morning Routine",
+"text": "I  (1) wake up at seven o'clock because I don't want to be late for school. I  (2) eat bread for breakfast, but today I want noodles instead. I  (3) run to school because the school is very close to my house.",
+"questions": [
+{"options": ["always", "never","sometimes"], "ans": "always"},
+{"options": ["usually", "never", "always"], "ans": "usually"},
+{"options": ["never", "always", "often"], "ans": "never"}
+]
+},
+{
+"header": "B. Rainy Days",
+"text": "On rainy days, we [0] stay inside to stay dry. We [1] play board games with my family when we are bored. My brother [2] plays soccer inside the house because he doesn't want to break the windows.",
+"questions": [
+{"options": ["usually / never / sometimes"], "ans": "usually"},
+{"options": ["sometimes / always / never"], "ans": "sometimes"},
+{"options": ["never / always / often"], "ans": "never"}
+]
+}
+]
+},
+"part4": {
+"title": "A / An / Some",
+"desc": "不定冠詞與一些的用法",
+"segments": [
+{
+"header": "A. In My Bedroom",
+"text": "In my bedroom, there is [0] desk and [1] armchair. On the desk, there are [2] notebooks and [3] interesting comic books.",
+"questions": [
+{"options": ["a", "an", "some"], "ans": "a"},
+{"options": ["a", "an", "some"], "ans": "an"},
+{"options": ["a", "an", "some"], "ans": "some"},
+{"options": ["a", "an", "some"], "ans": "some"}
+]
+},
+{
+"header": "B. Picnic in the Park",
+"text": "Today, we are having a picnic. I brought [0] apple, [1] sandwich, and [2] oranges. My brother also brought [3] bottle of water.",
+"questions": [
+{"options": ["a", "an", "some"], "ans": "an"},
+{"options": ["a", "an", "some"], "ans": "a"},
+{"options": ["a", "an", "some"], "ans": "some"},
+{"options": ["a", "an", "some"], "ans": "a"}
+]
+}
+]
+},
+"part5": {
+"title": "Some / Any",
+"desc": "肯定與否定/疑問句的定量詞用法",
+"segments": [
+{
+"header": "A. My Pencil Case",
+"text": "In my pencil case, there are [0] colorful pens. However, there isn't [1] ruler inside. I need to go to the bookstore to buy [2] new pencils too.",
+"questions": [
+{"options": ["a", "any", "some"], "ans": "some"},
+{"options": ["an", "any", "some"], "ans": "any"},
+{"options": ["has", "any", "some"], "ans": "some"}
+]
+},
+{
+"header": "B. At the Toy Shop",
+"text": "There are [0] cool toy cars on the shelf. But there aren't [1] robots left today. I want to buy [2] puzzles instead.",
+"questions": [
+{"options": ["some", "any", "a"], "ans": "some"},
+{"options": ["any", "an", "some"], "ans": "any"},
+{"options": ["some", "any", "has"], "ans": "some"}
+]
+}
+]
+}
+}
+}
