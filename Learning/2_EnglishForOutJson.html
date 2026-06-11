@@ -142,8 +142,7 @@
         // 第一步：非同步載入 JSON 檔案
         async function loadVersion(fileName) {
             try {
-                const file = "JSON/"+fileName;
-                const response = await fetch(file);
+                const response = await fetch("json/"+fileName);
                 if (!response.ok) throw new Error('File not found');
                 const data = await response.json();
                 
@@ -226,7 +225,7 @@
         function renderPractice(unitId) {
             const unit = QUIZ_DATA[unitId];
             let html = `<div class="fade-in mb-20"><div class="mb-10 text-center"><h2 class="text-3xl font-black text-gray-800 mb-2">${unit.title}</h2><p class="text-teal-600 font-medium">${unit.desc}</p></div><div class="space-y-8">`;
-
+          const container = document.getElementById('practice-container');
             unit.segments.forEach((seg, sIdx) => {
                 let textContent = seg.text;
                 seg.questions.forEach((q, qIdx) => {
@@ -261,7 +260,7 @@
             let html = `<div class="fade-in mb-20"><div class="bg-indigo-600 text-white p-12 rounded-[2.5rem] mb-10 shadow-xl">
                 <h2 class="text-3xl font-black mb-2">${FINAL_TEST_DATA.title}</h2><p class="opacity-80 font-medium">${FINAL_TEST_DATA.desc}</p>
             </div><div class="space-y-4">`;
-
+          const container = document.getElementById('practice-container');
             FINAL_TEST_DATA.items.forEach((item, idx) => {
                 const savedVal = state.answers[`test-${idx}`] || "";
                 const statusClass = savedVal ? (savedVal === item.ans ? 'select-correct' : 'select-wrong') : '';
