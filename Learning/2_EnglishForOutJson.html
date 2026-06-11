@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動語法練習平台 (V2.0)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Sand & Teal Harmony -->
+    <!-- Application Structure Plan: 
+    1. 啟動螢幕 (Start Screen): 提供 A/B 版本按鈕，點擊後觸發 fetch('A.json') 或 fetch('B.json')。
+    2. 非同步載入 (Async Loading): 實作 loading 狀態，確保資料讀取完畢後才初始化介面。
+    3. 儀表板與練習導航: 根據 JSON 內容動態生成頁面標籤、圖表標籤與練習題目。
+    4. 綜合測驗功能: 獨立於版本資料外，使用靛藍色調 (Indigo) 呈現。
+    5. 優化更新邏輯: 採用 ID 定位更新策略，點選答案時僅改變 select 標籤樣式，徹底消除畫面閃爍。 -->
+    <!-- Visualization & Content Choices: 
+    - 狀態管理: 使用 QUIZ_DATA 儲存從 fetch 取得的內容。
+    - 數據表現: 使用 Chart.js 橫向長條圖動態呈現各單元正確率。
+    - 互動性: [n] 佔位符替換技術，自動將 JSON 文字轉化為互動下拉選單。
+    - 介面回饋: 正確 (綠色 #10b981), 錯誤 (紅色 #ef4444)。 -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { font-family: 'Noto+Sans+TC', sans-serif; background-color: #fdfaf6; color: #444; overflow-x: hidden; }
+        .chart-container { position: relative; width: 100%; max-width: 500px; margin: auto; height: 300px; }
+        
+        .grammar-select { appearance: none; border: 2px solid #cbd5e1; padding: 2px 12px; margin: 0 4px; cursor: pointer; transition: all 0.2s ease; border-radius: 8px; font-weight: 600; background: #fff; outline: none; }
+        .grammar-select:hover { border-color: #94a3b8; }
+        
+        .mode-practice .select-correct { border-color: #10b981 !important; background-color: #ecfdf5 !important; color: #065f46 !important; }
+        .mode-practice .select-wrong { border-color: #ef4444 !important; background-color: #fef2f2 !important; color: #991b1b !important; }
+        .mode-practice .tab-active { border-bottom: 4px solid #0d9488; color: #0d9488; font-weight: bold; background-color: #f0fdfa; }
+
+        .mode-test .grammar-select { border-color: #818cf8; color: #4338ca; }
+        .mode-test .select-correct { border-color: #6366f1 !important; background-color: #eef2ff !important; color: #3730a3 !important; }
+        .mode-test .select-wrong { border-color: #f43f5e !important; background-color: #fff1f2 !important; color: #9f1239 !important; }
+        .mode-test .tab-active { border-bottom: 4px solid #6366f1; color: #6366f1; font-weight: bold; background-color: #eef2ff; }
+
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- 步驟 1: 版本選擇畫面 -->
+    <div id="setup-screen" class="fixed inset-0 bg-stone-800 z-[100] flex items-center justify-center p-6">
+        <div class="max-w-4xl w-full">
+            <div class="text-center mb-12">
+                <h1 class="text-5xl font-bold text-white mb-4 tracking-tight">English Grammar Lab</h1>
+                <p class="text-stone-400 text-lg">請選擇學習版本以載入外部考題資料庫</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <button onclick="loadVersion('A.json')" class="bg-white hover:ring-4 hover:ring-teal-500 p-10 rounded-[2rem] shadow-2xl transition-all transform hover:-translate-y-2 text-left group">
+                    <span class="inline-block bg-teal-100 text-teal-700 px-4 py-1 rounded-full text-xs font-bold mb-4">VERSION A</span>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">基礎日常語法</h3>
+                    <p class="text-gray-500 leading-relaxed">側重現在簡單式動詞變化與第三人稱單數規則練習。</p>
+                    <div class="mt-8 flex items-center text-teal-600 font-bold">點擊載入 A.json <span class="ml-2">→</span></div>
+                </button>
+                <button onclick="loadVersion('B.json')" class="bg-white hover:ring-4 hover:ring-indigo-500 p-10 rounded-[2rem] shadow-2xl transition-all transform hover:-translate-y-2 text-left group">
+                    <span class="inline-block bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-xs font-bold mb-4">VERSION B</span>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">進階應用與冠詞</h3>
+                    <p class="text-gray-500 leading-relaxed">涵蓋 Have/Has 的主詞一致性與 A/An/Some 的數量應用。</p>
+                    <div class="mt-8 flex items-center text-indigo-600 font-bold">點擊載入 B.json <span class="ml-2">→</span></div>
+                </button>
+            </div>
+            <p id="error-msg" class="text-red-400 text-center mt-8 hidden">讀取失敗！請確保您在本地伺服器 (Local Server) 環境開啟此檔案。</p>
+        </div>
+    </div>
+
+    <!-- 主程式介面 (預設隱藏) -->
+    <div id="main-app" class="hidden">
+        <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+            <div class="container mx-auto px-6 py-4 flex flex-col lg:flex-row justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <div id="version-label" class="bg-teal-600 text-white px-4 py-1 rounded-lg text-sm font-black uppercase">V1</div>
+                    <h1 class="text-xl font-bold tracking-tight text-gray-800">互動語法學習平台</h1>
+                </div>
+                <nav id="main-nav" class="flex gap-2 mt-4 lg:mt-0 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0 scrollbar-hide">
+                    <!-- 由 JS 動態生成 -->
+                </nav>
+            </div>
+        </header>
+
+        <main id="app-body" class="container mx-auto px-6 mt-10 pb-20 mode-practice">
+            
+            <!-- Dashboard -->
+            <section id="section-dashboard" class="content-section fade-in">
+                <div class="bg-white rounded-[2.5rem] shadow-sm p-10 mb-10 border border-gray-100">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+                        <div>
+                            <h2 class="text-4xl font-bold text-gray-900 mb-2">學習進度分析</h2>
+                            <p class="text-gray-400 text-lg">系統會自動根據載入的 JSON 單元計算答對率</p>
+                        </div>
+                        <button onclick="location.reload()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-6 py-2 rounded-2xl text-sm font-bold transition-colors">重新選擇版本 ↺</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-16">
+                        <div class="bg-stone-50 p-10 rounded-[2rem]">
+                            <h3 class="text-center font-bold text-stone-400 uppercase tracking-widest mb-8">總體掌握度 (%)</h3>
+                            <div class="chart-container">
+                                <canvas id="overallChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-stone-50 p-10 rounded-[2rem]">
+                            <h3 class="text-center font-bold text-stone-400 uppercase tracking-widest mb-8">各單元詳細表現</h3>
+                            <div class="chart-container">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practice Area -->
+            <div id="practice-container" class="max-w-4xl mx-auto"></div>
+
+        </main>
+    </div>
+
+    <script>
+        let QUIZ_DATA = {};
+        const state = {
+            currentTab: 'dashboard',
+            answers: {}, 
+            scores: {},
+            charts: {},
+            mode: 'practice'
+        };
+
+        // 綜合測驗固定資料
+        const FINAL_TEST_DATA = {
+            "title": "模擬綜合評量",
+            "desc": "系統整合了動詞、冠詞與副詞的混合題型，測試您的綜合理解力。",
+            "items": [
+                { "question": "The sun _____ in the east every day.", "options": ["rise", "rises", "rising"], "ans": "rises" },
+                { "question": "We don't have _____ milk in the fridge.", "options": ["some", "any", "a"], "ans": "any" },
+                { "question": "I saw _____ elephant at the zoo yesterday.", "options": ["a", "an", "some"], "ans": "an" },
+                { "question": "My father _____ goes to work by bus.", "options": ["usually", "never", "always"], "ans": "usually" }
+            ]
+        };
+
+        // 第一步：非同步載入 JSON 檔案
+        async function loadVersion(fileName) {
+            try {
+                const response = await fetch(fileName);
+                if (!response.ok) throw new Error('File not found');
+                const data = await response.json();
+                
+                QUIZ_DATA = data.content;
+                document.getElementById('version-label').innerText = data.tag;
+                document.getElementById('setup-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                
+                initApp();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('error-msg').classList.remove('hidden');
+            }
+        }
+
+        function initApp() {
+            const nav = document.getElementById('main-nav');
+            let navHtml = `<button onclick="switchTab('dashboard')" class="px-6 py-2 text-sm font-bold transition-all rounded-xl hover:bg-gray-100 whitespace-nowrap" id="tab-dashboard">學習概況</button>`;
+            
+            Object.keys(QUIZ_DATA).forEach(key => {
+                navHtml += `<button onclick="switchTab('${key}')" class="px-6 py-2 text-sm font-bold transition-all rounded-xl hover:bg-gray-100 whitespace-nowrap" id="tab-${key}">${QUIZ_DATA[key].title}</button>`;
+                
+                // 初始化各單元分數
+                let total = 0;
+                QUIZ_DATA[key].segments.forEach(s => total += s.questions.length);
+                state.scores[key] = { correct: 0, total: total };
+            });
+
+            navHtml += `<button onclick="switchTab('finaltest')" class="ml-4 px-6 py-2 text-sm font-black bg-indigo-50 text-indigo-700 rounded-xl hover:bg-indigo-100 whitespace-nowrap" id="tab-finaltest">綜合模擬測驗</button>`;
+            nav.innerHTML = navHtml;
+
+            initCharts();
+            switchTab('dashboard');
+        }
+
+        function initCharts() {
+            const ctx1 = document.getElementById('overallChart').getContext('2d');
+            state.charts.overall = new Chart(ctx1, {
+                type: 'doughnut',
+                data: { labels: ['正確', '待加強'], datasets: [{ data: [0, 100], backgroundColor: ['#0d9488', '#e7e5e4'], borderWidth: 0, hoverOffset: 4 }] },
+                options: { cutout: '85%', maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const ctx2 = document.getElementById('categoryChart').getContext('2d');
+            state.charts.category = new Chart(ctx2, {
+                type: 'bar',
+                data: { labels: Object.values(QUIZ_DATA).map(u => u.title), datasets: [{ label: '正確率 %', data: [], backgroundColor: '#10b981', borderRadius: 12, barThickness: 24 }] },
+                options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x: { beginAtZero: true, max: 100, display: false }, y: { grid: { display: false }, ticks: { font: { weight: 'bold' } } } }, plugins: { legend: { display: false } } }
+            });
+        }
+
+        function switchTab(tabId) {
+            state.currentTab = tabId;
+            document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('tab-active'));
+            document.getElementById(`tab-${tabId}`).classList.add('tab-active');
+
+            const dash = document.getElementById('section-dashboard');
+            const container = document.getElementById('practice-container');
+            const mainBody = document.getElementById('app-body');
+
+            if (tabId === 'finaltest') {
+                state.mode = 'test';
+                mainBody.className = "container mx-auto px-6 mt-10 pb-20 mode-test";
+                dash.style.display = 'none';
+                renderFinalTest();
+            } else {
+                state.mode = 'practice';
+                mainBody.className = "container mx-auto px-6 mt-10 pb-20 mode-practice";
+                if (tabId === 'dashboard') {
+                    dash.style.display = 'block';
+                    container.innerHTML = '';
+                    updateCharts();
+                } else {
+                    dash.style.display = 'none';
+                    renderPractice(tabId);
+                }
+            }
+        }
+
+        function renderPractice(unitId) {
+            const unit = QUIZ_DATA[unitId];
+            let html = `<div class="fade-in mb-20"><div class="mb-10 text-center"><h2 class="text-3xl font-black text-gray-800 mb-2">${unit.title}</h2><p class="text-teal-600 font-medium">${unit.desc}</p></div><div class="space-y-8">`;
+
+            unit.segments.forEach((seg, sIdx) => {
+                let textContent = seg.text;
+                seg.questions.forEach((q, qIdx) => {
+                    const savedVal = state.answers[`${unitId}-${sIdx}-${qIdx}`] || "";
+                    const statusClass = savedVal ? (savedVal === q.ans ? 'select-correct' : 'select-wrong') : '';
+                    
+                    const selectHtml = `
+                        <select id="sel-${unitId}-${sIdx}-${qIdx}" 
+                                onchange="handleSelection('${unitId}', ${sIdx}, ${qIdx}, this.value)" 
+                                class="grammar-select ${statusClass}">
+                            <option value="" disabled ${!savedVal?'selected':''}>...</option>
+                            ${q.options.map(o => `<option value="${o}" ${savedVal===o?'selected':''}>${o}</option>`).join('')}
+                        </select>
+                    `;
+                    textContent = textContent.replace(`[${qIdx}]`, selectHtml);
+                });
+                
+                html += `
+                    <div class="bg-white p-12 rounded-[2.5rem] border border-gray-100 shadow-sm leading-[3] text-xl">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="w-2 h-8 bg-teal-500 rounded-full"></span>
+                            <h4 class="text-gray-900 font-black">${seg.header}</h4>
+                        </div>
+                        <div class="text-gray-700 font-medium">${textContent}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html + "</div></div>";
+        }
+
+        function renderFinalTest() {
+            let html = `<div class="fade-in mb-20"><div class="bg-indigo-600 text-white p-12 rounded-[2.5rem] mb-10 shadow-xl">
+                <h2 class="text-3xl font-black mb-2">${FINAL_TEST_DATA.title}</h2><p class="opacity-80 font-medium">${FINAL_TEST_DATA.desc}</p>
+            </div><div class="space-y-4">`;
+
+            FINAL_TEST_DATA.items.forEach((item, idx) => {
+                const savedVal = state.answers[`test-${idx}`] || "";
+                const statusClass = savedVal ? (savedVal === item.ans ? 'select-correct' : 'select-wrong') : '';
+                
+                const selectHtml = `
+                    <select onchange="handleTestSelection(${idx}, this.value)" class="grammar-select ${statusClass}">
+                        <option value="" disabled ${!savedVal?'selected':''}>...</option>
+                        ${item.options.map(o => `<option value="${o}" ${savedVal===o?'selected':''}>${o}</option>`).join('')}
+                    </select>
+                `;
+
+                html += `
+                    <div class="bg-white p-8 rounded-3xl border border-indigo-50 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="text-xl text-gray-800 font-bold">${idx+1}. ${item.question.replace('_____', selectHtml)}</div>
+                        <div id="test-feedback-${idx}" class="text-sm font-bold ${savedVal === item.ans ? 'text-indigo-500' : 'text-rose-500'}">
+                            ${savedVal ? (savedVal === item.ans ? '✓ Correct' : '✗ Try again') : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html + "</div></div>";
+        }
+
+        function handleSelection(unitId, segIdx, qIdx, value) {
+            const correctAns = QUIZ_DATA[unitId].segments[segIdx].questions[qIdx].ans;
+            state.answers[`${unitId}-${segIdx}-${qIdx}`] = value;
+            
+            // 精準更新樣式，不重繪頁面
+            const el = document.getElementById(`sel-${unitId}-${segIdx}-${qIdx}`);
+            el.classList.remove('select-correct', 'select-wrong');
+            el.classList.add(value === correctAns ? 'select-correct' : 'select-wrong');
+            
+            // 背景更新分數
+            let count = 0;
+            QUIZ_DATA[unitId].segments.forEach((s, si) => {
+                s.questions.forEach((q, qi) => {
+                    if(state.answers[`${unitId}-${si}-${qi}`] === q.ans) count++;
+                });
+            });
+            state.scores[unitId].correct = count;
+        }
+
+        function handleTestSelection(idx, value) {
+            state.answers[`test-${idx}`] = value;
+            renderFinalTest(); // 測驗模式較短，允許重繪以更新回饋文字
+        }
+
+        function updateCharts() {
+            let tc = 0, tp = 0;
+            const rates = [];
+            Object.keys(QUIZ_DATA).forEach(k => {
+                tc += state.scores[k].correct;
+                tp += state.scores[k].total;
+                rates.push(Math.round((state.scores[k].correct / state.scores[k].total) * 100) || 0);
+            });
+            const rate = Math.round((tc/tp)*100) || 0;
+            state.charts.overall.data.datasets[0].data = [rate, 100-rate];
+            state.charts.overall.update();
+            state.charts.category.data.datasets[0].data = rates;
+            state.charts.category.update();
+        }
+    </script>
+</body>
+</html>
