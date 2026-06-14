@@ -145,7 +145,7 @@
         // 第一步：非同步載入 JSON 檔案
         async function loadVersion(fileName) {
             try {
-                const response = await fetch("json/"+fileName);
+                const response = await fetch("JSON/"+fileName);
                 if (!response.ok) throw new Error('File not found');
                 const data = await response.json();
                 
