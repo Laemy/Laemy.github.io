@@ -126,7 +126,7 @@
 "segments": [
 {
 "header": "A. My Morning Routine",
-"text": "I  (1) wake up at seven o'clock because I don't want to be late for school. I  (2) eat bread for breakfast, but today I want noodles instead. I  (3) run to school because the school is very close to my house.",
+"text": "I [1] wake up at seven o'clock because I don't want to be late for school. I [2] eat bread for breakfast, but today I want noodles instead. I [3] run to school because the school is very close to my house.",
 "questions": [
 {"options": ["always", "never","sometimes"], "ans": "always"},
 {"options": ["usually", "never", "always"], "ans": "usually"},
@@ -137,9 +137,9 @@
 "header": "B. Rainy Days",
 "text": "On rainy days, we [0] stay inside to stay dry. We [1] play board games with my family when we are bored. My brother [2] plays soccer inside the house because he doesn't want to break the windows.",
 "questions": [
-{"options": ["usually / never / sometimes"], "ans": "usually"},
-{"options": ["sometimes / always / never"], "ans": "sometimes"},
-{"options": ["never / always / often"], "ans": "never"}
+{"options": ["usually","never","sometimes"], "ans": "usually"},
+{"options": ["sometimes","always","never"], "ans": "sometimes"},
+{"options": ["never","always","often"], "ans": "never"}
 ]
 }
 ]
