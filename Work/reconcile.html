@@ -580,12 +580,14 @@ function closeConfirm(){ pendingAction=null; document.getElementById('confirm-ov
 
 async function doConfirm(){
   if(!pendingAction) return;
-  showLoading('更新付款狀態...');
+  // 先把 action 存起來，再關 modal（closeConfirm 會把 pendingAction 清為 null）
+  const action = pendingAction;
   closeConfirm();
+  showLoading('更新付款狀態...');
   try{
-    await OrdersAPI.markPaid(pendingAction.ids);
-    showToast(pendingAction.ids.length>1
-      ?`已結清 ${pendingAction.ids.length} 筆訂單 ✓`
+    await OrdersAPI.markPaid(action.ids);
+    showToast(action.ids.length>1
+      ?`已結清 ${action.ids.length} 筆訂單 ✓`
       :'已標記為付款 ✓');
     await reloadData();
   }catch(e){ showToast('錯誤：'+e.message,'error'); hideLoading(); }
