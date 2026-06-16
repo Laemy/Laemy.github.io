@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>餐廳訂單頁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;
+    --green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--red-light:#FEF0EF;
+    --orange:#E67E22;--bg:#F7F9FC;--surface:#FFFFFF;--border:#D9E4F0;
+    --text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
+    --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+  header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
+  .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .hdr-title{font-size:16px;font-weight:700}
+  .hdr-rest-name{font-size:15px;font-weight:400;color:var(--blue-mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hdr-back{margin-left:auto;font-size:12px;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
+  .hdr-back:hover{color:#fff}
+
+  .hero-wrap{background:var(--navy);padding:0 28px 24px}
+  .hero-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1020px}
+  .hero-name{font-size:22px;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:8px 20px}
+  .hero-meta-item{font-size:13px;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:6px}
+  .hero-meta-item strong{color:#fff}
+  .hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto;align-items:center}
+  .hero-stat{background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;text-align:center;min-width:90px}
+  .hero-stat .hs-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .hero-stat .hs-value{font-size:18px;font-weight:700;color:#fff}
+  .hero-stat .hs-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+
+  main{flex:1;padding:28px;max-width:1060px;width:100%;margin:0 auto}
+
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .section-header h2{font-size:16px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+  .count-badge{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+
+  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .btn:active{transform:scale(.97)}
+  .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
+  .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
+  .btn-sm{padding:5px 12px;font-size:12px}
+  .btn-check{background:var(--green-light);color:var(--green);border:1.5px solid #a9dfbf}.btn-check:hover{background:#d0f0e0}
+
+  .filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .filter-btn{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s}
+  .filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .filter-btn:hover:not(.active){border-color:var(--blue);color:var(--blue)}
+
+  .summary-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:24px}
+  .strip-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:12px 16px}
+  .strip-card .sc-label{font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .strip-card .sc-value{font-size:17px;font-weight:700;color:var(--navy)}
+
+  /* Person cards */
+  .person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
+  .person-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s}
+  .person-card:hover{box-shadow:var(--shadow-md)}
+  .person-card.all-paid{border-color:#a9dfbf}
+  .person-card.has-unpaid{border-color:#f5b7b1}
+  .person-card-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;gap:10px}
+  .person-card.all-paid  .person-card-header{background:var(--green-light)}
+  .person-card.has-unpaid .person-card-header{background:var(--red-light)}
+  .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+  .person-name{font-size:14px;font-weight:700;color:var(--navy)}
+  .person-status{font-size:11px;font-weight:600;margin-top:2px}
+  .person-card.all-paid  .person-status{color:var(--green)}
+  .person-card.has-unpaid .person-status{color:var(--red)}
+  .person-total{font-size:15px;font-weight:700;color:var(--navy);text-align:right}
+  .person-total-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;text-align:right}
+  .person-unpaid-list{border-top:1px solid var(--border)}
+  .person-unpaid-row{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);font-size:12px}
+  .person-unpaid-row:last-child{border-bottom:none}
+  .prow-date{color:var(--text-3);white-space:nowrap;flex-shrink:0}
+  .prow-items{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-2)}
+  .prow-amount{font-weight:700;color:var(--navy);white-space:nowrap;flex-shrink:0}
+  .person-unpaid-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg);border-top:1px solid var(--border);gap:10px}
+  .unpaid-total-label{font-size:12px;color:var(--text-2)}
+  .unpaid-total-amt{font-size:15px;font-weight:700;color:var(--red)}
+
+  /* Table */
+  .table-wrap{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  thead th{background:var(--navy);color:#fff;padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.4px;white-space:nowrap}
+  tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+  tbody tr:last-child{border-bottom:none}
+  tbody tr:hover{background:var(--blue-light)}
+  tbody td{padding:10px 14px;vertical-align:middle}
+  .amount-cell{font-weight:700;color:var(--navy)}
+  .status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .status-paid  {background:#d5f5e3;color:#1a7a4a}
+  .status-unpaid{background:#fde8e6;color:#c0392b}
+  .date-cell{display:inline-flex;align-items:center;gap:4px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:14px;white-space:nowrap}
+  tr.row-unpaid{background:#fffbf5}
+  tr.row-unpaid:hover{background:#fff3e0}
+
+  .empty-state{text-align:center;padding:40px 20px;color:var(--text-3)}
+  .empty-state .empty-icon{font-size:36px;margin-bottom:10px}
+  .empty-state p{font-size:14px}
+  #not-found{display:none;text-align:center;padding:80px 20px}
+  #not-found .nf-icon{font-size:60px;margin-bottom:16px}
+  #not-found h2{font-size:22px;color:var(--navy);margin-bottom:8px}
+  #not-found p{font-size:14px;color:var(--text-2)}
+
+  /* Modal */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--surface);border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.2);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;animation:slideUp .22s ease}
+  @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .modal-header{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .modal-header h3{font-size:16px;font-weight:700;color:var(--navy)}
+  .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-3);line-height:1}
+  .modal-body{padding:18px 24px;display:flex;flex-direction:column;gap:13px}
+  .modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+  .form-group{display:flex;flex-direction:column;gap:5px}
+  .form-group label{font-size:12px;font-weight:600;color:var(--text-2)}
+  .form-control{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;color:var(--text);background:var(--bg);transition:border-color .15s,box-shadow .15s;font-family:inherit;width:100%}
+  .form-control:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,125,210,.12);background:#fff}
+  .form-control[readonly]{background:#eef2f7;color:var(--text-2);cursor:default}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form-static{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;color:var(--text-2);background:#eef2f7}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast.success{border-left:4px solid var(--green)}
+  .toast.error  {border-left:4px solid var(--red)}
+
+  .loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.7);backdrop-filter:blur(2px);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  .loading-overlay.show{display:flex}
+  .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-text{font-size:13px;color:var(--text-2);font-weight:500}
+
+  .divider{height:1px;background:var(--border);margin:28px 0}
+  .view-hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-icon">🍱</div>
+  <span class="hdr-title">訂餐對帳</span>
+  <span class="hdr-rest-name" id="hdr-rest-name"></span>
+  <a class="hdr-back" href="index.html">← 返回管理</a>
+</header>
+
+<div class="hero-wrap" id="hero-wrap">
+  <div class="hero-card">
+    <div style="flex:1;min-width:200px">
+      <div class="hero-name"><span>🍽</span><span id="hero-name">—</span></div>
+      <div class="hero-meta" id="hero-meta"></div>
+    </div>
+    <div class="hero-stats" id="hero-stats"></div>
+  </div>
+</div>
+
+<main id="main-content">
+  <div id="not-found">
+    <div class="nf-icon">🔍</div>
+    <h2>找不到此餐廳</h2>
+    <p>網址中的餐廳 ID 不存在，請確認連結是否正確。</p>
+    <br><a href="index.html" class="btn btn-success">← 返回管理系統</a>
+  </div>
+
+  <div id="rest-content" class="view-hidden">
+    <div class="summary-strip" id="summary-strip"></div>
+
+    <!-- 人名統計 -->
+    <div class="section-header">
+      <h2>👤 依訂購人統計<span class="count-badge" id="person-count" style="margin-left:8px">0 人</span></h2>
+    </div>
+    <div class="person-grid" id="person-grid"></div>
+    <div id="person-empty" class="empty-state view-hidden" style="padding:20px 0 28px"><p>尚無訂單資料</p></div>
+
+    <div class="divider"></div>
+
+    <!-- 訂單明細 -->
+    <div class="section-header">
+      <h2>📋 所有訂單<span class="count-badge" id="order-count" style="margin-left:8px">0 筆</span></h2>
+      <button class="btn btn-success" onclick="openOrderModal()">＋ 我要點餐</button>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
+      <button class="filter-btn"        onclick="setFilter('unpaid',this)">⚠ 未付款</button>
+      <button class="filter-btn"        onclick="setFilter('paid',this)">✔ 已付款</button>
+    </div>
+    <div class="table-wrap" id="orders-table-wrap">
+      <table>
+        <thead><tr>
+          <th>訂購日期</th><th>訂購人</th><th>品項</th>
+          <th>金額</th><th>服務費</th><th>收款人</th><th>付款狀態</th><th>備註</th>
+        </tr></thead>
+        <tbody id="orders-tbody"></tbody>
+      </table>
+    </div>
+    <div id="orders-empty" class="empty-state view-hidden">
+      <div class="empty-icon">🛒</div>
+      <p>尚無訂單，成為第一個點餐的人吧！</p><br>
+      <button class="btn btn-success" onclick="openOrderModal()">＋ 我要點餐</button>
+    </div>
+  </div>
+</main>
+
+<!-- Modal: 新增訂單 -->
+<div class="modal-overlay" id="modal-order">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>新增訂購記錄</h3>
+      <button class="modal-close" onclick="closeModal('modal-order')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>餐廳</label><div class="form-static" id="modal-rest-name">—</div></div>
+      <div class="form-row">
+        <div class="form-group"><label>訂購日期（自動帶入）</label><input class="form-control" id="order-date" type="date" readonly></div>
+        <div class="form-group"><label>訂購人 *</label><input class="form-control" id="order-orderer" placeholder="例：陳小華"></div>
+      </div>
+      <div class="form-group"><label>訂購品項</label><input class="form-control" id="order-items" placeholder="例：烏龍麵×2、天婦羅×1"></div>
+      <div class="form-row">
+        <div class="form-group"><label>金額 (元)</label><input class="form-control" id="order-amount" type="number" min="0" placeholder="0"></div>
+        <div class="form-group"><label>備註</label><input class="form-control" id="order-note" placeholder="外帶、加辣..."></div>
+      </div>
+      <div id="fee-preview" class="view-hidden" style="background:var(--blue-light);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text-2)">
+        服務費（<span id="fee-pct">0</span>%）：<strong id="fee-amt" style="color:var(--navy)">NT$ 0</strong>
+        ／ 應付合計：<strong id="fee-total" style="color:var(--navy)">NT$ 0</strong>
+        → 收款人：<strong id="fee-receiver" style="color:var(--navy)">—</strong>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-order')">取消</button>
+      <button class="btn btn-success" onclick="saveOrder()">送出訂單</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: 結帳確認 -->
+<div class="modal-overlay" id="modal-checkout">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3 id="checkout-title">確認結帳</h3>
+      <button class="modal-close" onclick="closeModal('modal-checkout')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:13px;color:var(--text-2);line-height:1.7" id="checkout-desc"></div>
+      <div style="background:var(--green-light);border:1.5px solid #a9dfbf;border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;font-weight:600;color:var(--green)">結帳金額合計</span>
+        <span style="font-size:20px;font-weight:700;color:var(--navy)" id="checkout-total">NT$ 0</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-checkout')">取消</button>
+      <button class="btn btn-success" onclick="confirmCheckout()">✔ 確認已結帳</button>
+    </div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">載入中...</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="supabase.js"></script>
+<script>
+// ═══════════════════ STATE ═══════════════════
+let rest        = null;
+let orders      = [];
+let curFilter   = 'all';
+let checkoutIds = [];
+
+function getRestId() {
+  const p = new URLSearchParams(window.location.search);
+  return p.get('id') || new URLSearchParams(window.location.hash.slice(1)).get('restId') || null;
+}
+const restId = getRestId();
+
+function showLoading(msg='載入中...') {
+  document.getElementById('loading-text').textContent = msg;
+  document.getElementById('loading').classList.add('show');
+}
+function hideLoading() { document.getElementById('loading').classList.remove('show'); }
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast '+type; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════ INIT ═══════════════════
+async function init() {
+  showLoading('連線 Supabase...');
+  try {
+    const allRests = await RestaurantsAPI.getAll();
+    rest = allRests.find(r => r.id === restId);
+    if (!rest) { showNotFound(); return; }
+
+    document.title = rest.name + ' — 訂餐對帳';
+    document.getElementById('hdr-rest-name').textContent = '｜ ' + rest.name;
+    document.getElementById('modal-rest-name').textContent = rest.name;
+    document.getElementById('order-date').value = todayStr();
+    if (rest.serviceFee) {
+      document.getElementById('fee-preview').classList.remove('view-hidden');
+      document.getElementById('fee-pct').textContent = rest.serviceFee;
+      document.getElementById('fee-receiver').textContent = rest.receiver || '—';
+    }
+    renderHero();
+    document.getElementById('not-found').style.display = 'none';
+    document.getElementById('rest-content').classList.remove('view-hidden');
+
+    await loadOrders();
+    renderAll();
+  } catch(e) {
+    showToast('載入失敗：'+e.message, 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+function showNotFound() {
+  document.getElementById('not-found').style.display = 'block';
+  document.getElementById('hero-wrap').style.display = 'none';
+  hideLoading();
+}
+
+async function loadOrders() {
+  orders = await OrdersAPI.getByRestaurant(restId);
+}
+
+// ═══════════════════ RENDER: HERO ═══════════════════
+function renderHero() {
+  document.getElementById('hero-name').textContent = rest.name;
+  const mi = [];
+  if (rest.contact)    mi.push(`<span class="hero-meta-item">📞 ${esc(rest.contact)}</span>`);
+  if (rest.address)    mi.push(`<span class="hero-meta-item">📍 ${esc(rest.address)}</span>`);
+  if (rest.receiver)   mi.push(`<span class="hero-meta-item">👤 收款人：<strong>${esc(rest.receiver)}</strong></span>`);
+  if (rest.serviceFee) mi.push(`<span class="hero-meta-item">🧾 服務費：<strong>${rest.serviceFee}%</strong></span>`);
+  if (rest.note)       mi.push(`<span class="hero-meta-item">💬 ${esc(rest.note)}</span>`);
+  document.getElementById('hero-meta').innerHTML = mi.join('');
+  renderHeroStats();
+}
+
+function renderHeroStats() {
+  const total  = orders.reduce((s,o)=>s+Number(o.amount||0),0);
+  const paid   = orders.filter(o=>o.paidStatus==='已付款').reduce((s,o)=>s+Number(o.amount||0),0);
+  const unpaid = total - paid;
+  const fee    = calcFee(total, rest.serviceFee);
+  document.getElementById('hero-stats').innerHTML = `
+    <div class="hero-stat"><div class="hs-label">訂單數</div><div class="hs-value">${orders.length}</div><div class="hs-sub">筆</div></div>
+    <div class="hero-stat"><div class="hs-label">總金額</div><div class="hs-value" style="font-size:15px">NT$&nbsp;${total.toLocaleString()}</div><div class="hs-sub">費 +${fee.toLocaleString()}</div></div>
+    <div class="hero-stat" style="${unpaid>0?'background:rgba(231,76,60,.25)':''}">
+      <div class="hs-label">未結清</div>
+      <div class="hs-value" style="font-size:15px;${unpaid>0?'color:#ffb3ad':''}">NT$&nbsp;${unpaid.toLocaleString()}</div>
+      <div class="hs-sub">${unpaid>0?'待結清':'✓ 已付清'}</div>
+    </div>`;
+}
+
+// ═══════════════════ RENDER ALL ═══════════════════
+function renderAll() {
+  renderSummaryStrip();
+  renderPersonGrid();
+  renderOrdersTable();
+}
+
+function renderSummaryStrip() {
+  const total    = orders.reduce((s,o)=>s+Number(o.amount||0),0);
+  const unpaidAmt= orders.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
+  const fee      = calcFee(total, rest.serviceFee);
+  const people   = [...new Set(orders.map(o=>o.orderer).filter(Boolean))].length;
+  document.getElementById('summary-strip').innerHTML = `
+    <div class="strip-card"><div class="sc-label">訂單筆數</div><div class="sc-value">${orders.length} 筆</div></div>
+    <div class="strip-card"><div class="sc-label">訂購人數</div><div class="sc-value">${people} 人</div></div>
+    <div class="strip-card"><div class="sc-label">總金額</div><div class="sc-value" style="font-size:15px">NT$ ${total.toLocaleString()}</div></div>
+    <div class="strip-card"><div class="sc-label">服務費</div><div class="sc-value" style="font-size:15px">NT$ ${fee.toLocaleString()}</div></div>
+    <div class="strip-card"><div class="sc-label">未付款</div><div class="sc-value" style="font-size:15px;color:${unpaidAmt>0?'var(--red)':'var(--green)'}">NT$ ${unpaidAmt.toLocaleString()}</div></div>`;
+}
+
+function renderPersonGrid() {
+  const grid  = document.getElementById('person-grid');
+  const empty = document.getElementById('person-empty');
+  const map   = {};
+  orders.forEach(o => {
+    const name = o.orderer || '(未填姓名)';
+    if (!map[name]) map[name] = {name, orders:[], total:0, unpaidAmt:0, unpaidOrders:[]};
+    map[name].orders.push(o);
+    map[name].total += Number(o.amount||0);
+    if (o.paidStatus==='未付款') { map[name].unpaidAmt += Number(o.amount||0); map[name].unpaidOrders.push(o); }
+  });
+  const persons = Object.values(map).sort((a,b)=>b.unpaidAmt-a.unpaidAmt||a.name.localeCompare(b.name,'zh'));
+  document.getElementById('person-count').textContent = persons.length+' 人';
+  if (!persons.length) { grid.innerHTML=''; empty.classList.remove('view-hidden'); return; }
+  empty.classList.add('view-hidden');
+  grid.innerHTML = persons.map(p => {
+    const hasUnpaid = p.unpaidOrders.length > 0;
+    const color     = avatarColor(p.name);
+    const unpaidRows = p.unpaidOrders.sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).map(o=>`
+      <div class="person-unpaid-row">
+        <span class="prow-date">📅 ${o.orderDate}</span>
+        <span class="prow-items" title="${esc(o.items)}">${esc(o.items)||'—'}</span>
+        <span class="prow-amount">NT$&nbsp;${Number(o.amount||0).toLocaleString()}</span>
+      </div>`).join('');
+    const footer = hasUnpaid ? `
+      <div class="person-unpaid-footer">
+        <div>
+          <div class="unpaid-total-label">未結帳合計</div>
+          <div class="unpaid-total-amt">NT$ ${p.unpaidAmt.toLocaleString()}</div>
+        </div>
+        <button class="btn btn-check btn-sm" onclick="openCheckout('${esc(p.name)}')">✔ 設為已結帳</button>
+      </div>` : '';
+    return `<div class="person-card ${hasUnpaid?'has-unpaid':'all-paid'}">
+      <div class="person-card-header">
+        <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+          <div class="avatar" style="background:${color}">${esc(p.name.charAt(0))}</div>
+          <div style="min-width:0">
+            <div class="person-name">${esc(p.name)}</div>
+            <div class="person-status">${hasUnpaid?'⚠ 有 '+p.unpaidOrders.length+' 筆未結帳':'✔ 全數已付款'}</div>
+          </div>
+        </div>
+        <div>
+          <div class="person-total-label">總消費</div>
+          <div class="person-total">NT$ ${p.total.toLocaleString()}</div>
+        </div>
+      </div>
+      ${hasUnpaid?`<div class="person-unpaid-list">${unpaidRows}</div>${footer}`:''}
+    </div>`;
+  }).join('');
+}
+
+function setFilter(f, btn) {
+  curFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOrdersTable();
+}
+
+function renderOrdersTable() {
+  let list = [...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate));
+  if (curFilter==='unpaid') list = list.filter(o=>o.paidStatus==='未付款');
+  if (curFilter==='paid')   list = list.filter(o=>o.paidStatus==='已付款');
+  document.getElementById('order-count').textContent = list.length+' 筆';
+  const wrap=document.getElementById('orders-table-wrap'), empty=document.getElementById('orders-empty');
+  if (!list.length) { wrap.style.display='none'; empty.classList.remove('view-hidden'); return; }
+  wrap.style.display=''; empty.classList.add('view-hidden');
+  document.getElementById('orders-tbody').innerHTML = list.map(o => {
+    const fee    = calcFee(o.amount, rest.serviceFee);
+    const isPaid = o.paidStatus==='已付款';
+    return `<tr class="${isPaid?'':'row-unpaid'}">
+      <td><span class="date-cell">📅 ${o.orderDate}</span></td>
+      <td style="font-weight:600">${esc(o.orderer)}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)}</td>
+      <td class="amount-cell">NT$ ${Number(o.amount||0).toLocaleString()}</td>
+      <td style="font-size:12px;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
+      <td style="font-size:12px;color:var(--text-2)">${esc(rest.receiver)||'—'}</td>
+      <td><span class="status-badge ${isPaid?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
+      <td style="font-size:12px;color:var(--text-3)">${esc(o.note)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════ CHECKOUT ═══════════════════
+function openCheckout(personName) {
+  const unpaid = orders.filter(o=>o.orderer===personName && o.paidStatus==='未付款');
+  if (!unpaid.length) { showToast('此人已無未付款訂單','error'); return; }
+  checkoutIds = unpaid.map(o=>o.id);
+  const totalAmt = unpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+  document.getElementById('checkout-title').textContent = personName+' 的結帳確認';
+  document.getElementById('checkout-desc').innerHTML =
+    `將以下 <strong style="color:var(--navy)">${unpaid.length} 筆</strong> 未付款訂單標記為已結帳：<br><br>`+
+    unpaid.map(o=>`<span style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--border)">
+      <span>📅 ${o.orderDate}　${esc(o.items)||'(無品項)'}</span>
+      <strong>NT$ ${Number(o.amount||0).toLocaleString()}</strong>
+    </span>`).join('');
+  document.getElementById('checkout-total').textContent = 'NT$ '+totalAmt.toLocaleString();
+  document.getElementById('modal-checkout').classList.add('open');
+}
+
+async function confirmCheckout() {
+  showLoading('更新付款狀態...');
+  try {
+    await OrdersAPI.markPaid(checkoutIds);
+    showToast(`已將 ${checkoutIds.length} 筆訂單標記為已結帳 ✓`);
+    closeModal('modal-checkout');
+    await loadOrders();
+    renderHeroStats();
+    renderAll();
+  } catch(e) { showToast('錯誤：'+e.message,'error'); }
+  finally { hideLoading(); }
+}
+
+// ═══════════════════ ORDER MODAL ═══════════════════
+function openOrderModal() {
+  ['order-orderer','order-items','order-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('order-amount').value='';
+  document.getElementById('order-date').value=todayStr();
+  updateFeePreview();
+  document.getElementById('modal-order').classList.add('open');
+  setTimeout(()=>document.getElementById('order-orderer').focus(),100);
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); });
+});
+
+document.getElementById('order-amount').addEventListener('input', updateFeePreview);
+function updateFeePreview() {
+  if (!rest?.serviceFee) return;
+  const amt = Number(document.getElementById('order-amount').value)||0;
+  const fee = calcFee(amt, rest.serviceFee);
+  document.getElementById('fee-amt').textContent   = 'NT$ '+fee.toLocaleString();
+  document.getElementById('fee-total').textContent = 'NT$ '+(amt+fee).toLocaleString();
+}
+
+async function saveOrder() {
+  const orderer = document.getElementById('order-orderer').value.trim();
+  if (!orderer) { showToast('請填寫訂購人姓名','error'); return; }
+  showLoading('新增訂單...');
+  try {
+    await OrdersAPI.insert({
+      id:           genId('o'),
+      restaurantId: restId,
+      orderer,
+      orderDate:    todayStr(),
+      items:        document.getElementById('order-items').value.trim(),
+      amount:       Number(document.getElementById('order-amount').value)||0,
+      paidStatus:   '未付款',
+      note:         document.getElementById('order-note').value.trim()
+    });
+    showToast('訂單已送出 ✓');
+    closeModal('modal-order');
+    await loadOrders();
+    renderHeroStats();
+    renderAll();
+  } catch(e) { showToast('錯誤：'+e.message,'error'); }
+  finally { hideLoading(); }
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨餐廳對帳總覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;
+    --green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--red-light:#FEF0EF;
+    --orange:#E67E22;--orange-light:#FEF5EC;--bg:#F7F9FC;--surface:#FFFFFF;
+    --border:#D9E4F0;--text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
+    --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+  header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
+  .logo{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  header h1{font-size:16px;font-weight:700}
+  header .sub{font-size:12px;color:var(--blue-mid)}
+  .hdr-back{margin-left:auto;font-size:12px;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
+  .hdr-back:hover{color:#fff}
+
+  .scope-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .scope-label{font-size:12px;font-weight:700;color:var(--text-2);letter-spacing:.4px;white-space:nowrap}
+  .scope-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+  .scope-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s;user-select:none}
+  .scope-chip input[type=checkbox]{accent-color:var(--blue);width:13px;height:13px;cursor:pointer}
+  .scope-chip.checked{background:var(--blue-light);border-color:var(--blue);color:var(--navy)}
+  .scope-chip.unpaid-rest{border-color:#f5b7b1}
+  .scope-chip.unpaid-rest.checked{background:var(--red-light);border-color:var(--red);color:var(--red)}
+
+  main{flex:1;padding:28px;max-width:1060px;width:100%;margin:0 auto}
+
+  .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:26px}
+  .s-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:13px 16px}
+  .s-card .s-lbl{font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+  .s-card .s-val{font-size:20px;font-weight:700;color:var(--navy)}
+  .s-card .s-sub{font-size:11px;color:var(--text-2);margin-top:3px}
+
+  /* Person block */
+  .person-block{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+  .person-head{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--bg);flex-wrap:wrap}
+  .avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+  .person-name-wrap{flex:1}
+  .person-name{font-size:16px;font-weight:700;color:var(--navy)}
+  .person-stats{font-size:12px;color:var(--text-2);margin-top:2px}
+  .person-totals{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .ptotal-item{text-align:right}
+  .ptotal-lbl{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px}
+  .ptotal-val{font-size:18px;font-weight:700;color:var(--navy)}
+  .ptotal-val.red{color:var(--red)}
+
+  .rest-group{border-bottom:1px solid var(--border)}
+  .rest-group:last-child{border-bottom:none}
+  .rest-group-head{display:flex;align-items:center;gap:10px;padding:10px 20px 10px 60px;background:#f0f5fb;border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .rest-group-name{font-size:13px;font-weight:700;color:var(--navy);flex:1}
+  .rest-subtotal{font-size:12px;color:var(--text-2);white-space:nowrap}
+  .rest-unpaid-badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;background:var(--red-light);color:var(--red);white-space:nowrap}
+  .rest-paid-badge  {font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;background:var(--green-light);color:var(--green);white-space:nowrap}
+
+  .order-row{display:flex;align-items:center;gap:10px;padding:9px 20px 9px 60px;border-bottom:1px solid #f0f3f8;transition:background .12s}
+  .order-row:last-child{border-bottom:none}
+  .order-row:hover{background:var(--blue-light)}
+  .order-row.paid-row{opacity:.5}
+  .or-date{font-size:11px;color:#fff;background:var(--navy);padding:2px 8px;border-radius:12px;white-space:nowrap;flex-shrink:0;font-weight:600}
+  .or-items{flex:1;font-size:12px;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .or-note{font-size:11px;color:var(--text-3);white-space:nowrap}
+  .or-amt{font-size:14px;font-weight:700;color:var(--navy);white-space:nowrap;min-width:80px;text-align:right}
+
+  .btn-pay{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:7px;border:1.5px solid #f5cba7;font-size:11px;font-weight:700;cursor:pointer;background:var(--orange-light);color:var(--orange);transition:all .15s;white-space:nowrap;flex-shrink:0}
+  .btn-pay:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+  .btn-pay:active{transform:scale(.96)}
+  .paid-label{font-size:11px;color:var(--green);font-weight:600;background:var(--green-light);padding:4px 10px;border-radius:7px;border:1.5px solid #a9dfbf;white-space:nowrap;flex-shrink:0}
+  .btn-settle-all{padding:4px 11px;border-radius:7px;border:1.5px solid #a9dfbf;font-size:11px;font-weight:700;cursor:pointer;background:var(--green-light);color:var(--green);transition:all .15s;white-space:nowrap;flex-shrink:0}
+  .btn-settle-all:hover{background:var(--green);color:#fff}
+
+  .empty-state{text-align:center;padding:60px 20px;color:var(--text-3)}
+  .empty-state .ei{font-size:44px;margin-bottom:14px}
+  .empty-state p{font-size:14px}
+
+  /* Confirm */
+  .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
+  .confirm-overlay.open{display:flex}
+  .confirm-box{background:#fff;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.18);width:100%;max-width:380px;padding:28px 28px 22px;animation:su .2s ease}
+  @keyframes su{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .confirm-box h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px}
+  .confirm-box p{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px}
+  .confirm-btns{display:flex;justify-content:flex-end;gap:10px}
+  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+  .btn:active{transform:scale(.97)}
+  .btn-ghost  {background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
+  .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast.success{border-left:4px solid var(--green)}
+  .toast.error  {border-left:4px solid var(--red)}
+
+  .loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.7);backdrop-filter:blur(2px);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  .loading-overlay.show{display:flex}
+  .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-text{font-size:13px;color:var(--text-2);font-weight:500}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🧾</div>
+  <h1>跨餐廳對帳總覽</h1>
+  <span class="sub">主購專用</span>
+  <a class="hdr-back" href="index.html">← 返回管理系統</a>
+</header>
+
+<div class="scope-bar">
+  <span class="scope-label">選擇餐廳：</span>
+  <div class="scope-chips" id="scope-chips"><span style="font-size:12px;color:var(--text-3)">載入中...</span></div>
+</div>
+
+<main>
+  <div id="summary-bar" class="summary-bar"></div>
+  <div id="person-list"></div>
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div class="ei">🎉</div><p>目前沒有未付款項目，全數結清！</p>
+  </div>
+</main>
+
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <h3 id="confirm-title">確認付款</h3>
+    <p id="confirm-body"></p>
+    <div class="confirm-btns">
+      <button class="btn btn-ghost" onclick="closeConfirm()">取消</button>
+      <button class="btn btn-success" onclick="doConfirm()">✔ 確認已付款</button>
+    </div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">載入中...</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="supabase.js"></script>
+<script>
+// ═══════════════════ STATE ═══════════════════
+let restaurants   = [];
+let orders        = [];
+let selectedRests = new Set();
+let pendingAction = null;
+
+function showLoading(msg='載入中...') {
+  document.getElementById('loading-text').textContent = msg;
+  document.getElementById('loading').classList.add('show');
+}
+function hideLoading() { document.getElementById('loading').classList.remove('show'); }
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast '+type; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════ INIT ═══════════════════
+async function init() {
+  showLoading('連線 Supabase...');
+  try {
+    [restaurants, orders] = await Promise.all([RestaurantsAPI.getAll(), OrdersAPI.getAll()]);
+    // Pre-select restaurants with unpaid orders
+    const hasUnpaid = id => orders.some(o=>o.restaurantId===id && o.paidStatus==='未付款');
+    restaurants.forEach(r => { if (hasUnpaid(r.id)) selectedRests.add(r.id); });
+    if (selectedRests.size===0) restaurants.forEach(r=>selectedRests.add(r.id));
+    buildScopeChips();
+    render();
+  } catch(e) {
+    showToast('資料載入失敗：'+e.message, 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+// ═══════════════════ RELOAD ═══════════════════
+async function reloadData() {
+  showLoading('更新資料...');
+  try {
+    [restaurants, orders] = await Promise.all([RestaurantsAPI.getAll(), OrdersAPI.getAll()]);
+    buildScopeChips();
+    render();
+  } catch(e) { showToast('更新失敗：'+e.message,'error'); }
+  finally { hideLoading(); }
+}
+
+// ═══════════════════ SCOPE CHIPS ═══════════════════
+function buildScopeChips() {
+  const hasUnpaid = id => orders.some(o=>o.restaurantId===id && o.paidStatus==='未付款');
+  document.getElementById('scope-chips').innerHTML = restaurants.map(r => {
+    const unpaid  = hasUnpaid(r.id);
+    const checked = selectedRests.has(r.id);
+    return `<label class="scope-chip ${unpaid?'unpaid-rest':''} ${checked?'checked':''}" id="chip-${r.id}">
+      <input type="checkbox" ${checked?'checked':''} onchange="toggleRest('${r.id}',this.checked)">
+      ${esc(r.name)}${unpaid?' ⚠':' ✓'}
+    </label>`;
+  }).join('');
+}
+
+function toggleRest(id, checked) {
+  if (checked) selectedRests.add(id); else selectedRests.delete(id);
+  document.getElementById('chip-'+id).classList.toggle('checked', checked);
+  render();
+}
+
+// ═══════════════════ RENDER ═══════════════════
+function render() {
+  renderSummary();
+  renderPersonList();
+}
+
+function getFilteredOrders() {
+  return orders.filter(o => selectedRests.has(o.restaurantId));
+}
+
+function renderSummary() {
+  const filtered = getFilteredOrders();
+  const unpaid   = filtered.filter(o=>o.paidStatus==='未付款');
+  const totalUnpaid = unpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+  const totalAll    = filtered.reduce((s,o)=>s+Number(o.amount||0),0);
+  const people      = [...new Set(unpaid.map(o=>o.orderer).filter(Boolean))].length;
+  const rests       = [...selectedRests].map(id=>restaurants.find(r=>r.id===id)).filter(Boolean);
+  document.getElementById('summary-bar').innerHTML = `
+    <div class="s-card"><div class="s-lbl">選取餐廳</div><div class="s-val">${rests.length} 家</div>
+      <div class="s-sub">${rests.map(r=>esc(r.name)).join('、')||'—'}</div></div>
+    <div class="s-card"><div class="s-lbl">涉及人數</div><div class="s-val">${people} 人</div><div class="s-sub">尚有未結帳</div></div>
+    <div class="s-card"><div class="s-lbl">選取範圍總額</div><div class="s-val" style="font-size:17px">NT$ ${totalAll.toLocaleString()}</div><div class="s-sub">含已付＋未付</div></div>
+    <div class="s-card"><div class="s-lbl">待收金額合計</div>
+      <div class="s-val" style="font-size:17px;color:${totalUnpaid>0?'var(--red)':'var(--green)'}">NT$ ${totalUnpaid.toLocaleString()}</div>
+      <div class="s-sub">${totalUnpaid>0?'尚未結清':'全數已結清 🎉'}</div></div>`;
+}
+
+function renderPersonList() {
+  const container = document.getElementById('person-list');
+  const emptyEl   = document.getElementById('empty-state');
+  const filtered  = getFilteredOrders();
+
+  // Build person → restId → orders
+  const personMap = {};
+  filtered.forEach(o => {
+    const name = o.orderer || '(未填姓名)';
+    if (!personMap[name]) personMap[name] = {};
+    if (!personMap[name][o.restaurantId]) personMap[name][o.restaurantId] = [];
+    personMap[name][o.restaurantId].push(o);
+  });
+
+  const persons = Object.entries(personMap).map(([name, restMap]) => {
+    const allOrders  = Object.values(restMap).flat();
+    const unpaidAmt  = allOrders.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
+    const totalAmt   = allOrders.reduce((s,o)=>s+Number(o.amount||0),0);
+    return { name, restMap, unpaidAmt, totalAmt };
+  }).filter(p=>p.unpaidAmt>0).sort((a,b)=>b.unpaidAmt-a.unpaidAmt);
+
+  if (!persons.length) { container.innerHTML=''; emptyEl.style.display='block'; return; }
+  emptyEl.style.display='none';
+
+  container.innerHTML = persons.map(p => {
+    const color     = avatarColor(p.name);
+    const restCount = Object.keys(p.restMap).length;
+    const totalOrds = Object.values(p.restMap).flat().length;
+
+    const restGroupsHtml = Object.entries(p.restMap).map(([restId, rOrds]) => {
+      const rest         = restaurants.find(r=>r.id===restId);
+      const restName     = rest ? rest.name : '(已刪除)';
+      const restUnpaid   = rOrds.filter(o=>o.paidStatus==='未付款');
+      const restUnpaidAmt= restUnpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+      const restTotal    = rOrds.reduce((s,o)=>s+Number(o.amount||0),0);
+      const allPaid      = restUnpaid.length===0;
+
+      const sorted = [...rOrds].sort((a,b)=>{
+        if (a.paidStatus!==b.paidStatus) return a.paidStatus==='未付款'?-1:1;
+        return b.orderDate.localeCompare(a.orderDate);
+      });
+
+      const rowsHtml = sorted.map(o => {
+        const isPaid = o.paidStatus==='已付款';
+        const action = isPaid
+          ? `<span class="paid-label">✔ 已付款</span>`
+          : `<button class="btn-pay" onclick="askPay('${o.id}','${esc(p.name)}','${esc(restName)}',${Number(o.amount||0)})">💳 已付款</button>`;
+        return `<div class="order-row ${isPaid?'paid-row':''}">
+          <span class="or-date">📅 ${o.orderDate}</span>
+          <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
+          ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
+          <span class="or-amt">NT$&nbsp;${Number(o.amount||0).toLocaleString()}</span>
+          ${action}
+        </div>`;
+      }).join('');
+
+      const settleBtn = !allPaid
+        ? `<button class="btn-settle-all" onclick="askSettleAll('${esc(p.name)}','${restId}','${esc(restName)}')">全部結清</button>` : '';
+
+      return `<div class="rest-group">
+        <div class="rest-group-head">
+          <span class="rest-group-name">🍽 ${esc(restName)}</span>
+          ${!allPaid
+            ? `<span class="rest-unpaid-badge">未付 NT$&nbsp;${restUnpaidAmt.toLocaleString()}</span>`
+            : `<span class="rest-paid-badge">✔ 已結清</span>`}
+          <span class="rest-subtotal">合計 NT$&nbsp;${restTotal.toLocaleString()}</span>
+          ${settleBtn}
+        </div>
+        ${rowsHtml}
+      </div>`;
+    }).join('');
+
+    return `<div class="person-block">
+      <div class="person-head">
+        <div class="avatar" style="background:${color}">${esc(p.name.charAt(0))}</div>
+        <div class="person-name-wrap">
+          <div class="person-name">${esc(p.name)}</div>
+          <div class="person-stats">${restCount} 家餐廳・${totalOrds} 筆訂單</div>
+        </div>
+        <div class="person-totals">
+          <div class="ptotal-item">
+            <div class="ptotal-lbl">未結帳</div>
+            <div class="ptotal-val red">NT$&nbsp;${p.unpaidAmt.toLocaleString()}</div>
+          </div>
+          <div class="ptotal-item">
+            <div class="ptotal-lbl">總消費</div>
+            <div class="ptotal-val">NT$&nbsp;${p.totalAmt.toLocaleString()}</div>
+          </div>
+        </div>
+      </div>
+      ${restGroupsHtml}
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════ CONFIRM ═══════════════════
+function askPay(orderId, personName, restName, amount) {
+  pendingAction = { type:'single', orderId };
+  document.getElementById('confirm-title').textContent = '確認付款';
+  document.getElementById('confirm-body').innerHTML =
+    `<strong>${esc(personName)}</strong> 於 <strong>${esc(restName)}</strong> 的訂單<br>` +
+    `金額：<strong style="font-size:16px;color:var(--navy)">NT$ ${amount.toLocaleString()}</strong><br><br>確認已收到此筆付款？`;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+function askSettleAll(personName, restId, restName) {
+  const unpaid = orders.filter(o=>o.restaurantId===restId && o.orderer===personName && o.paidStatus==='未付款');
+  const total  = unpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+  pendingAction = { type:'all', ids: unpaid.map(o=>o.id) };
+  document.getElementById('confirm-title').textContent = '一鍵結清';
+  document.getElementById('confirm-body').innerHTML =
+    `將 <strong>${esc(personName)}</strong> 在 <strong>${esc(restName)}</strong> 的<br>` +
+    `<strong>${unpaid.length} 筆</strong>未付款訂單全部標記為已付款<br>` +
+    `合計：<strong style="font-size:16px;color:var(--navy)">NT$ ${total.toLocaleString()}</strong>`;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+function closeConfirm() { pendingAction=null; document.getElementById('confirm-overlay').classList.remove('open'); }
+
+async function doConfirm() {
+  if (!pendingAction) return;
+  showLoading('更新付款狀態...');
+  closeConfirm();
+  try {
+    if (pendingAction.type==='single') {
+      await OrdersAPI.markPaid([pendingAction.orderId]);
+      showToast('已標記為付款 ✓');
+    } else {
+      await OrdersAPI.markPaid(pendingAction.ids);
+      showToast(`已結清 ${pendingAction.ids.length} 筆訂單 ✓`);
+    }
+    await reloadData();
+  } catch(e) { showToast('錯誤：'+e.message,'error'); hideLoading(); }
+}
+
+init();
+</script>
+</body>
+</html>
