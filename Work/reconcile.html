@@ -10,13 +10,15 @@
   :root {
     --navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;
     --green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--red-light:#FEF0EF;
-    --orange:#E67E22;--orange-light:#FEF5EC;--bg:#F7F9FC;--surface:#FFFFFF;
-    --border:#D9E4F0;--text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
+    --orange:#E67E22;--orange-light:#FEF5EC;--purple:#7D3C98;--purple-light:#F5EEF8;
+    --bg:#F7F9FC;--surface:#FFFFFF;--border:#D9E4F0;
+    --text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
     --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
+  /* ── Header ── */
   header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
   .logo{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
   header h1{font-size:16px;font-weight:700}
@@ -24,75 +26,194 @@
   .hdr-back{margin-left:auto;font-size:12px;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
   .hdr-back:hover{color:#fff}
 
-  .scope-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:12px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  /* ── Scope bar ── */
+  .scope-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .scope-label{font-size:12px;font-weight:700;color:var(--text-2);letter-spacing:.4px;white-space:nowrap}
   .scope-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
-  .scope-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s;user-select:none}
-  .scope-chip input[type=checkbox]{accent-color:var(--blue);width:13px;height:13px;cursor:pointer}
+  .scope-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s;user-select:none}
+  .scope-chip input{accent-color:var(--blue);width:13px;height:13px;cursor:pointer}
   .scope-chip.checked{background:var(--blue-light);border-color:var(--blue);color:var(--navy)}
-  .scope-chip.unpaid-rest{border-color:#f5b7b1}
-  .scope-chip.unpaid-rest.checked{background:var(--red-light);border-color:var(--red);color:var(--red)}
+  .scope-chip.has-unpaid{border-color:#f5b7b1}
+  .scope-chip.has-unpaid.checked{background:var(--red-light);border-color:var(--red);color:var(--red)}
 
-  main{flex:1;padding:28px;max-width:1060px;width:100%;margin:0 auto}
+  /* ── Main ── */
+  main{flex:1;padding:24px 28px;max-width:1100px;width:100%;margin:0 auto}
 
-  .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:26px}
-  .s-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:13px 16px}
-  .s-card .s-lbl{font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
-  .s-card .s-val{font-size:20px;font-weight:700;color:var(--navy)}
+  /* ── Summary bar ── */
+  .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:24px}
+  .s-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:12px 16px}
+  .s-card .s-lbl{font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .s-card .s-val{font-size:19px;font-weight:700;color:var(--navy)}
   .s-card .s-sub{font-size:11px;color:var(--text-2);margin-top:3px}
 
-  /* Person block */
-  .person-block{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
-  .person-head{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--bg);flex-wrap:wrap}
-  .avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
-  .person-name-wrap{flex:1}
-  .person-name{font-size:16px;font-weight:700;color:var(--navy)}
-  .person-stats{font-size:12px;color:var(--text-2);margin-top:2px}
-  .person-totals{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-  .ptotal-item{text-align:right}
-  .ptotal-lbl{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px}
-  .ptotal-val{font-size:18px;font-weight:700;color:var(--navy)}
-  .ptotal-val.red{color:var(--red)}
+  /* ══════════════════════════════════
+     LEVEL 1 ── 主購（收款人）區塊
+  ══════════════════════════════════ */
+  .buyer-section{margin-bottom:28px}
 
-  .rest-group{border-bottom:1px solid var(--border)}
-  .rest-group:last-child{border-bottom:none}
-  .rest-group-head{display:flex;align-items:center;gap:10px;padding:10px 20px 10px 60px;background:#f0f5fb;border-bottom:1px solid var(--border);flex-wrap:wrap}
-  .rest-group-name{font-size:13px;font-weight:700;color:var(--navy);flex:1}
-  .rest-subtotal{font-size:12px;color:var(--text-2);white-space:nowrap}
-  .rest-unpaid-badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;background:var(--red-light);color:var(--red);white-space:nowrap}
-  .rest-paid-badge  {font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;background:var(--green-light);color:var(--green);white-space:nowrap}
+  .buyer-header{
+    display:flex;align-items:center;gap:14px;
+    background:var(--navy);color:#fff;
+    padding:14px 20px;border-radius:12px 12px 0 0;
+  }
+  .buyer-avatar{
+    width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;font-weight:800;color:var(--navy);
+    flex-shrink:0;border:3px solid rgba(255,255,255,.3);
+  }
+  .buyer-info{flex:1;min-width:0}
+  .buyer-name{font-size:17px;font-weight:700;letter-spacing:.3px}
+  .buyer-meta{font-size:12px;color:var(--blue-mid);margin-top:2px}
+  .buyer-totals{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+  .buyer-total-item{text-align:right}
+  .buyer-total-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+  .buyer-total-val{font-size:18px;font-weight:700}
+  .buyer-total-val.red{color:#ffb3ad}
+  .buyer-total-val.green{color:#a8e6c8}
 
-  .order-row{display:flex;align-items:center;gap:10px;padding:9px 20px 9px 60px;border-bottom:1px solid #f0f3f8;transition:background .12s}
+  .buyer-body{
+    border:1.5px solid var(--border);border-top:none;
+    border-radius:0 0 12px 12px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+
+  /* ── 主購統計帶 ── */
+  .buyer-stats-strip{
+    display:flex;gap:0;background:var(--bg);
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+  }
+  .bss-item{
+    flex:1;min-width:100px;padding:10px 16px;
+    border-right:1px solid var(--border);
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .bss-item:last-child{border-right:none}
+  .bss-lbl{font-size:10px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .bss-val{font-size:15px;font-weight:700;color:var(--navy)}
+
+  /* ══════════════════════════════════
+     LEVEL 2 ── 餐廳群組
+  ══════════════════════════════════ */
+  .rest-section{border-bottom:2px solid var(--border)}
+  .rest-section:last-child{border-bottom:none}
+
+  .rest-header{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 20px;
+    background:#EEF4FB;
+    border-bottom:1px solid var(--border);
+    cursor:pointer;user-select:none;
+    transition:background .15s;
+  }
+  .rest-header:hover{background:#E3EEF9}
+  .rest-header-icon{font-size:16px;flex-shrink:0}
+  .rest-header-name{font-size:14px;font-weight:700;color:var(--navy);flex:1}
+  .rest-header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .badge{display:inline-block;padding:2px 9px;border-radius:14px;font-size:11px;font-weight:600}
+  .badge-unpaid{background:var(--red-light);color:var(--red)}
+  .badge-paid  {background:var(--green-light);color:var(--green)}
+  .badge-total {background:var(--blue-light);color:var(--blue)}
+  .rest-chevron{font-size:12px;color:var(--text-3);transition:transform .2s;flex-shrink:0}
+  .rest-chevron.open{transform:rotate(180deg)}
+
+  .rest-body{display:none}
+  .rest-body.open{display:block}
+
+  /* ══════════════════════════════════
+     LEVEL 3 ── 訂購人群組
+  ══════════════════════════════════ */
+  .orderer-group{border-bottom:1px solid var(--border)}
+  .orderer-group:last-child{border-bottom:none}
+
+  .orderer-header{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 20px 9px 44px;
+    background:var(--surface);
+    border-bottom:1px solid #f0f3f8;
+  }
+  .orderer-avatar{
+    width:28px;height:28px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;color:#fff;flex-shrink:0;
+  }
+  .orderer-name{font-size:13px;font-weight:700;color:var(--navy);flex:1}
+  .orderer-unpaid-amt{font-size:13px;font-weight:700;color:var(--red)}
+  .orderer-paid-label{font-size:12px;color:var(--green);font-weight:600}
+
+  /* ── 未付款訂單列 ── */
+  .order-rows-wrap{background:#fffcf8}
+
+  .order-row{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 20px 8px 82px;
+    border-bottom:1px solid #f5f0e8;
+    transition:background .12s;
+  }
   .order-row:last-child{border-bottom:none}
-  .order-row:hover{background:var(--blue-light)}
-  .order-row.paid-row{opacity:.5}
+  .order-row:hover{background:#fff3e0}
+  .order-row.paid-row{background:var(--bg);opacity:.55}
+  .order-row.paid-row:hover{background:var(--blue-light);opacity:1}
+
   .or-date{font-size:11px;color:#fff;background:var(--navy);padding:2px 8px;border-radius:12px;white-space:nowrap;flex-shrink:0;font-weight:600}
   .or-items{flex:1;font-size:12px;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .or-note{font-size:11px;color:var(--text-3);white-space:nowrap}
-  .or-amt{font-size:14px;font-weight:700;color:var(--navy);white-space:nowrap;min-width:80px;text-align:right}
+  .or-note{font-size:11px;color:var(--text-3);white-space:nowrap;flex-shrink:0}
+  .or-amt{font-size:14px;font-weight:700;color:var(--navy);white-space:nowrap;min-width:76px;text-align:right;flex-shrink:0}
 
-  .btn-pay{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:7px;border:1.5px solid #f5cba7;font-size:11px;font-weight:700;cursor:pointer;background:var(--orange-light);color:var(--orange);transition:all .15s;white-space:nowrap;flex-shrink:0}
+  /* ── 操作按鈕 ── */
+  .btn-pay{
+    display:inline-flex;align-items:center;gap:4px;
+    padding:4px 11px;border-radius:7px;
+    border:1.5px solid #f5cba7;font-size:11px;font-weight:700;
+    cursor:pointer;background:var(--orange-light);color:var(--orange);
+    transition:all .15s;white-space:nowrap;flex-shrink:0;
+  }
   .btn-pay:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
   .btn-pay:active{transform:scale(.96)}
-  .paid-label{font-size:11px;color:var(--green);font-weight:600;background:var(--green-light);padding:4px 10px;border-radius:7px;border:1.5px solid #a9dfbf;white-space:nowrap;flex-shrink:0}
-  .btn-settle-all{padding:4px 11px;border-radius:7px;border:1.5px solid #a9dfbf;font-size:11px;font-weight:700;cursor:pointer;background:var(--green-light);color:var(--green);transition:all .15s;white-space:nowrap;flex-shrink:0}
-  .btn-settle-all:hover{background:var(--green);color:#fff}
+  .paid-label{
+    font-size:11px;color:var(--green);font-weight:600;
+    background:var(--green-light);padding:4px 10px;border-radius:7px;
+    border:1.5px solid #a9dfbf;white-space:nowrap;flex-shrink:0;
+  }
 
+  /* ── 訂購人結清列 ── */
+  .orderer-footer{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:8px 20px 8px 82px;
+    background:#fff8f0;border-top:1px dashed #f5cba7;
+    border-bottom:1px solid var(--border);
+    gap:10px;flex-wrap:wrap;
+  }
+  .orderer-footer-left{font-size:12px;color:var(--text-2)}
+  .orderer-footer-left strong{color:var(--red);font-size:14px}
+  .btn-settle{
+    padding:5px 14px;border-radius:8px;border:1.5px solid #a9dfbf;
+    font-size:12px;font-weight:700;cursor:pointer;
+    background:var(--green-light);color:var(--green);
+    transition:all .15s;white-space:nowrap;
+  }
+  .btn-settle:hover{background:var(--green);color:#fff}
+
+  /* ── Empty / Toast / Loading / Confirm ── */
   .empty-state{text-align:center;padding:60px 20px;color:var(--text-3)}
   .empty-state .ei{font-size:44px;margin-bottom:14px}
   .empty-state p{font-size:14px}
 
-  /* Confirm */
   .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
   .confirm-overlay.open{display:flex}
-  .confirm-box{background:#fff;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.18);width:100%;max-width:380px;padding:28px 28px 22px;animation:su .2s ease}
+  .confirm-box{background:#fff;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.18);width:100%;max-width:400px;padding:28px 28px 22px;animation:su .2s ease}
   @keyframes su{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
   .confirm-box h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px}
-  .confirm-box p{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px}
+  .confirm-box p{font-size:13px;color:var(--text-2);line-height:1.8;margin-bottom:18px}
+  .confirm-amount{background:var(--green-light);border:1.5px solid #a9dfbf;border-radius:8px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .confirm-amount-lbl{font-size:12px;font-weight:600;color:var(--green)}
+  .confirm-amount-val{font-size:20px;font-weight:700;color:var(--navy)}
   .confirm-btns{display:flex;justify-content:flex-end;gap:10px}
   .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
   .btn:active{transform:scale(.97)}
-  .btn-ghost  {background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
+  .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
   .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
 
   .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
@@ -116,23 +237,36 @@
   <a class="hdr-back" href="index.html">← 返回管理系統</a>
 </header>
 
+<!-- 餐廳篩選 -->
 <div class="scope-bar">
-  <span class="scope-label">選擇餐廳：</span>
-  <div class="scope-chips" id="scope-chips"><span style="font-size:12px;color:var(--text-3)">載入中...</span></div>
+  <span class="scope-label">篩選餐廳：</span>
+  <div class="scope-chips" id="scope-chips">
+    <span style="font-size:12px;color:var(--text-3)">載入中...</span>
+  </div>
 </div>
 
 <main>
-  <div id="summary-bar" class="summary-bar"></div>
-  <div id="person-list"></div>
+  <!-- 總覽統計 -->
+  <div class="summary-bar" id="summary-bar"></div>
+
+  <!-- 主購群組列表 -->
+  <div id="buyer-list"></div>
+
   <div id="empty-state" class="empty-state" style="display:none">
-    <div class="ei">🎉</div><p>目前沒有未付款項目，全數結清！</p>
+    <div class="ei">🎉</div>
+    <p>目前沒有未付款項目，全數結清！</p>
   </div>
 </main>
 
+<!-- 確認 Dialog -->
 <div class="confirm-overlay" id="confirm-overlay">
   <div class="confirm-box">
     <h3 id="confirm-title">確認付款</h3>
     <p id="confirm-body"></p>
+    <div class="confirm-amount">
+      <span class="confirm-amount-lbl" id="confirm-amount-lbl">結帳金額</span>
+      <span class="confirm-amount-val" id="confirm-amount-val">NT$ 0</span>
+    </div>
     <div class="confirm-btns">
       <button class="btn btn-ghost" onclick="closeConfirm()">取消</button>
       <button class="btn btn-success" onclick="doConfirm()">✔ 確認已付款</button>
@@ -151,228 +285,310 @@
 // ═══════════════════ STATE ═══════════════════
 let restaurants   = [];
 let orders        = [];
-let selectedRests = new Set();
-let pendingAction = null;
+let selectedRests = new Set();   // 勾選中的餐廳 ID
+let pendingAction = null;        // { type, ids }
 
-function showLoading(msg='載入中...') {
-  document.getElementById('loading-text').textContent = msg;
+// ─── UI helpers ───────────────────────────────
+function showLoading(msg='載入中...'){
+  document.getElementById('loading-text').textContent=msg;
   document.getElementById('loading').classList.add('show');
 }
-function hideLoading() { document.getElementById('loading').classList.remove('show'); }
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast '+type; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
+function hideLoading(){ document.getElementById('loading').classList.remove('show'); }
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
 }
 
 // ═══════════════════ INIT ═══════════════════
-async function init() {
+async function init(){
   showLoading('連線 Supabase...');
-  try {
-    [restaurants, orders] = await Promise.all([RestaurantsAPI.getAll(), OrdersAPI.getAll()]);
-    // Pre-select restaurants with unpaid orders
-    const hasUnpaid = id => orders.some(o=>o.restaurantId===id && o.paidStatus==='未付款');
-    restaurants.forEach(r => { if (hasUnpaid(r.id)) selectedRests.add(r.id); });
-    if (selectedRests.size===0) restaurants.forEach(r=>selectedRests.add(r.id));
+  try{
+    [restaurants,orders]=await Promise.all([RestaurantsAPI.getAll(),OrdersAPI.getAll()]);
+    // 預選有未付款的餐廳
+    const hasUnpaid=id=>orders.some(o=>o.restaurantId===id&&o.paidStatus==='未付款');
+    restaurants.forEach(r=>{ if(hasUnpaid(r.id)) selectedRests.add(r.id); });
+    if(selectedRests.size===0) restaurants.forEach(r=>selectedRests.add(r.id));
     buildScopeChips();
     render();
-  } catch(e) {
-    showToast('資料載入失敗：'+e.message, 'error');
-  } finally {
-    hideLoading();
-  }
+  }catch(e){ showToast('資料載入失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
 }
 
-// ═══════════════════ RELOAD ═══════════════════
-async function reloadData() {
+async function reloadData(){
   showLoading('更新資料...');
-  try {
-    [restaurants, orders] = await Promise.all([RestaurantsAPI.getAll(), OrdersAPI.getAll()]);
+  try{
+    [restaurants,orders]=await Promise.all([RestaurantsAPI.getAll(),OrdersAPI.getAll()]);
     buildScopeChips();
     render();
-  } catch(e) { showToast('更新失敗：'+e.message,'error'); }
-  finally { hideLoading(); }
+  }catch(e){ showToast('更新失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
 }
 
 // ═══════════════════ SCOPE CHIPS ═══════════════════
-function buildScopeChips() {
-  const hasUnpaid = id => orders.some(o=>o.restaurantId===id && o.paidStatus==='未付款');
-  document.getElementById('scope-chips').innerHTML = restaurants.map(r => {
-    const unpaid  = hasUnpaid(r.id);
-    const checked = selectedRests.has(r.id);
-    return `<label class="scope-chip ${unpaid?'unpaid-rest':''} ${checked?'checked':''}" id="chip-${r.id}">
+function buildScopeChips(){
+  const hasUnpaid=id=>orders.some(o=>o.restaurantId===id&&o.paidStatus==='未付款');
+  document.getElementById('scope-chips').innerHTML=restaurants.map(r=>{
+    const unpaid=hasUnpaid(r.id), checked=selectedRests.has(r.id);
+    return `<label class="scope-chip ${unpaid?'has-unpaid':''} ${checked?'checked':''}" id="chip-${r.id}">
       <input type="checkbox" ${checked?'checked':''} onchange="toggleRest('${r.id}',this.checked)">
       ${esc(r.name)}${unpaid?' ⚠':' ✓'}
     </label>`;
   }).join('');
 }
-
-function toggleRest(id, checked) {
-  if (checked) selectedRests.add(id); else selectedRests.delete(id);
-  document.getElementById('chip-'+id).classList.toggle('checked', checked);
+function toggleRest(id,checked){
+  if(checked) selectedRests.add(id); else selectedRests.delete(id);
+  document.getElementById('chip-'+id).classList.toggle('checked',checked);
   render();
 }
 
 // ═══════════════════ RENDER ═══════════════════
-function render() {
+function getFilteredOrders(){
+  return orders.filter(o=>selectedRests.has(o.restaurantId));
+}
+
+function render(){
   renderSummary();
-  renderPersonList();
+  renderBuyerList();
 }
 
-function getFilteredOrders() {
-  return orders.filter(o => selectedRests.has(o.restaurantId));
-}
+// ── 總覽統計 ──────────────────────────────────
+function renderSummary(){
+  const filtered   = getFilteredOrders();
+  const unpaidOrds = filtered.filter(o=>o.paidStatus==='未付款');
+  const totalAll   = filtered.reduce((s,o)=>s+Number(o.amount||0),0);
+  const totalUnpaid= unpaidOrds.reduce((s,o)=>s+Number(o.amount||0),0);
+  // 主購數（有未付款）
+  const buyerSet   = new Set(
+    [...selectedRests].map(id=>restaurants.find(r=>r.id===id)?.receiver||'(未設定)')
+  );
+  const unpaidPeople= new Set(unpaidOrds.map(o=>o.orderer).filter(Boolean));
 
-function renderSummary() {
-  const filtered = getFilteredOrders();
-  const unpaid   = filtered.filter(o=>o.paidStatus==='未付款');
-  const totalUnpaid = unpaid.reduce((s,o)=>s+Number(o.amount||0),0);
-  const totalAll    = filtered.reduce((s,o)=>s+Number(o.amount||0),0);
-  const people      = [...new Set(unpaid.map(o=>o.orderer).filter(Boolean))].length;
-  const rests       = [...selectedRests].map(id=>restaurants.find(r=>r.id===id)).filter(Boolean);
-  document.getElementById('summary-bar').innerHTML = `
-    <div class="s-card"><div class="s-lbl">選取餐廳</div><div class="s-val">${rests.length} 家</div>
-      <div class="s-sub">${rests.map(r=>esc(r.name)).join('、')||'—'}</div></div>
-    <div class="s-card"><div class="s-lbl">涉及人數</div><div class="s-val">${people} 人</div><div class="s-sub">尚有未結帳</div></div>
-    <div class="s-card"><div class="s-lbl">選取範圍總額</div><div class="s-val" style="font-size:17px">NT$ ${totalAll.toLocaleString()}</div><div class="s-sub">含已付＋未付</div></div>
-    <div class="s-card"><div class="s-lbl">待收金額合計</div>
+  const rests=[...selectedRests].map(id=>restaurants.find(r=>r.id===id)).filter(Boolean);
+  document.getElementById('summary-bar').innerHTML=`
+    <div class="s-card"><div class="s-lbl">主購人數</div><div class="s-val">${buyerSet.size} 人</div><div class="s-sub">共負責 ${rests.length} 家餐廳</div></div>
+    <div class="s-card"><div class="s-lbl">涉及訂購人</div><div class="s-val">${unpaidPeople.size} 人</div><div class="s-sub">尚有未結帳</div></div>
+    <div class="s-card"><div class="s-lbl">範圍總金額</div><div class="s-val" style="font-size:17px">NT$ ${totalAll.toLocaleString()}</div><div class="s-sub">含已付＋未付</div></div>
+    <div class="s-card"><div class="s-lbl">待收合計</div>
       <div class="s-val" style="font-size:17px;color:${totalUnpaid>0?'var(--red)':'var(--green)'}">NT$ ${totalUnpaid.toLocaleString()}</div>
       <div class="s-sub">${totalUnpaid>0?'尚未結清':'全數已結清 🎉'}</div></div>`;
 }
 
-function renderPersonList() {
-  const container = document.getElementById('person-list');
-  const emptyEl   = document.getElementById('empty-state');
-  const filtered  = getFilteredOrders();
+// ── 主購群組 ──────────────────────────────────
+function renderBuyerList(){
+  const container=document.getElementById('buyer-list');
+  const emptyEl  =document.getElementById('empty-state');
+  const filtered =getFilteredOrders();
 
-  // Build person → restId → orders
-  const personMap = {};
-  filtered.forEach(o => {
-    const name = o.orderer || '(未填姓名)';
-    if (!personMap[name]) personMap[name] = {};
-    if (!personMap[name][o.restaurantId]) personMap[name][o.restaurantId] = [];
-    personMap[name][o.restaurantId].push(o);
+  // 1. 以主購（receiver）分群，每個主購下有多家餐廳
+  //    buyerMap: { receiverName: { restId: [orders] } }
+  const buyerMap={};
+  filtered.forEach(o=>{
+    const rest=restaurants.find(r=>r.id===o.restaurantId);
+    const buyer=rest?.receiver||'(未設定收款人)';
+    if(!buyerMap[buyer]) buyerMap[buyer]={};
+    if(!buyerMap[buyer][o.restaurantId]) buyerMap[buyer][o.restaurantId]=[];
+    buyerMap[buyer][o.restaurantId].push(o);
   });
 
-  const persons = Object.entries(personMap).map(([name, restMap]) => {
-    const allOrders  = Object.values(restMap).flat();
-    const unpaidAmt  = allOrders.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
-    const totalAmt   = allOrders.reduce((s,o)=>s+Number(o.amount||0),0);
-    return { name, restMap, unpaidAmt, totalAmt };
-  }).filter(p=>p.unpaidAmt>0).sort((a,b)=>b.unpaidAmt-a.unpaidAmt);
+  // 2. 只顯示有未付款的主購群組
+  const buyers=Object.entries(buyerMap).map(([buyer,restMap])=>{
+    const allOrds    =Object.values(restMap).flat();
+    const unpaidAmt  =allOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
+    const totalAmt   =allOrds.reduce((s,o)=>s+Number(o.amount||0),0);
+    const restCount  =Object.keys(restMap).length;
+    return {buyer,restMap,unpaidAmt,totalAmt,restCount,orderCount:allOrds.length};
+  }).filter(b=>b.unpaidAmt>0).sort((a,b)=>b.unpaidAmt-a.unpaidAmt);
 
-  if (!persons.length) { container.innerHTML=''; emptyEl.style.display='block'; return; }
+  if(!buyers.length){ container.innerHTML=''; emptyEl.style.display='block'; return; }
   emptyEl.style.display='none';
 
-  container.innerHTML = persons.map(p => {
-    const color     = avatarColor(p.name);
-    const restCount = Object.keys(p.restMap).length;
-    const totalOrds = Object.values(p.restMap).flat().length;
+  const BUYER_COLORS=['#1A6FBB','#16825A','#B94C0F','#6B2FA0','#117A65','#922B21','#1A5276'];
+  function buyerColor(name){
+    let h=0; for(const c of name) h=(h*31+c.charCodeAt(0))&0xFFFFFF;
+    return BUYER_COLORS[Math.abs(h)%BUYER_COLORS.length];
+  }
 
-    const restGroupsHtml = Object.entries(p.restMap).map(([restId, rOrds]) => {
-      const rest         = restaurants.find(r=>r.id===restId);
-      const restName     = rest ? rest.name : '(已刪除)';
-      const restUnpaid   = rOrds.filter(o=>o.paidStatus==='未付款');
-      const restUnpaidAmt= restUnpaid.reduce((s,o)=>s+Number(o.amount||0),0);
-      const restTotal    = rOrds.reduce((s,o)=>s+Number(o.amount||0),0);
-      const allPaid      = restUnpaid.length===0;
+  container.innerHTML=buyers.map((b,bi)=>{
+    const color    =buyerColor(b.buyer);
+    const bgLight  =color+'22';
+    const paidAmt  =b.totalAmt-b.unpaidAmt;
+    const restNames=[...new Set(Object.keys(b.restMap).map(id=>restaurants.find(r=>r.id===id)?.name||'').filter(Boolean))].join('、');
 
-      const sorted = [...rOrds].sort((a,b)=>{
-        if (a.paidStatus!==b.paidStatus) return a.paidStatus==='未付款'?-1:1;
-        return b.orderDate.localeCompare(a.orderDate);
+    // ── Level 2: 餐廳群組 ──
+    const restGroupsHtml=Object.entries(b.restMap).map(([restId,rOrds],ri)=>{
+      const rest       =restaurants.find(r=>r.id===restId);
+      const restName   =rest?.name||'(已刪除)';
+      const restUnpaid =rOrds.filter(o=>o.paidStatus==='未付款');
+      const restUnpaidAmt=restUnpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+      const restTotal  =rOrds.reduce((s,o)=>s+Number(o.amount||0),0);
+      const allPaid    =restUnpaid.length===0;
+      const bodyId     =`rb-${bi}-${ri}`;
+      const chevId     =`rc-${bi}-${ri}`;
+
+      // ── Level 3: 訂購人群組 ──
+      const ordererMap={};
+      rOrds.forEach(o=>{
+        const name=o.orderer||'(未填姓名)';
+        if(!ordererMap[name]) ordererMap[name]=[];
+        ordererMap[name].push(o);
       });
 
-      const rowsHtml = sorted.map(o => {
-        const isPaid = o.paidStatus==='已付款';
-        const action = isPaid
-          ? `<span class="paid-label">✔ 已付款</span>`
-          : `<button class="btn-pay" onclick="askPay('${o.id}','${esc(p.name)}','${esc(restName)}',${Number(o.amount||0)})">💳 已付款</button>`;
-        return `<div class="order-row ${isPaid?'paid-row':''}">
-          <span class="or-date">📅 ${o.orderDate}</span>
-          <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
-          ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
-          <span class="or-amt">NT$&nbsp;${Number(o.amount||0).toLocaleString()}</span>
-          ${action}
+      const ordererGroupsHtml=Object.entries(ordererMap).map(([orderer,oOrds])=>{
+        const oUnpaid   =oOrds.filter(o=>o.paidStatus==='未付款');
+        const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+        const hasUnpaid =oUnpaid.length>0;
+        const oColor    =avatarColor(orderer);
+
+        // 排序：未付款在前，再依日期降冪
+        const sorted=[...oOrds].sort((a,z)=>{
+          if(a.paidStatus!==z.paidStatus) return a.paidStatus==='未付款'?-1:1;
+          return z.orderDate.localeCompare(a.orderDate);
+        });
+
+        const rowsHtml=sorted.map(o=>{
+          const isPaid=o.paidStatus==='已付款';
+          const action=isPaid
+            ?`<span class="paid-label">✔ 已付款</span>`
+            :`<button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${Number(o.amount||0)})">💳 已付款</button>`;
+          return `<div class="order-row ${isPaid?'paid-row':''}">
+            <span class="or-date">📅 ${o.orderDate}</span>
+            <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
+            ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
+            <span class="or-amt">NT$&nbsp;${Number(o.amount||0).toLocaleString()}</span>
+            ${action}
+          </div>`;
+        }).join('');
+
+        const footer=hasUnpaid?`
+          <div class="orderer-footer">
+            <div class="orderer-footer-left">
+              未結帳合計：<strong>NT$ ${oUnpaidAmt.toLocaleString()}</strong>
+              （${oUnpaid.length} 筆）
+            </div>
+            <button class="btn-settle"
+              onclick="askSettle('${esc(orderer)}','${restId}','${esc(restName)}')">
+              ✔ 全部結清
+            </button>
+          </div>`:'';
+
+        return `<div class="orderer-group">
+          <div class="orderer-header">
+            <div class="orderer-avatar" style="background:${oColor}">${esc(orderer.charAt(0))}</div>
+            <span class="orderer-name">${esc(orderer)}</span>
+            ${hasUnpaid
+              ?`<span class="orderer-unpaid-amt">未付 NT$&nbsp;${oUnpaidAmt.toLocaleString()}</span>`
+              :`<span class="orderer-paid-label">✔ 已結清</span>`}
+          </div>
+          <div class="order-rows-wrap">${rowsHtml}</div>
+          ${footer}
         </div>`;
       }).join('');
 
-      const settleBtn = !allPaid
-        ? `<button class="btn-settle-all" onclick="askSettleAll('${esc(p.name)}','${restId}','${esc(restName)}')">全部結清</button>` : '';
-
-      return `<div class="rest-group">
-        <div class="rest-group-head">
-          <span class="rest-group-name">🍽 ${esc(restName)}</span>
-          ${!allPaid
-            ? `<span class="rest-unpaid-badge">未付 NT$&nbsp;${restUnpaidAmt.toLocaleString()}</span>`
-            : `<span class="rest-paid-badge">✔ 已結清</span>`}
-          <span class="rest-subtotal">合計 NT$&nbsp;${restTotal.toLocaleString()}</span>
-          ${settleBtn}
+      return `<div class="rest-section">
+        <div class="rest-header" onclick="toggleRest2('${bodyId}','${chevId}')">
+          <span class="rest-header-icon">🍽</span>
+          <span class="rest-header-name">${esc(restName)}</span>
+          <div class="rest-header-badges">
+            ${!allPaid
+              ?`<span class="badge badge-unpaid">未付 NT$&nbsp;${restUnpaidAmt.toLocaleString()}</span>`
+              :`<span class="badge badge-paid">✔ 已結清</span>`}
+            <span class="badge badge-total">合計 NT$&nbsp;${restTotal.toLocaleString()}</span>
+          </div>
+          <span class="rest-chevron open" id="${chevId}">▼</span>
         </div>
-        ${rowsHtml}
+        <div class="rest-body open" id="${bodyId}">
+          ${ordererGroupsHtml}
+        </div>
       </div>`;
     }).join('');
 
-    return `<div class="person-block">
-      <div class="person-head">
-        <div class="avatar" style="background:${color}">${esc(p.name.charAt(0))}</div>
-        <div class="person-name-wrap">
-          <div class="person-name">${esc(p.name)}</div>
-          <div class="person-stats">${restCount} 家餐廳・${totalOrds} 筆訂單</div>
+    return `<div class="buyer-section">
+      <!-- 主購標題列 -->
+      <div class="buyer-header" style="background:${color}">
+        <div class="buyer-avatar" style="background:${bgLight};color:${color}">
+          ${esc(b.buyer.charAt(0))}
         </div>
-        <div class="person-totals">
-          <div class="ptotal-item">
-            <div class="ptotal-lbl">未結帳</div>
-            <div class="ptotal-val red">NT$&nbsp;${p.unpaidAmt.toLocaleString()}</div>
+        <div class="buyer-info">
+          <div class="buyer-name">👤 ${esc(b.buyer)}</div>
+          <div class="buyer-meta">${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>
+        </div>
+        <div class="buyer-totals">
+          <div class="buyer-total-item">
+            <div class="buyer-total-lbl">未結帳</div>
+            <div class="buyer-total-val red">NT$&nbsp;${b.unpaidAmt.toLocaleString()}</div>
           </div>
-          <div class="ptotal-item">
-            <div class="ptotal-lbl">總消費</div>
-            <div class="ptotal-val">NT$&nbsp;${p.totalAmt.toLocaleString()}</div>
+          <div class="buyer-total-item">
+            <div class="buyer-total-lbl">已付款</div>
+            <div class="buyer-total-val green">NT$&nbsp;${paidAmt.toLocaleString()}</div>
+          </div>
+          <div class="buyer-total-item">
+            <div class="buyer-total-lbl">總金額</div>
+            <div class="buyer-total-val">NT$&nbsp;${b.totalAmt.toLocaleString()}</div>
           </div>
         </div>
       </div>
-      ${restGroupsHtml}
+      <!-- 主購統計帶 -->
+      <div class="buyer-stats-strip">
+        ${Object.entries(b.restMap).map(([rId,rOrds])=>{
+          const rn=restaurants.find(r=>r.id===rId)?.name||'—';
+          const ru=rOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
+          return `<div class="bss-item">
+            <div class="bss-lbl">${esc(rn)}</div>
+            <div class="bss-val" style="color:${ru>0?'var(--red)':'var(--green)'}">
+              NT$ ${ru.toLocaleString()}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <!-- 餐廳 & 訂購人明細 -->
+      <div class="buyer-body">${restGroupsHtml}</div>
     </div>`;
   }).join('');
 }
 
+function toggleRest2(bodyId, chevId){
+  document.getElementById(bodyId).classList.toggle('open');
+  document.getElementById(chevId).classList.toggle('open');
+}
+
 // ═══════════════════ CONFIRM ═══════════════════
-function askPay(orderId, personName, restName, amount) {
-  pendingAction = { type:'single', orderId };
-  document.getElementById('confirm-title').textContent = '確認付款';
-  document.getElementById('confirm-body').innerHTML =
-    `<strong>${esc(personName)}</strong> 於 <strong>${esc(restName)}</strong> 的訂單<br>` +
-    `金額：<strong style="font-size:16px;color:var(--navy)">NT$ ${amount.toLocaleString()}</strong><br><br>確認已收到此筆付款？`;
+function askPay(orderId, orderer, restName, amount){
+  pendingAction={type:'single', ids:[orderId]};
+  document.getElementById('confirm-title').textContent='確認單筆付款';
+  document.getElementById('confirm-body').innerHTML=
+    `訂購人：<strong>${esc(orderer)}</strong><br>餐廳：<strong>${esc(restName)}</strong><br><br>確認已收到此筆付款？`;
+  document.getElementById('confirm-amount-lbl').textContent='此筆金額';
+  document.getElementById('confirm-amount-val').textContent='NT$ '+amount.toLocaleString();
   document.getElementById('confirm-overlay').classList.add('open');
 }
 
-function askSettleAll(personName, restId, restName) {
-  const unpaid = orders.filter(o=>o.restaurantId===restId && o.orderer===personName && o.paidStatus==='未付款');
-  const total  = unpaid.reduce((s,o)=>s+Number(o.amount||0),0);
-  pendingAction = { type:'all', ids: unpaid.map(o=>o.id) };
-  document.getElementById('confirm-title').textContent = '一鍵結清';
-  document.getElementById('confirm-body').innerHTML =
-    `將 <strong>${esc(personName)}</strong> 在 <strong>${esc(restName)}</strong> 的<br>` +
-    `<strong>${unpaid.length} 筆</strong>未付款訂單全部標記為已付款<br>` +
-    `合計：<strong style="font-size:16px;color:var(--navy)">NT$ ${total.toLocaleString()}</strong>`;
+function askSettle(orderer, restId, restName){
+  const unpaid=orders.filter(o=>o.restaurantId===restId&&o.orderer===orderer&&o.paidStatus==='未付款');
+  const total =unpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+  pendingAction={type:'batch', ids:unpaid.map(o=>o.id)};
+  document.getElementById('confirm-title').textContent='一鍵結清';
+  document.getElementById('confirm-body').innerHTML=
+    `訂購人：<strong>${esc(orderer)}</strong><br>餐廳：<strong>${esc(restName)}</strong><br>` +
+    `共 <strong>${unpaid.length} 筆</strong>未付款訂單，確認全部結清？`;
+  document.getElementById('confirm-amount-lbl').textContent='結清金額合計';
+  document.getElementById('confirm-amount-val').textContent='NT$ '+total.toLocaleString();
   document.getElementById('confirm-overlay').classList.add('open');
 }
 
-function closeConfirm() { pendingAction=null; document.getElementById('confirm-overlay').classList.remove('open'); }
+function closeConfirm(){ pendingAction=null; document.getElementById('confirm-overlay').classList.remove('open'); }
 
-async function doConfirm() {
-  if (!pendingAction) return;
+async function doConfirm(){
+  if(!pendingAction) return;
   showLoading('更新付款狀態...');
   closeConfirm();
-  try {
-    if (pendingAction.type==='single') {
-      await OrdersAPI.markPaid([pendingAction.orderId]);
-      showToast('已標記為付款 ✓');
-    } else {
-      await OrdersAPI.markPaid(pendingAction.ids);
-      showToast(`已結清 ${pendingAction.ids.length} 筆訂單 ✓`);
-    }
+  try{
+    await OrdersAPI.markPaid(pendingAction.ids);
+    showToast(pendingAction.ids.length>1
+      ?`已結清 ${pendingAction.ids.length} 筆訂單 ✓`
+      :'已標記為付款 ✓');
     await reloadData();
-  } catch(e) { showToast('錯誤：'+e.message,'error'); hideLoading(); }
+  }catch(e){ showToast('錯誤：'+e.message,'error'); hideLoading(); }
 }
 
 init();
