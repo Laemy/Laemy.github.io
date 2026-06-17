@@ -321,11 +321,13 @@
         </div>
         <div class="form-group">
           <label>貼上訂單文字</label>
-          <textarea class="form-control" id="bulk-text" rows="9" style="font-family:monospace;font-size:13px"
-            placeholder="耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;來毅 乾麵(細麵、小、乾) $60"></textarea>
+          <textarea class="form-control" id="bulk-text" rows="11" style="font-family:monospace;font-size:13px"
+            placeholder="支援兩種格式，可混合貼上：&#10;&#10;① 簡單格式：&#10;耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;&#10;② LINE 群組訊息格式：&#10;11:00 高捷-廷毓 (Nick Chang) 【6/16 午餐】&#10;陽春麵 $50 + 滷蛋 $15 = $65 ,謝謝"></textarea>
         </div>
         <div style="font-size:12px;color:var(--text-3);line-height:1.7">
-          💡 規則：每行格式為「<strong>人名 品項 $金額</strong>」。若某行沒有人名開頭（例如單獨加點的小菜），會自動併入<strong>上一行</strong>同一人的訂單，金額加總、品項合併。
+          💡 支援兩種格式，可直接整段貼上自動辨識：<br>
+          ① <strong>簡單格式</strong>：「人名 品項 $金額」，沒有人名開頭的行會自動併入上一行同一人，金額加總。<br>
+          ② <strong>LINE 群組訊息格式</strong>：「HH:MM 群組-人名 (英文名) 【日期標籤】」+ 下一行「品項 $50 + 品項 $15 = $65」。人名會自動比對固定名單（含模糊比對，如「林靜怡」會比對到「靜怡」），名單外的新名字也會保留；沒有金額的提醒訊息會自動忽略。
         </div>
       </div>
 
@@ -744,45 +746,129 @@ function bulkShowStep(step) {
 function bulkBackToInput() { bulkShowStep('input'); }
 
 // 解析規則：
-// 每行格式為「[人名] 品項文字 $金額」。
-// 若行首詞符合任一已知訂購人（MEMBER_LIST 或本次解析中已出現過的人名），視為新訂單。
-// 否則視為延續上一行同一人：品項合併、金額加總。
+// 支援兩種輸入格式，可混合出現：
+// 1) 簡單格式：「人名 品項 $金額」，沒有人名開頭的行視為延續上一筆同一人（品項合併、金額加總）
+// 2) LINE 群組訊息格式：「HH:MM 群組-人名 (英文名) 【日期標籤】」接著下一行（或同行）的「品項 $50 + 品項 $30 = $80」
+//    - 人名比對：MEMBER_LIST 完全比對優先，找不到則模糊比對（清單人名是該字串的子字串，例：靜怡 ⊂ 林靜怡）
+//    - 完全不在清單中的人名，保留原文字當訂購人
+//    - 多品項加總時，取最後的「= $總額」當訂單金額；沒有 "=" 則取行內最後一個 $金額
+//    - 沒有 $ 金額的行（如提醒訊息）視為雜訊，忽略
+function matchMemberName(token, knownNames) {
+  if (knownNames.has(token)) return token;
+  for (const m of knownNames) {
+    if (token.includes(m)) return m;
+  }
+  return null;
+}
+
+const BULK_LINE_HEADER_RE = /^(\d{1,2}:\d{2})\s+(.+)$/;
+
+function bulkCleanItemsText(str) {
+  return str
+    .replace(/=\s*\$\s*[0-9,]+/g, '')
+    .replace(/[+,，]/g, '、')
+    .replace(/\$\s*[0-9,]+/g, '')
+    .replace(/,?謝謝[。!~]?/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/、\s*、/g, '、')
+    .replace(/^、|、$/g, '')
+    .trim();
+}
+
 function parseBulkText(text) {
-  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const rawLines = text.split('\n').map(l=>l.trim()).filter(Boolean);
   const knownNames = new Set(MEMBER_LIST);
   const rows = [];
   let current = null;
+  let pendingOrderer = null; // 來自 LINE header、尚未讀到品項行的訂購人
 
-  for (const line of lines) {
-    const amtMatch = line.match(/\$\s*([0-9,]+)\s*$/);
-    if (!amtMatch) {
-      // 沒有金額：若有上一筆，當作備註/品項併入；否則忽略
-      if (current && line) current.items.push(line);
+  for (const line of rawLines) {
+    const headerMatch = line.match(BULK_LINE_HEADER_RE);
+
+    if (headerMatch) {
+      // ── LINE 訊息開頭：HH:MM 群組-人名 (英文名) 【標籤】 ──
+      let nameOnly = headerMatch[2]
+        .replace(/【[^】]*】/g, '')
+        .replace(/\([A-Za-z .]+\)/g, '')
+        .trim();
+      nameOnly = nameOnly.replace(/^[\u4e00-\u9fa5A-Za-z0-9]+-/, '').trim();
+
+      const inlineAmt = line.match(/\$[0-9,]+/);
+      if (inlineAmt) {
+        // 人名與品項同一行（例：11:37 高捷-林靜怡 米苔目（乾) $60）
+        let matched = matchMemberName(nameOnly, knownNames);
+        let itemsText = nameOnly;
+        if (matched) {
+          const firstWord = nameOnly.split(/\s+/)[0] || '';
+          itemsText = firstWord.includes(matched)
+            ? nameOnly.slice(firstWord.length).trim()
+            : (nameOnly.slice(0, nameOnly.indexOf(matched)) + nameOnly.slice(nameOnly.indexOf(matched)+matched.length)).trim();
+        } else {
+          const parts = nameOnly.split(/\s+/);
+          matched = parts.shift() || nameOnly;
+          itemsText = parts.join(' ');
+        }
+        const amounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
+        const finalAmount = amounts[amounts.length-1] || 0;
+        itemsText = bulkCleanItemsText(itemsText);
+        current = { orderer: matched, items: itemsText?[itemsText]:[], amount: finalAmount };
+        rows.push(current);
+        pendingOrderer = null;
+        knownNames.add(matched);
+      } else {
+        // 人名單獨一行，下一行才是品項
+        const matched = matchMemberName(nameOnly, knownNames) || nameOnly;
+        pendingOrderer = matched;
+        current = null;
+        knownNames.add(matched);
+      }
       continue;
     }
-    const amount = Number(amtMatch[1].replace(/,/g,'')) || 0;
-    const rest = line.slice(0, amtMatch.index).trim();
-    const firstToken = rest.split(/\s+/)[0] || '';
-    const remainder = rest.slice(firstToken.length).trim();
 
-    // 行首詞若在已知人名清單中，視為新訂購人開頭
-    const isNewOrderer = firstToken && knownNames.has(firstToken);
+    const anyAmounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
 
-    if (isNewOrderer) {
-      current = { orderer: firstToken, items: remainder ? [remainder] : [], amount };
+    if (pendingOrderer) {
+      // 等待中的 LINE header 的品項行
+      if (!anyAmounts.length) continue; // 雜訊（提醒訊息等），忽略
+      const finalAmount = anyAmounts[anyAmounts.length-1];
+      const itemsText = bulkCleanItemsText(line);
+      current = { orderer: pendingOrderer, items: itemsText?[itemsText]:[], amount: finalAmount };
       rows.push(current);
-      knownNames.add(firstToken);
-    } else if (current) {
-      if (rest) current.items.push(rest);
-      current.amount += amount;
-    } else {
-      // 沒有上一筆可併入，也不是已知人名 -> 整行當作一筆，訂購人留空待手動填寫
-      current = { orderer: '', items: rest ? [rest] : [], amount };
-      rows.push(current);
+      pendingOrderer = null;
+      continue;
     }
+
+    // ── 簡單格式：人名 品項 $金額（金額在行尾）──
+    const amtMatch = line.match(/\$\s*([0-9,]+)\s*$/);
+    if (amtMatch) {
+      const amount = Number(amtMatch[1].replace(/,/g,'')) || 0;
+      const rest = line.slice(0, amtMatch.index).trim();
+      const firstToken = rest.split(/\s+/)[0] || '';
+      const remainder = rest.slice(firstToken.length).trim();
+      const isNewOrderer = firstToken && knownNames.has(firstToken);
+
+      if (isNewOrderer) {
+        current = { orderer: firstToken, items: remainder ? [remainder] : [], amount };
+        rows.push(current);
+        knownNames.add(firstToken);
+      } else if (current) {
+        if (rest) current.items.push(rest);
+        current.amount += amount;
+      } else {
+        current = { orderer: '', items: rest ? [rest] : [], amount };
+        rows.push(current);
+      }
+      continue;
+    }
+
+    // 沒有 $ 金額也沒有 pending 訂購人：雜訊行，忽略
   }
 
-  return rows.map(r => ({ orderer: r.orderer, items: r.items.join('、'), amount: r.amount }));
+  return rows.map(r => ({
+    orderer: r.orderer,
+    items: r.items.filter(Boolean).join('、').replace(/\s*、\s*/g,'、').trim(),
+    amount: r.amount
+  }));
 }
 
 function bulkParse() {
