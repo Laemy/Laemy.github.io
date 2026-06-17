@@ -195,7 +195,7 @@
       <table>
         <thead><tr>
           <th>訂購日期</th><th>訂購人</th><th>品項</th>
-          <th>金額</th><th>服務費</th><th>收款人</th><th>付款狀態</th><th>備註</th>
+          <th>金額</th><th>服務費／筆</th><th>主購</th><th>付款狀態</th><th>備註</th>
         </tr></thead>
         <tbody id="orders-tbody"></tbody>
       </table>
@@ -219,7 +219,11 @@
       <div class="form-group"><label>餐廳</label><div class="form-static" id="modal-rest-name">—</div></div>
       <div class="form-row">
         <div class="form-group"><label>訂購日期（自動帶入）</label><input class="form-control" id="order-date" type="date" readonly></div>
-        <div class="form-group"><label>訂購人 *</label><input class="form-control" id="order-orderer" placeholder="例：陳小華"></div>
+        <div class="form-group"><label>訂購人 *</label>
+          <select class="form-control" id="order-orderer">
+            <option value="">— 請選擇訂購人 —</option>
+          </select>
+        </div>
       </div>
       <div class="form-group"><label>訂購品項</label><input class="form-control" id="order-items" placeholder="例：烏龍麵×2、天婦羅×1"></div>
       <div class="form-row">
@@ -227,9 +231,9 @@
         <div class="form-group"><label>備註</label><input class="form-control" id="order-note" placeholder="外帶、加辣..."></div>
       </div>
       <div id="fee-preview" class="view-hidden" style="background:var(--blue-light);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text-2)">
-        服務費（<span id="fee-pct">0</span>%）：<strong id="fee-amt" style="color:var(--navy)">NT$ 0</strong>
-        ／ 應付合計：<strong id="fee-total" style="color:var(--navy)">NT$ 0</strong>
-        → 收款人：<strong id="fee-receiver" style="color:var(--navy)">—</strong>
+        🧾 此餐廳每筆訂單加收服務費 <strong id="fee-amt" style="color:var(--navy)">NT$ 0</strong>
+
+，請付款給主購 <strong id="fee-receiver" style="color:var(--navy)">—</strong>
       </div>
     </div>
     <div class="modal-footer">
@@ -305,7 +309,7 @@ async function init() {
     document.getElementById('order-date').value = todayStr();
     if (rest.serviceFee) {
       document.getElementById('fee-preview').classList.remove('view-hidden');
-      document.getElementById('fee-pct').textContent = rest.serviceFee;
+      document.getElementById('fee-amt').textContent = 'NT$ '+Number(rest.serviceFee).toLocaleString();
       document.getElementById('fee-receiver').textContent = rest.receiver || '—';
     }
     renderHero();
@@ -337,8 +341,8 @@ function renderHero() {
   const mi = [];
   if (rest.contact)    mi.push(`<span class="hero-meta-item">📞 ${esc(rest.contact)}</span>`);
   if (rest.address)    mi.push(`<span class="hero-meta-item">📍 ${esc(rest.address)}</span>`);
-  if (rest.receiver)   mi.push(`<span class="hero-meta-item">👤 收款人：<strong>${esc(rest.receiver)}</strong></span>`);
-  if (rest.serviceFee) mi.push(`<span class="hero-meta-item">🧾 服務費：<strong>${rest.serviceFee}%</strong></span>`);
+  if (rest.receiver)   mi.push(`<span class="hero-meta-item">👤 主購：<strong>${esc(rest.receiver)}</strong></span>`);
+  if (rest.serviceFee) mi.push(`<span class="hero-meta-item">🧾 服務費：<strong>NT$ ${Number(rest.serviceFee).toLocaleString()} ／筆</strong></span>`);
   if (rest.note)       mi.push(`<span class="hero-meta-item">💬 ${esc(rest.note)}</span>`);
   document.getElementById('hero-meta').innerHTML = mi.join('');
   renderHeroStats();
@@ -348,7 +352,7 @@ function renderHeroStats() {
   const total  = orders.reduce((s,o)=>s+Number(o.amount||0),0);
   const paid   = orders.filter(o=>o.paidStatus==='已付款').reduce((s,o)=>s+Number(o.amount||0),0);
   const unpaid = total - paid;
-  const fee    = calcFee(total, rest.serviceFee);
+  const fee    = calcFee(rest.serviceFee) * orders.length;
   document.getElementById('hero-stats').innerHTML = `
     <div class="hero-stat"><div class="hs-label">訂單數</div><div class="hs-value">${orders.length}</div><div class="hs-sub">筆</div></div>
     <div class="hero-stat"><div class="hs-label">總金額</div><div class="hs-value" style="font-size:15px">NT$&nbsp;${total.toLocaleString()}</div><div class="hs-sub">費 +${fee.toLocaleString()}</div></div>
@@ -369,7 +373,7 @@ function renderAll() {
 function renderSummaryStrip() {
   const total    = orders.reduce((s,o)=>s+Number(o.amount||0),0);
   const unpaidAmt= orders.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
-  const fee      = calcFee(total, rest.serviceFee);
+  const fee      = calcFee(rest.serviceFee) * orders.length;
   const people   = [...new Set(orders.map(o=>o.orderer).filter(Boolean))].length;
   document.getElementById('summary-strip').innerHTML = `
     <div class="strip-card"><div class="sc-label">訂單筆數</div><div class="sc-value">${orders.length} 筆</div></div>
@@ -446,7 +450,7 @@ function renderOrdersTable() {
   if (!list.length) { wrap.style.display='none'; empty.classList.remove('view-hidden'); return; }
   wrap.style.display=''; empty.classList.add('view-hidden');
   document.getElementById('orders-tbody').innerHTML = list.map(o => {
-    const fee    = calcFee(o.amount, rest.serviceFee);
+    const fee   = calcFee(rest.serviceFee);
     const isPaid = o.paidStatus==='已付款';
     return `<tr class="${isPaid?'':'row-unpaid'}">
       <td><span class="date-cell">📅 ${o.orderDate}</span></td>
@@ -493,12 +497,16 @@ async function confirmCheckout() {
 
 // ═══════════════════ ORDER MODAL ═══════════════════
 function openOrderModal() {
-  ['order-orderer','order-items','order-note'].forEach(id=>document.getElementById(id).value='');
+  // 填充訂購人下拉選單
+  const ordSel = document.getElementById('order-orderer');
+  ordSel.innerHTML = '<option value="">— 請選擇訂購人 —</option>' +
+    MEMBER_LIST.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  ordSel.value='';
+  ['order-items','order-note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('order-amount').value='';
   document.getElementById('order-date').value=todayStr();
-  updateFeePreview();
   document.getElementById('modal-order').classList.add('open');
-  setTimeout(()=>document.getElementById('order-orderer').focus(),100);
+  setTimeout(()=>ordSel.focus(),100);
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
@@ -506,18 +514,9 @@ document.querySelectorAll('.modal-overlay').forEach(el=>{
   el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); });
 });
 
-document.getElementById('order-amount').addEventListener('input', updateFeePreview);
-function updateFeePreview() {
-  if (!rest?.serviceFee) return;
-  const amt = Number(document.getElementById('order-amount').value)||0;
-  const fee = calcFee(amt, rest.serviceFee);
-  document.getElementById('fee-amt').textContent   = 'NT$ '+fee.toLocaleString();
-  document.getElementById('fee-total').textContent = 'NT$ '+(amt+fee).toLocaleString();
-}
-
 async function saveOrder() {
-  const orderer = document.getElementById('order-orderer').value.trim();
-  if (!orderer) { showToast('請填寫訂購人姓名','error'); return; }
+  const orderer = document.getElementById('order-orderer').value;
+  if (!orderer) { showToast('請選擇訂購人','error'); return; }
   showLoading('新增訂單...');
   try {
     await OrdersAPI.insert({

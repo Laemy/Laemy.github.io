@@ -355,15 +355,18 @@ function render(){
 // ── 總覽統計 ──────────────────────────────────
 function renderSummary(){
   const filtered   = getFilteredOrders();
-  const unpaidOrds = filtered.filter(o=>o.paidStatus==='未付款');
-  const totalAll   = filtered.reduce((s,o)=>s+Number(o.amount||0),0);
-  const totalUnpaid= unpaidOrds.reduce((s,o)=>s+Number(o.amount||0),0);
-  // 主購數（有未付款）
-  const buyerSet   = new Set(
+  // 每筆訂單金額加上所屬餐廳的服務費
+  function orderTotal(o){
+    const rest=restaurants.find(r=>r.id===o.restaurantId);
+    return Number(o.amount||0)+calcFee(rest?.serviceFee||0);
+  }
+  const unpaidOrds  = filtered.filter(o=>o.paidStatus==='未付款');
+  const totalAll    = filtered.reduce((s,o)=>s+orderTotal(o),0);
+  const totalUnpaid = unpaidOrds.reduce((s,o)=>s+orderTotal(o),0);
+  const buyerSet    = new Set(
     [...selectedRests].map(id=>restaurants.find(r=>r.id===id)?.receiver||'(未設定)')
   );
   const unpaidPeople= new Set(unpaidOrds.map(o=>o.orderer).filter(Boolean));
-
   const rests=[...selectedRests].map(id=>restaurants.find(r=>r.id===id)).filter(Boolean);
   document.getElementById('summary-bar').innerHTML=`
     <div class="s-card"><div class="s-lbl">主購人數</div><div class="s-val">${buyerSet.size} 人</div><div class="s-sub">共負責 ${rests.length} 家餐廳</div></div>
@@ -380,8 +383,13 @@ function renderBuyerList(){
   const emptyEl  =document.getElementById('empty-state');
   const filtered =getFilteredOrders();
 
-  // 1. 以主購（receiver）分群，每個主購下有多家餐廳
-  //    buyerMap: { receiverName: { restId: [orders] } }
+  // 金額 helper：訂單金額 + 該餐廳服務費（固定元）
+  function orderTotal(o){
+    const rest=restaurants.find(r=>r.id===o.restaurantId);
+    return Number(o.amount||0) + calcFee(rest?.serviceFee||0);
+  }
+
+  // 1. 以主購（receiver）分群
   const buyerMap={};
   filtered.forEach(o=>{
     const rest=restaurants.find(r=>r.id===o.restaurantId);
@@ -391,12 +399,12 @@ function renderBuyerList(){
     buyerMap[buyer][o.restaurantId].push(o);
   });
 
-  // 2. 只顯示有未付款的主購群組
+  // 2. 計算金額（含服務費），只顯示有未付款的主購群組
   const buyers=Object.entries(buyerMap).map(([buyer,restMap])=>{
-    const allOrds    =Object.values(restMap).flat();
-    const unpaidAmt  =allOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
-    const totalAmt   =allOrds.reduce((s,o)=>s+Number(o.amount||0),0);
-    const restCount  =Object.keys(restMap).length;
+    const allOrds  =Object.values(restMap).flat();
+    const unpaidAmt=allOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
+    const totalAmt =allOrds.reduce((s,o)=>s+orderTotal(o),0);
+    const restCount=Object.keys(restMap).length;
     return {buyer,restMap,unpaidAmt,totalAmt,restCount,orderCount:allOrds.length};
   }).filter(b=>b.unpaidAmt>0).sort((a,b)=>b.unpaidAmt-a.unpaidAmt);
 
@@ -417,14 +425,15 @@ function renderBuyerList(){
 
     // ── Level 2: 餐廳群組 ──
     const restGroupsHtml=Object.entries(b.restMap).map(([restId,rOrds],ri)=>{
-      const rest       =restaurants.find(r=>r.id===restId);
-      const restName   =rest?.name||'(已刪除)';
-      const restUnpaid =rOrds.filter(o=>o.paidStatus==='未付款');
-      const restUnpaidAmt=restUnpaid.reduce((s,o)=>s+Number(o.amount||0),0);
-      const restTotal  =rOrds.reduce((s,o)=>s+Number(o.amount||0),0);
-      const allPaid    =restUnpaid.length===0;
-      const bodyId     =`rb-${bi}-${ri}`;
-      const chevId     =`rc-${bi}-${ri}`;
+      const rest         =restaurants.find(r=>r.id===restId);
+      const restName     =rest?.name||'(已刪除)';
+      const fee          =calcFee(rest?.serviceFee||0);
+      const restUnpaid   =rOrds.filter(o=>o.paidStatus==='未付款');
+      const restUnpaidAmt=restUnpaid.reduce((s,o)=>s+orderTotal(o),0);
+      const restTotal    =rOrds.reduce((s,o)=>s+orderTotal(o),0);
+      const allPaid      =restUnpaid.length===0;
+      const bodyId       =`rb-${bi}-${ri}`;
+      const chevId       =`rc-${bi}-${ri}`;
 
       // ── Level 3: 訂購人群組 ──
       const ordererMap={};
@@ -436,26 +445,27 @@ function renderBuyerList(){
 
       const ordererGroupsHtml=Object.entries(ordererMap).map(([orderer,oOrds])=>{
         const oUnpaid   =oOrds.filter(o=>o.paidStatus==='未付款');
-        const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+Number(o.amount||0),0);
+        const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+orderTotal(o),0);
         const hasUnpaid =oUnpaid.length>0;
         const oColor    =avatarColor(orderer);
 
-        // 排序：未付款在前，再依日期降冪
         const sorted=[...oOrds].sort((a,z)=>{
           if(a.paidStatus!==z.paidStatus) return a.paidStatus==='未付款'?-1:1;
           return z.orderDate.localeCompare(a.orderDate);
         });
 
         const rowsHtml=sorted.map(o=>{
-          const isPaid=o.paidStatus==='已付款';
-          const action=isPaid
+          const isPaid   =o.paidStatus==='已付款';
+          const amt      =Number(o.amount||0);
+          const rowTotal =amt+fee;
+          const action   =isPaid
             ?`<span class="paid-label">✔ 已付款</span>`
-            :`<button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${Number(o.amount||0)})">💳 已付款</button>`;
+            :`<button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${rowTotal})">💳 已付款</button>`;
           return `<div class="order-row ${isPaid?'paid-row':''}">
             <span class="or-date">📅 ${o.orderDate}</span>
             <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
             ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
-            <span class="or-amt">NT$&nbsp;${Number(o.amount||0).toLocaleString()}</span>
+            <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:10px;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
             ${action}
           </div>`;
         }).join('');
@@ -464,12 +474,9 @@ function renderBuyerList(){
           <div class="orderer-footer">
             <div class="orderer-footer-left">
               未結帳合計：<strong>NT$ ${oUnpaidAmt.toLocaleString()}</strong>
-              （${oUnpaid.length} 筆）
+              （${oUnpaid.length} 筆${fee>0?`，含服務費 NT$ ${(oUnpaid.length*fee).toLocaleString()}`:''}）
             </div>
-            <button class="btn-settle"
-              onclick="askSettle('${esc(orderer)}','${restId}','${esc(restName)}')">
-              ✔ 全部結清
-            </button>
+            <button class="btn-settle" onclick="askSettle('${esc(orderer)}','${restId}','${esc(restName)}')">✔ 全部結清</button>
           </div>`:'';
 
         return `<div class="orderer-group">
@@ -490,6 +497,7 @@ function renderBuyerList(){
           <span class="rest-header-icon">🍽</span>
           <span class="rest-header-name">${esc(restName)}</span>
           <div class="rest-header-badges">
+            ${fee>0?`<span class="badge badge-total" style="background:var(--blue-light);color:var(--blue)">服務費 NT$ ${fee}/筆</span>`:''}
             ${!allPaid
               ?`<span class="badge badge-unpaid">未付 NT$&nbsp;${restUnpaidAmt.toLocaleString()}</span>`
               :`<span class="badge badge-paid">✔ 已結清</span>`}
@@ -504,18 +512,15 @@ function renderBuyerList(){
     }).join('');
 
     return `<div class="buyer-section">
-      <!-- 主購標題列 -->
       <div class="buyer-header" style="background:${color}">
-        <div class="buyer-avatar" style="background:${bgLight};color:${color}">
-          ${esc(b.buyer.charAt(0))}
-        </div>
+        <div class="buyer-avatar" style="background:${bgLight};color:${color}">${esc(b.buyer.charAt(0))}</div>
         <div class="buyer-info">
           <div class="buyer-name">👤 ${esc(b.buyer)}</div>
           <div class="buyer-meta">${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>
         </div>
         <div class="buyer-totals">
           <div class="buyer-total-item">
-            <div class="buyer-total-lbl">未結帳</div>
+            <div class="buyer-total-lbl">未結帳（含費）</div>
             <div class="buyer-total-val red">NT$&nbsp;${b.unpaidAmt.toLocaleString()}</div>
           </div>
           <div class="buyer-total-item">
@@ -528,20 +533,18 @@ function renderBuyerList(){
           </div>
         </div>
       </div>
-      <!-- 主購統計帶 -->
+      <!-- 統計帶：各餐廳未付 -->
       <div class="buyer-stats-strip">
         ${Object.entries(b.restMap).map(([rId,rOrds])=>{
-          const rn=restaurants.find(r=>r.id===rId)?.name||'—';
-          const ru=rOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0),0);
+          const rn  =restaurants.find(r=>r.id===rId)?.name||'—';
+          const rFee=calcFee(restaurants.find(r=>r.id===rId)?.serviceFee||0);
+          const ru  =rOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0)+rFee,0);
           return `<div class="bss-item">
             <div class="bss-lbl">${esc(rn)}</div>
-            <div class="bss-val" style="color:${ru>0?'var(--red)':'var(--green)'}">
-              NT$ ${ru.toLocaleString()}
-            </div>
+            <div class="bss-val" style="color:${ru>0?'var(--red)':'var(--green)'}">NT$ ${ru.toLocaleString()}</div>
           </div>`;
         }).join('')}
       </div>
-      <!-- 餐廳 & 訂購人明細 -->
       <div class="buyer-body">${restGroupsHtml}</div>
     </div>`;
   }).join('');
