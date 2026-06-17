@@ -36,6 +36,7 @@
   .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
   .btn-danger{background:transparent;color:var(--red);border:1.5px solid #f9c4bf}.btn-danger:hover{background:#fdf0ef}
   .btn-share{background:transparent;color:var(--orange);border:1.5px solid #f5cba7}.btn-share:hover{background:#fef9f0}
+  .btn-bulk{background:transparent;color:#7D3C98;border:1.5px solid #d6b9e8}.btn-bulk:hover{background:#f5eef8}
   .btn-sm{padding:5px 11px;font-size:12px}
 
   /* Zone */
@@ -189,7 +190,10 @@
       <div style="display:flex;align-items:center">
         <h2>全部訂購記錄</h2><span class="count-badge" id="order-count">0 筆</span>
       </div>
-      <button class="btn btn-success" onclick="openOrderModal(null)">＋ 新增訂單</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-success" onclick="openOrderModal(null)">＋ 新增訂單</button>
+        <button class="btn btn-bulk" onclick="openBulkModal(null)">📋 批量匯入</button>
+      </div>
     </div>
     <div class="table-wrap" id="all-orders-table-wrap">
       <table>
@@ -232,7 +236,7 @@
       <div class="form-group"><label>地址</label><input class="form-control" id="rest-address" placeholder="高雄市..."></div>
       <div class="form-row">
         <div class="form-group"><label>收款人</label><input class="form-control" id="rest-receiver" placeholder="例：王小明"></div>
-        <div class="form-group"><label>服務費 (元)</label><input class="form-control" id="rest-service-fee" type="number" min="0" max="100" placeholder="0"></div>
+        <div class="form-group"><label>服務費 (%)</label><input class="form-control" id="rest-service-fee" type="number" min="0" max="100" placeholder="0"></div>
       </div>
       <div class="form-group"><label>備註</label><textarea class="form-control" id="rest-note" rows="2" placeholder="例：每週二固定訂購"></textarea></div>
     </div>
@@ -294,6 +298,58 @@
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-share')">關閉</button>
       <a id="share-open-link" href="#" target="_blank" class="btn btn-primary">🔗 開啟頁面</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: 批量匯入 -->
+<div class="modal-overlay" id="modal-bulk">
+  <div class="modal" style="max-width:760px">
+    <div class="modal-header">
+      <h3>📋 批量匯入訂單</h3>
+      <button class="modal-close" onclick="closeModal('modal-bulk')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="bulk-step-input">
+        <div class="form-group">
+          <label>餐廳 *</label>
+          <select class="form-control" id="bulk-restaurant-select"></select>
+        </div>
+        <div class="form-group">
+          <label>訂購日期</label>
+          <input class="form-control" id="bulk-date" type="date">
+        </div>
+        <div class="form-group">
+          <label>貼上訂單文字</label>
+          <textarea class="form-control" id="bulk-text" rows="9" style="font-family:monospace;font-size:13px"
+            placeholder="耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;來毅 乾麵(細麵、小、乾) $60"></textarea>
+        </div>
+        <div style="font-size:12px;color:var(--text-3);line-height:1.7">
+          💡 規則：每行格式為「<strong>人名 品項 $金額</strong>」。若某行沒有人名開頭（例如單獨加點的小菜），會自動併入<strong>上一行</strong>同一人的訂單，金額加總、品項合併。
+        </div>
+      </div>
+
+      <div id="bulk-step-preview" class="view-hidden">
+        <div style="font-size:13px;color:var(--text-2);margin-bottom:4px">
+          解析出 <strong id="bulk-preview-count" style="color:var(--navy)">0</strong> 筆訂單，請確認或修改後送出：
+        </div>
+        <div class="table-wrap" style="max-height:320px;overflow-y:auto">
+          <table>
+            <thead><tr><th style="width:120px">訂購人</th><th>品項</th><th style="width:100px">金額</th><th style="width:50px"></th></tr></thead>
+            <tbody id="bulk-preview-tbody"></tbody>
+          </table>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <button class="btn btn-ghost btn-sm" onclick="addBulkRow()">＋ 新增一行</button>
+          <div style="font-size:13px;color:var(--text-2)">總金額：<strong id="bulk-preview-total" style="color:var(--navy)">NT$ 0</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="bulk-btn-cancel" onclick="closeModal('modal-bulk')">取消</button>
+      <button class="btn btn-ghost view-hidden" id="bulk-btn-back" onclick="bulkBackToInput()">← 重新編輯文字</button>
+      <button class="btn btn-primary" id="bulk-btn-parse" onclick="bulkParse()">解析預覽 →</button>
+      <button class="btn btn-success view-hidden" id="bulk-btn-submit" onclick="bulkSubmit()">✔ 確認匯入</button>
     </div>
   </div>
 </div>
@@ -397,6 +453,7 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
         ${r.note ? `<div class="card-note">💬 ${esc(r.note)}</div>` : ''}
         <div class="card-actions">
           <button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')">＋ 訂單</button>
+          <button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 批量匯入</button>
           <button class="btn btn-ghost btn-sm" onclick="openRestaurantModal('${r.id}')">✏️ 編輯</button>
           <button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗 分享</button>
           <button class="btn btn-danger btn-sm" onclick="deleteRestaurant('${r.id}')">🗑</button>
@@ -657,6 +714,144 @@ function copyFromModal() {
   const url=document.getElementById('share-url-display').value;
   navigator.clipboard?.writeText(url).catch(()=>{});
   showToast('已複製分享連結 🔗');
+}
+
+// ═══════════════════ BULK IMPORT ═══════════════════
+let bulkPreviewRows = [];   // [{orderer, items, amount}]
+let bulkRowSeq = 0;
+
+function openBulkModal(restaurantId) {
+  document.getElementById('bulk-restaurant-select').innerHTML =
+    '<option value="">— 請選擇餐廳 —</option>' +
+    restaurants.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join('');
+  if (restaurantId) document.getElementById('bulk-restaurant-select').value = restaurantId;
+  document.getElementById('bulk-date').value = todayStr();
+  document.getElementById('bulk-text').value = '';
+  bulkPreviewRows = [];
+  bulkShowStep('input');
+  document.getElementById('modal-bulk').classList.add('open');
+  setTimeout(()=>document.getElementById('bulk-text').focus(), 100);
+}
+
+function bulkShowStep(step) {
+  document.getElementById('bulk-step-input').classList.toggle('view-hidden', step!=='input');
+  document.getElementById('bulk-step-preview').classList.toggle('view-hidden', step!=='preview');
+  document.getElementById('bulk-btn-parse').classList.toggle('view-hidden', step!=='input');
+  document.getElementById('bulk-btn-back').classList.toggle('view-hidden', step!=='preview');
+  document.getElementById('bulk-btn-submit').classList.toggle('view-hidden', step!=='preview');
+}
+
+function bulkBackToInput() { bulkShowStep('input'); }
+
+// 解析規則：
+// 每行格式為「[人名] 品項文字 $金額」。
+// 若行首詞符合任一已知訂購人（MEMBER_LIST 或本次解析中已出現過的人名），視為新訂單。
+// 否則視為延續上一行同一人：品項合併、金額加總。
+function parseBulkText(text) {
+  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const knownNames = new Set(MEMBER_LIST);
+  const rows = [];
+  let current = null;
+
+  for (const line of lines) {
+    const amtMatch = line.match(/\$\s*([0-9,]+)\s*$/);
+    if (!amtMatch) {
+      // 沒有金額：若有上一筆，當作備註/品項併入；否則忽略
+      if (current && line) current.items.push(line);
+      continue;
+    }
+    const amount = Number(amtMatch[1].replace(/,/g,'')) || 0;
+    const rest = line.slice(0, amtMatch.index).trim();
+    const firstToken = rest.split(/\s+/)[0] || '';
+    const remainder = rest.slice(firstToken.length).trim();
+
+    // 行首詞若在已知人名清單中，視為新訂購人開頭
+    const isNewOrderer = firstToken && knownNames.has(firstToken);
+
+    if (isNewOrderer) {
+      current = { orderer: firstToken, items: remainder ? [remainder] : [], amount };
+      rows.push(current);
+      knownNames.add(firstToken);
+    } else if (current) {
+      if (rest) current.items.push(rest);
+      current.amount += amount;
+    } else {
+      // 沒有上一筆可併入，也不是已知人名 -> 整行當作一筆，訂購人留空待手動填寫
+      current = { orderer: '', items: rest ? [rest] : [], amount };
+      rows.push(current);
+    }
+  }
+
+  return rows.map(r => ({ orderer: r.orderer, items: r.items.join('、'), amount: r.amount }));
+}
+
+function bulkParse() {
+  const text = document.getElementById('bulk-text').value;
+  if (!document.getElementById('bulk-restaurant-select').value) { showToast('請先選擇餐廳','error'); return; }
+  if (!text.trim()) { showToast('請貼上訂單文字','error'); return; }
+  bulkPreviewRows = parseBulkText(text);
+  if (!bulkPreviewRows.length) { showToast('沒有解析出任何訂單，請確認格式','error'); return; }
+  bulkRowSeq = bulkPreviewRows.length;
+  renderBulkPreview();
+  bulkShowStep('preview');
+}
+
+function renderBulkPreview() {
+  document.getElementById('bulk-preview-count').textContent = bulkPreviewRows.length;
+  const total = bulkPreviewRows.reduce((s,r)=>s+(Number(r.amount)||0),0);
+  document.getElementById('bulk-preview-total').textContent = 'NT$ '+total.toLocaleString();
+  document.getElementById('bulk-preview-tbody').innerHTML = bulkPreviewRows.map((r,i)=>`
+    <tr>
+      <td><input class="form-control" style="padding:6px 8px;font-size:12px" value="${esc(r.orderer)}"
+        onchange="bulkUpdateRow(${i},'orderer',this.value)" placeholder="訂購人"></td>
+      <td><input class="form-control" style="padding:6px 8px;font-size:12px" value="${esc(r.items)}"
+        onchange="bulkUpdateRow(${i},'items',this.value)" placeholder="品項"></td>
+      <td><input class="form-control" type="number" style="padding:6px 8px;font-size:12px" value="${r.amount}"
+        onchange="bulkUpdateRow(${i},'amount',this.value)"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="bulkRemoveRow(${i})" style="padding:3px 8px">🗑</button></td>
+    </tr>`).join('');
+}
+
+function bulkUpdateRow(i, field, value) {
+  if (field==='amount') bulkPreviewRows[i][field] = Number(value)||0;
+  else bulkPreviewRows[i][field] = value;
+  renderBulkPreview();
+}
+function bulkRemoveRow(i) { bulkPreviewRows.splice(i,1); renderBulkPreview(); }
+function addBulkRow() { bulkPreviewRows.push({orderer:'',items:'',amount:0}); renderBulkPreview(); }
+
+async function bulkSubmit() {
+  const restId = document.getElementById('bulk-restaurant-select').value;
+  const date   = document.getElementById('bulk-date').value || todayStr();
+  if (!restId) { showToast('請先選擇餐廳','error'); return; }
+  const validRows = bulkPreviewRows.filter(r=>r.orderer && r.orderer.trim());
+  if (!validRows.length) { showToast('沒有有效的訂單（缺少訂購人）','error'); return; }
+  if (validRows.length < bulkPreviewRows.length) {
+    showToast('有 '+(bulkPreviewRows.length-validRows.length)+' 筆缺少訂購人，已略過','error');
+  }
+  showLoading(`匯入 ${validRows.length} 筆訂單中...`);
+  try {
+    for (const r of validRows) {
+      await OrdersAPI.insert({
+        id: genId('o'),
+        restaurantId: restId,
+        orderer: r.orderer.trim(),
+        orderDate: date,
+        items: r.items.trim(),
+        amount: Number(r.amount)||0,
+        paidStatus: '未付款',
+        note: ''
+      });
+    }
+    showToast(`成功匯入 ${validRows.length} 筆訂單 ✓`);
+    closeModal('modal-bulk');
+    await loadData();
+    const tab = document.querySelector('.tab-btn.active').dataset.tab;
+    if (tab==='all-orders') renderAllOrders();
+    else if (tab==='by-restaurant') renderByRestaurant();
+    else renderRestaurants();
+  } catch(e) { showToast('錯誤：'+e.message,'error'); }
+  finally { hideLoading(); }
 }
 
 // ═══════════════════ INIT ═══════════════════
