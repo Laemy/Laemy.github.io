@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>訂餐對帳系統 @Edda</title>
+<title>訂餐對帳系統@Edda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -18,18 +18,18 @@
   body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
   header{background:var(--navy);color:#fff;padding:0 32px;height:60px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
-  .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
-  header h1{font-size:17px;font-weight:700}
+  .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%}
+  header h1{font-size:106.25%;font-weight:700}
   .tab-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:0 32px;display:flex}
-  .tab-btn{padding:14px 22px;font-size:14px;font-weight:500;color:var(--text-2);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .18s,border-color .18s;white-space:nowrap}
+  .tab-btn{padding:14px 22px;font-size:87.5%;font-weight:500;color:var(--text-2);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .18s,border-color .18s;white-space:nowrap}
   .tab-btn:hover{color:var(--blue)}.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:700}
   main{flex:1;padding:28px 32px;max-width:1160px;width:100%;margin:0 auto}
 
   .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-  .section-header h2{font-size:18px;font-weight:700;color:var(--navy)}
-  .count-badge{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:8px}
+  .section-header h2{font-size:112.5%;font-weight:700;color:var(--navy)}
+  .count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:8px}
 
-  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px}
+  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px}
   .btn:active{transform:scale(.97)}
   .btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{filter:brightness(1.1)}
   .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
@@ -37,12 +37,12 @@
   .btn-danger{background:transparent;color:var(--red);border:1.5px solid #f9c4bf}.btn-danger:hover{background:#fdf0ef}
   .btn-share{background:transparent;color:var(--orange);border:1.5px solid #f5cba7}.btn-share:hover{background:#fef9f0}
   .btn-bulk{background:transparent;color:#7D3C98;border:1.5px solid #d6b9e8}.btn-bulk:hover{background:#f5eef8}
-  .btn-sm{padding:5px 11px;font-size:12px}
+  .btn-sm{padding:5px 11px;font-size:75%}
 
   /* Zone */
   .zone-wrap{margin-bottom:32px}
   .zone-label{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-  .zone-title{font-size:13px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:5px 14px;border-radius:20px;white-space:nowrap}
+  .zone-title{font-size:81.25%;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:5px 14px;border-radius:20px;white-space:nowrap}
   .zone-unpaid .zone-title{background:var(--red-light);color:var(--red)}
   .zone-paid   .zone-title{background:var(--green-light);color:var(--green)}
   .zone-line{flex:1;height:1.5px;background:var(--border)}
@@ -54,23 +54,23 @@
   .card-accent-unpaid{height:4px;background:linear-gradient(90deg,var(--red),#F1948A)}
   .card-accent-paid  {height:4px;background:linear-gradient(90deg,var(--green),#52BE80)}
   .card-body{padding:16px 18px 14px}
-  .card-name{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
-  .date-pill{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+  .card-name{font-size:93.75%;font-weight:700;color:var(--navy);margin-bottom:6px}
+  .date-pill{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px}
   .card-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
-  .card-meta-row{font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:6px}
-  .card-note{font-size:11px;color:var(--text-3);font-style:italic;margin-bottom:12px}
+  .card-meta-row{font-size:75%;color:var(--text-2);display:flex;align-items:center;gap:6px}
+  .card-note{font-size:68.75%;color:var(--text-3);font-style:italic;margin-bottom:12px}
   .card-actions{display:flex;gap:7px;flex-wrap:wrap}
   .card-footer{display:flex;align-items:center;justify-content:space-between;padding:9px 18px;background:var(--bg);border-top:1px solid var(--border);gap:8px;flex-wrap:wrap}
-  .order-summary{font-size:12px;color:var(--text-2)}
-  .order-summary strong{color:var(--navy);font-size:13px}
-  .status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .order-summary{font-size:75%;color:var(--text-2)}
+  .order-summary strong{color:var(--navy);font-size:81.25%}
+  .status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:68.75%;font-weight:600}
   .status-paid  {background:#d5f5e3;color:#1a7a4a}
   .status-unpaid{background:#fde8e6;color:#c0392b}
 
   /* Table */
   .table-wrap{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  thead th{background:var(--navy);color:#fff;padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.4px;white-space:nowrap}
+  table{width:100%;border-collapse:collapse;font-size:81.25%}
+  thead th{background:var(--navy);color:#fff;padding:11px 14px;text-align:left;font-size:75%;font-weight:600;letter-spacing:.4px;white-space:nowrap}
   tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
   tbody tr:last-child{border-bottom:none}
   tbody tr:hover{background:var(--blue-light)}
@@ -78,18 +78,18 @@
   .amount-cell{font-weight:700;color:var(--navy)}
   .restaurant-label{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--navy)}
   .restaurant-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0}
-  .date-cell{display:inline-flex;align-items:center;gap:4px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:14px;white-space:nowrap}
+  .date-cell{display:inline-flex;align-items:center;gap:4px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:3px 9px;border-radius:14px;white-space:nowrap}
 
   /* Accordion */
   .accordion-block{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);margin-bottom:14px;overflow:hidden}
   .accordion-header{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;cursor:pointer;user-select:none;transition:background .15s;gap:12px}
   .accordion-header:hover{background:var(--blue-light)}
   .accordion-title{display:flex;align-items:center;gap:12px;flex:1;flex-wrap:wrap}
-  .accordion-name{font-size:14px;font-weight:700;color:var(--navy)}
+  .accordion-name{font-size:87.5%;font-weight:700;color:var(--navy)}
   .accordion-stats{display:flex;gap:8px;flex-wrap:wrap}
-  .acc-stat{font-size:12px;color:var(--text-2);background:var(--bg);padding:3px 10px;border-radius:20px}
+  .acc-stat{font-size:75%;color:var(--text-2);background:var(--bg);padding:3px 10px;border-radius:20px}
   .acc-stat span{font-weight:700;color:var(--navy)}
-  .accordion-chevron{font-size:14px;color:var(--text-3);transition:transform .22s;flex-shrink:0}
+  .accordion-chevron{font-size:87.5%;color:var(--text-3);transition:transform .22s;flex-shrink:0}
   .accordion-chevron.open{transform:rotate(180deg)}
   .accordion-body{display:none;border-top:1px solid var(--border)}
   .accordion-body.open{display:block}
@@ -97,13 +97,13 @@
   /* Summary bar */
   .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
   .summary-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:14px 18px;display:flex;flex-direction:column;gap:4px}
-  .summary-card .s-label{font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-  .summary-card .s-value{font-size:20px;font-weight:700;color:var(--navy)}
+  .summary-card .s-label{font-size:68.75%;color:var(--text-3);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+  .summary-card .s-value{font-size:125%;font-weight:700;color:var(--navy)}
 
   /* Empty */
   .empty-state{text-align:center;padding:40px 20px;color:var(--text-3)}
-  .empty-state .empty-icon{font-size:36px;margin-bottom:10px}
-  .empty-state p{font-size:13px}
+  .empty-state .empty-icon{font-size:225%;margin-bottom:10px}
+  .empty-state p{font-size:81.25%}
 
   /* Modal */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
@@ -111,20 +111,20 @@
   .modal{background:var(--surface);border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.2);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;animation:slideUp .22s ease}
   @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
   .modal-header{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-  .modal-header h3{font-size:16px;font-weight:700;color:var(--navy)}
-  .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-3);line-height:1}
+  .modal-header h3{font-size:100%;font-weight:700;color:var(--navy)}
+  .modal-close{background:none;border:none;font-size:125%;cursor:pointer;color:var(--text-3);line-height:1}
   .modal-body{padding:18px 24px;display:flex;flex-direction:column;gap:13px}
   .modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
   .form-group{display:flex;flex-direction:column;gap:5px}
-  .form-group label{font-size:12px;font-weight:600;color:var(--text-2)}
-  .form-control{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;color:var(--text);background:var(--bg);transition:border-color .15s,box-shadow .15s;font-family:inherit;width:100%}
+  .form-group label{font-size:75%;font-weight:600;color:var(--text-2)}
+  .form-control{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:81.25%;color:var(--text);background:var(--bg);transition:border-color .15s,box-shadow .15s;font-family:inherit;width:100%}
   .form-control:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,125,210,.12);background:#fff}
   .form-control[readonly]{background:#eef2f7;color:var(--text-2);cursor:default}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .form-static{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;color:var(--text-2);background:#eef2f7}
+  .form-static{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:81.25%;color:var(--text-2);background:#eef2f7}
 
   /* Toast */
-  .toast{position:fixed;bottom:28px;right:28px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast{position:fixed;bottom:28px;right:28px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
   .toast.show{transform:translateY(0);opacity:1}
   .toast.success{border-left:4px solid var(--green)}
   .toast.error  {border-left:4px solid var(--red)}
@@ -134,17 +134,17 @@
   .loading-overlay.show{display:flex}
   .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .loading-text{font-size:13px;color:var(--text-2);font-weight:500}
+  .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 
   .view-hidden{display:none}
 </style>
 </head>
-<body>
+<body style="font-size:20px">
 
 <header>
   <div class="logo-icon">🍱</div>
-  <h1>訂餐對帳系統 @Edda</h1>
-  <a href="reconcile.html" style="margin-left:auto;background:var(--orange);color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">🧾 跨餐廳對帳</a>
+  <h1>訂餐對帳系統</h1>
+  <a href="reconcile.html" style="margin-left:auto;background:var(--orange);color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">🧾 跨餐廳對帳</a>
 </header>
 
 <div class="tab-bar">
@@ -199,7 +199,7 @@
       <table>
         <thead><tr>
           <th>訂購日期</th><th>餐廳</th><th>訂購人</th><th>品項</th>
-          <th>金額</th><th>服務費</th><th>收款人</th><th>付款狀態</th><th>備註</th><th style="width:80px">操作</th>
+          <th>金額</th><th>服務費</th><th>總金額</th><th>收款人</th><th>付款狀態</th><th>備註</th><th style="width:96px">操作</th>
         </tr></thead>
         <tbody id="all-orders-tbody"></tbody>
       </table>
@@ -236,7 +236,7 @@
       <div class="form-group"><label>地址</label><input class="form-control" id="rest-address" placeholder="高雄市..."></div>
       <div class="form-row">
         <div class="form-group"><label>收款人</label><input class="form-control" id="rest-receiver" placeholder="例：王小明"></div>
-        <div class="form-group"><label>服務費 (%)</label><input class="form-control" id="rest-service-fee" type="number" min="0" max="100" placeholder="0"></div>
+        <div class="form-group"><label>服務費 (元／筆)</label><input class="form-control" id="rest-service-fee" type="number" min="0" placeholder="0"></div>
       </div>
       <div class="form-group"><label>備註</label><textarea class="form-control" id="rest-note" rows="2" placeholder="例：每週二固定訂購"></textarea></div>
     </div>
@@ -260,7 +260,11 @@
       <div class="form-group"><label>餐廳</label><div class="form-static" id="order-restaurant-display">—</div></div>
       <div class="form-row">
         <div class="form-group"><label>訂購日期（自動帶入）</label><input class="form-control" id="order-date" type="date" readonly></div>
-        <div class="form-group"><label>訂購人 *</label><input class="form-control" id="order-orderer" placeholder="例：陳小華"></div>
+        <div class="form-group"><label>訂購人 *</label>
+          <select class="form-control" id="order-orderer">
+            <option value="">— 請選擇訂購人 —</option>
+          </select>
+        </div>
       </div>
       <div class="form-group"><label>訂購品項</label><input class="form-control" id="order-items" placeholder="例：烏龍麵×5、天婦羅×2"></div>
       <div class="form-row">
@@ -286,12 +290,12 @@
       <button class="modal-close" onclick="closeModal('modal-share')">✕</button>
     </div>
     <div class="modal-body">
-      <div style="font-size:13px;color:var(--text-2);margin-bottom:4px">
+      <div style="font-size:81.25%;color:var(--text-2);margin-bottom:4px">
         將連結分享給同事，讓他們查看 <strong id="share-rest-name" style="color:var(--navy)"></strong> 並新增訂單。
       </div>
       <div style="background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:8px">
         <input id="share-url-display" type="text" readonly onclick="this.select()"
-          style="flex:1;border:none;background:transparent;font-size:12px;color:var(--navy);font-family:monospace;outline:none;min-width:0">
+          style="flex:1;border:none;background:transparent;font-size:75%;color:var(--navy);font-family:monospace;outline:none;min-width:0">
         <button class="btn btn-primary btn-sm" onclick="copyFromModal()">複製</button>
       </div>
     </div>
@@ -321,10 +325,10 @@
         </div>
         <div class="form-group">
           <label>貼上訂單文字</label>
-          <textarea class="form-control" id="bulk-text" rows="11" style="font-family:monospace;font-size:13px"
+          <textarea class="form-control" id="bulk-text" rows="11" style="font-family:monospace;font-size:81.25%"
             placeholder="支援兩種格式，可混合貼上：&#10;&#10;① 簡單格式：&#10;耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;&#10;② LINE 群組訊息格式：&#10;11:00 高捷-廷毓 (Nick Chang) 【6/16 午餐】&#10;陽春麵 $50 + 滷蛋 $15 = $65 ,謝謝"></textarea>
         </div>
-        <div style="font-size:12px;color:var(--text-3);line-height:1.7">
+        <div style="font-size:75%;color:var(--text-3);line-height:1.7">
           💡 支援兩種格式，可直接整段貼上自動辨識：<br>
           ① <strong>簡單格式</strong>：「人名 品項 $金額」，沒有人名開頭的行會自動併入上一行同一人，金額加總。<br>
           ② <strong>LINE 群組訊息格式</strong>：「HH:MM 群組-人名 (英文名) 【日期標籤】」+ 下一行「品項 $50 + 品項 $15 = $65」。人名會自動比對固定名單（含模糊比對，如「林靜怡」會比對到「靜怡」），名單外的新名字也會保留；沒有金額的提醒訊息會自動忽略。
@@ -332,7 +336,7 @@
       </div>
 
       <div id="bulk-step-preview" class="view-hidden">
-        <div style="font-size:13px;color:var(--text-2);margin-bottom:4px">
+        <div style="font-size:81.25%;color:var(--text-2);margin-bottom:4px">
           解析出 <strong id="bulk-preview-count" style="color:var(--navy)">0</strong> 筆訂單，請確認或修改後送出：
         </div>
         <div class="table-wrap" style="max-height:320px;overflow-y:auto">
@@ -343,7 +347,7 @@
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
           <button class="btn btn-ghost btn-sm" onclick="addBulkRow()">＋ 新增一行</button>
-          <div style="font-size:13px;color:var(--text-2)">總金額：<strong id="bulk-preview-total" style="color:var(--navy)">NT$ 0</strong></div>
+          <div style="font-size:81.25%;color:var(--text-2)">總金額：<strong id="bulk-preview-total" style="color:var(--navy)">NT$ 0</strong></div>
         </div>
       </div>
     </div>
@@ -364,7 +368,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="supabase.js"></script>
+<script src="db.js"></script>
 <script>
 // ═══════════════════ UI STATE ═══════════════════
 let restaurants = [];
@@ -435,7 +439,8 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
   grid.innerHTML = rests.map(r => {
     const ords     = orders.filter(o=>o.restaurantId===r.id);
     const totalAmt = ords.reduce((s,o)=>s+Number(o.amount||0),0);
-    const fee      = calcFee(totalAmt, r.serviceFee);
+    const feePerOrder = calcFee(r.serviceFee);
+    const feeTotal     = feePerOrder * ords.length;
     const unpaidN  = ords.filter(o=>o.paidStatus==='未付款').length;
     const dates    = ords.map(o=>o.orderDate).sort();
     const latest   = dates.length ? dates[dates.length-1] : r.createdAt;
@@ -450,7 +455,7 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
           ${r.contact  ? `<div class="card-meta-row"><span>📞</span>${esc(r.contact)}</div>` : ''}
           ${r.address  ? `<div class="card-meta-row"><span>📍</span>${esc(r.address)}</div>` : ''}
           ${r.receiver ? `<div class="card-meta-row"><span>👤</span>收款人：<strong style="color:var(--navy)">${esc(r.receiver)}</strong></div>` : ''}
-          ${r.serviceFee ? `<div class="card-meta-row"><span>🧾</span>服務費：${r.serviceFee}%（NT$ ${fee.toLocaleString()}）</div>` : ''}
+          ${r.serviceFee ? `<div class="card-meta-row"><span>🧾</span>服務費：NT$ ${feePerOrder.toLocaleString()}／筆（共 NT$ ${feeTotal.toLocaleString()}）</div>` : ''}
         </div>
         ${r.note ? `<div class="card-note">💬 ${esc(r.note)}</div>` : ''}
         <div class="card-actions">
@@ -483,20 +488,22 @@ function renderAllOrders() {
   empty.classList.toggle('view-hidden', sorted.length>0);
   tbody.innerHTML = sorted.map(o => {
     const rest = restaurants.find(r=>r.id===o.restaurantId);
-    const fee  = rest ? calcFee(o.amount, rest.serviceFee) : 0;
+    const fee   = rest ? calcFee(rest.serviceFee) : 0;
+    const total = Number(o.amount||0) + fee;
     return `<tr>
       <td><span class="date-cell">📅 ${o.orderDate}</span></td>
       <td><span class="restaurant-label"><span class="restaurant-dot"></span>${rest?esc(rest.name):'(已刪除)'}</span></td>
       <td>${esc(o.orderer)}</td>
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)}</td>
       <td class="amount-cell">NT$ ${Number(o.amount||0).toLocaleString()}</td>
-      <td style="font-size:12px;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
-      <td style="font-size:12px;color:var(--text-2)">${rest&&rest.receiver?esc(rest.receiver):'—'}</td>
+      <td style="font-size:75%;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
+      <td class="amount-cell">NT$ ${total.toLocaleString()}</td>
+      <td style="font-size:75%;color:var(--text-2)">${rest&&rest.receiver?esc(rest.receiver):'—'}</td>
       <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
-      <td style="font-size:12px;color:var(--text-3)">${esc(o.note)}</td>
-      <td>
-        <button class="btn btn-ghost btn-sm" onclick="openOrderModal(null,'${o.id}')" style="margin-right:4px">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">🗑</button>
+      <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
+      <td style="display:flex;gap:4px">
+        <button class="btn btn-ghost btn-sm" onclick="openOrderModal(null,'${o.id}')" style="width:36px;justify-content:center;padding:5px 0">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')" style="width:36px;justify-content:center;padding:5px 0">🗑</button>
       </td>
     </tr>`;
   }).join('');
@@ -507,15 +514,15 @@ function renderSummaryBar() {
   const paid   = orders.filter(o=>o.paidStatus==='已付款').reduce((s,o)=>s+Number(o.amount||0),0);
   const totalFee = orders.reduce((s,o)=>{
     const r=restaurants.find(x=>x.id===o.restaurantId);
-    return s+(r?calcFee(o.amount,r.serviceFee):0);
+    return s+(r?calcFee(r.serviceFee):0);
   },0);
   document.getElementById('summary-bar').innerHTML = `
     <div class="summary-card"><div class="s-label">餐廳數</div><div class="s-value">${restaurants.length}</div></div>
     <div class="summary-card"><div class="s-label">訂單筆數</div><div class="s-value">${orders.length}</div></div>
-    <div class="summary-card"><div class="s-label">總金額</div><div class="s-value" style="font-size:17px">NT$ ${total.toLocaleString()}</div></div>
-    <div class="summary-card"><div class="s-label">已付款</div><div class="s-value" style="color:var(--green);font-size:17px">NT$ ${paid.toLocaleString()}</div></div>
-    <div class="summary-card"><div class="s-label">未付款</div><div class="s-value" style="color:var(--red);font-size:17px">NT$ ${(total-paid).toLocaleString()}</div></div>
-    <div class="summary-card"><div class="s-label">總服務費</div><div class="s-value" style="font-size:17px">NT$ ${totalFee.toLocaleString()}</div></div>`;
+    <div class="summary-card"><div class="s-label">總金額</div><div class="s-value" style="font-size:106.25%">NT$ ${total.toLocaleString()}</div></div>
+    <div class="summary-card"><div class="s-label">已付款</div><div class="s-value" style="color:var(--green);font-size:106.25%">NT$ ${paid.toLocaleString()}</div></div>
+    <div class="summary-card"><div class="s-label">未付款</div><div class="s-value" style="color:var(--red);font-size:106.25%">NT$ ${(total-paid).toLocaleString()}</div></div>
+    <div class="summary-card"><div class="s-label">總服務費</div><div class="s-value" style="font-size:106.25%">NT$ ${totalFee.toLocaleString()}</div></div>`;
 }
 
 // ═══════════════════ RENDER: BY RESTAURANT ═══════════════════
@@ -546,16 +553,16 @@ function renderByRestaurant() {
           <button class="btn btn-success btn-sm" style="margin-left:10px" onclick="openOrderModal('${r.id}')">＋ 新增</button></p></div>`
         : `<table><thead><tr><th>訂購日期</th><th>訂購人</th><th>品項</th><th>金額</th><th>服務費</th><th>收款人</th><th>付款狀態</th><th>備註</th><th>操作</th></tr></thead>
           <tbody>${ords.map(o=>{
-            const fee=calcFee(o.amount,r.serviceFee);
+            const fee=calcFee(r.serviceFee);
             return `<tr>
               <td><span class="date-cell">📅 ${o.orderDate}</span></td>
               <td>${esc(o.orderer)}</td>
               <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(o.items)}</td>
               <td class="amount-cell">NT$ ${Number(o.amount||0).toLocaleString()}</td>
-              <td style="font-size:12px;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
-              <td style="font-size:12px;color:var(--text-2)">${esc(r.receiver)||'—'}</td>
+              <td style="font-size:75%;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
+              <td style="font-size:75%;color:var(--text-2)">${esc(r.receiver)||'—'}</td>
               <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
-              <td style="font-size:12px;color:var(--text-3)">${esc(o.note)}</td>
+              <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
               <td>
                 <button class="btn btn-ghost btn-sm" onclick="openOrderModal(null,'${o.id}')" style="margin-right:4px">✏️</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">🗑</button>
@@ -599,7 +606,10 @@ function openRestaurantModal(id) {
 }
 
 function openOrderModal(restaurantId, orderId) {
-  ['order-orderer','order-items','order-note'].forEach(id=>document.getElementById(id).value='');
+  const ordSel = document.getElementById('order-orderer');
+  ordSel.innerHTML = '<option value="">— 請選擇訂購人 —</option>' +
+    MEMBER_LIST.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  ['order-items','order-note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('order-amount').value='';
   document.getElementById('order-date').value=todayStr();
   document.getElementById('order-paid').value='未付款';
@@ -888,11 +898,11 @@ function renderBulkPreview() {
   document.getElementById('bulk-preview-total').textContent = 'NT$ '+total.toLocaleString();
   document.getElementById('bulk-preview-tbody').innerHTML = bulkPreviewRows.map((r,i)=>`
     <tr>
-      <td><input class="form-control" style="padding:6px 8px;font-size:12px" value="${esc(r.orderer)}"
+      <td><input class="form-control" style="padding:6px 8px;font-size:75%" value="${esc(r.orderer)}"
         onchange="bulkUpdateRow(${i},'orderer',this.value)" placeholder="訂購人"></td>
-      <td><input class="form-control" style="padding:6px 8px;font-size:12px" value="${esc(r.items)}"
+      <td><input class="form-control" style="padding:6px 8px;font-size:75%" value="${esc(r.items)}"
         onchange="bulkUpdateRow(${i},'items',this.value)" placeholder="品項"></td>
-      <td><input class="form-control" type="number" style="padding:6px 8px;font-size:12px" value="${r.amount}"
+      <td><input class="form-control" type="number" style="padding:6px 8px;font-size:75%" value="${r.amount}"
         onchange="bulkUpdateRow(${i},'amount',this.value)"></td>
       <td><button class="btn btn-danger btn-sm" onclick="bulkRemoveRow(${i})" style="padding:3px 8px">🗑</button></td>
     </tr>`).join('');
@@ -942,7 +952,7 @@ async function bulkSubmit() {
 
 // ═══════════════════ INIT ═══════════════════
 (async () => {
-  showLoading('連線 Supabase...');
+  showLoading('連線 database...');
   try { await loadData(); renderRestaurants(); }
   catch(e) { showToast('資料載入失敗：'+e.message,'error'); }
   finally { hideLoading(); }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>跨餐廳對帳總覽</title>
+<title>對帳總覽 @Edda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -20,17 +20,17 @@
 
   /* ── Header ── */
   header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
-  .logo{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-  header h1{font-size:16px;font-weight:700}
-  header .sub{font-size:12px;color:var(--blue-mid)}
-  .hdr-back{margin-left:auto;font-size:12px;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
+  .logo{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%;flex-shrink:0}
+  header h1{font-size:100%;font-weight:700}
+  header .sub{font-size:75%;color:var(--blue-mid)}
+  .hdr-back{margin-left:auto;font-size:75%;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
   .hdr-back:hover{color:#fff}
 
   /* ── Scope bar ── */
   .scope-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .scope-label{font-size:12px;font-weight:700;color:var(--text-2);letter-spacing:.4px;white-space:nowrap}
+  .scope-label{font-size:75%;font-weight:700;color:var(--text-2);letter-spacing:.4px;white-space:nowrap}
   .scope-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
-  .scope-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s;user-select:none}
+  .scope-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:75%;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s;user-select:none}
   .scope-chip input{accent-color:var(--blue);width:13px;height:13px;cursor:pointer}
   .scope-chip.checked{background:var(--blue-light);border-color:var(--blue);color:var(--navy)}
   .scope-chip.has-unpaid{border-color:#f5b7b1}
@@ -42,9 +42,9 @@
   /* ── Summary bar ── */
   .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:24px}
   .s-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:12px 16px}
-  .s-card .s-lbl{font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
-  .s-card .s-val{font-size:19px;font-weight:700;color:var(--navy)}
-  .s-card .s-sub{font-size:11px;color:var(--text-2);margin-top:3px}
+  .s-card .s-lbl{font-size:62.5%;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .s-card .s-val{font-size:118.75%;font-weight:700;color:var(--navy)}
+  .s-card .s-sub{font-size:68.75%;color:var(--text-2);margin-top:3px}
 
   /* ══════════════════════════════════
      LEVEL 1 ── 主購（收款人）區塊
@@ -59,16 +59,16 @@
   .buyer-avatar{
     width:42px;height:42px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
-    font-size:17px;font-weight:800;color:var(--navy);
+    font-size:106.25%;font-weight:800;color:var(--navy);
     flex-shrink:0;border:3px solid rgba(255,255,255,.3);
   }
   .buyer-info{flex:1;min-width:0}
-  .buyer-name{font-size:17px;font-weight:700;letter-spacing:.3px}
-  .buyer-meta{font-size:12px;color:var(--blue-mid);margin-top:2px}
+  .buyer-name{font-size:106.25%;font-weight:700;letter-spacing:.3px}
+  .buyer-meta{font-size:75%;color:var(--blue-mid);margin-top:2px}
   .buyer-totals{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
   .buyer-total-item{text-align:right}
-  .buyer-total-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
-  .buyer-total-val{font-size:18px;font-weight:700}
+  .buyer-total-lbl{font-size:62.5%;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+  .buyer-total-val{font-size:112.5%;font-weight:700}
   .buyer-total-val.red{color:#ffb3ad}
   .buyer-total-val.green{color:#a8e6c8}
 
@@ -91,8 +91,8 @@
     display:flex;flex-direction:column;gap:3px;
   }
   .bss-item:last-child{border-right:none}
-  .bss-lbl{font-size:10px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-  .bss-val{font-size:15px;font-weight:700;color:var(--navy)}
+  .bss-lbl{font-size:62.5%;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .bss-val{font-size:93.75%;font-weight:700;color:var(--navy)}
 
   /* ══════════════════════════════════
      LEVEL 2 ── 餐廳群組
@@ -109,14 +109,14 @@
     transition:background .15s;
   }
   .rest-header:hover{background:#E3EEF9}
-  .rest-header-icon{font-size:16px;flex-shrink:0}
-  .rest-header-name{font-size:14px;font-weight:700;color:var(--navy);flex:1}
+  .rest-header-icon{font-size:100%;flex-shrink:0}
+  .rest-header-name{font-size:87.5%;font-weight:700;color:var(--navy);flex:1}
   .rest-header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .badge{display:inline-block;padding:2px 9px;border-radius:14px;font-size:11px;font-weight:600}
+  .badge{display:inline-block;padding:2px 9px;border-radius:14px;font-size:68.75%;font-weight:600}
   .badge-unpaid{background:var(--red-light);color:var(--red)}
   .badge-paid  {background:var(--green-light);color:var(--green)}
   .badge-total {background:var(--blue-light);color:var(--blue)}
-  .rest-chevron{font-size:12px;color:var(--text-3);transition:transform .2s;flex-shrink:0}
+  .rest-chevron{font-size:75%;color:var(--text-3);transition:transform .2s;flex-shrink:0}
   .rest-chevron.open{transform:rotate(180deg)}
 
   .rest-body{display:none}
@@ -137,11 +137,11 @@
   .orderer-avatar{
     width:28px;height:28px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
-    font-size:12px;font-weight:700;color:#fff;flex-shrink:0;
+    font-size:75%;font-weight:700;color:#fff;flex-shrink:0;
   }
-  .orderer-name{font-size:13px;font-weight:700;color:var(--navy);flex:1}
-  .orderer-unpaid-amt{font-size:13px;font-weight:700;color:var(--red)}
-  .orderer-paid-label{font-size:12px;color:var(--green);font-weight:600}
+  .orderer-name{font-size:81.25%;font-weight:700;color:var(--navy);flex:1}
+  .orderer-unpaid-amt{font-size:81.25%;font-weight:700;color:var(--red)}
+  .orderer-paid-label{font-size:75%;color:var(--green);font-weight:600}
 
   /* ── 未付款訂單列 ── */
   .order-rows-wrap{background:#fffcf8}
@@ -157,23 +157,23 @@
   .order-row.paid-row{background:var(--bg);opacity:.55}
   .order-row.paid-row:hover{background:var(--blue-light);opacity:1}
 
-  .or-date{font-size:11px;color:#fff;background:var(--navy);padding:2px 8px;border-radius:12px;white-space:nowrap;flex-shrink:0;font-weight:600}
-  .or-items{flex:1;font-size:12px;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .or-note{font-size:11px;color:var(--text-3);white-space:nowrap;flex-shrink:0}
-  .or-amt{font-size:14px;font-weight:700;color:var(--navy);white-space:nowrap;min-width:76px;text-align:right;flex-shrink:0}
+  .or-date{font-size:68.75%;color:#fff;background:var(--navy);padding:2px 8px;border-radius:12px;white-space:nowrap;flex-shrink:0;font-weight:600}
+  .or-items{flex:1;font-size:75%;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .or-note{font-size:68.75%;color:var(--text-3);white-space:nowrap;flex-shrink:0}
+  .or-amt{font-size:87.5%;font-weight:700;color:var(--navy);white-space:nowrap;min-width:76px;text-align:right;flex-shrink:0}
 
   /* ── 操作按鈕 ── */
   .btn-pay{
     display:inline-flex;align-items:center;gap:4px;
     padding:4px 11px;border-radius:7px;
-    border:1.5px solid #f5cba7;font-size:11px;font-weight:700;
+    border:1.5px solid #f5cba7;font-size:68.75%;font-weight:700;
     cursor:pointer;background:var(--orange-light);color:var(--orange);
     transition:all .15s;white-space:nowrap;flex-shrink:0;
   }
   .btn-pay:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
   .btn-pay:active{transform:scale(.96)}
   .paid-label{
-    font-size:11px;color:var(--green);font-weight:600;
+    font-size:68.75%;color:var(--green);font-weight:600;
     background:var(--green-light);padding:4px 10px;border-radius:7px;
     border:1.5px solid #a9dfbf;white-space:nowrap;flex-shrink:0;
   }
@@ -186,11 +186,11 @@
     border-bottom:1px solid var(--border);
     gap:10px;flex-wrap:wrap;
   }
-  .orderer-footer-left{font-size:12px;color:var(--text-2)}
-  .orderer-footer-left strong{color:var(--red);font-size:14px}
+  .orderer-footer-left{font-size:75%;color:var(--text-2)}
+  .orderer-footer-left strong{color:var(--red);font-size:87.5%}
   .btn-settle{
     padding:5px 14px;border-radius:8px;border:1.5px solid #a9dfbf;
-    font-size:12px;font-weight:700;cursor:pointer;
+    font-size:75%;font-weight:700;cursor:pointer;
     background:var(--green-light);color:var(--green);
     transition:all .15s;white-space:nowrap;
   }
@@ -198,25 +198,25 @@
 
   /* ── Empty / Toast / Loading / Confirm ── */
   .empty-state{text-align:center;padding:60px 20px;color:var(--text-3)}
-  .empty-state .ei{font-size:44px;margin-bottom:14px}
-  .empty-state p{font-size:14px}
+  .empty-state .ei{font-size:275%;margin-bottom:14px}
+  .empty-state p{font-size:87.5%}
 
   .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
   .confirm-overlay.open{display:flex}
   .confirm-box{background:#fff;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.18);width:100%;max-width:400px;padding:28px 28px 22px;animation:su .2s ease}
   @keyframes su{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
-  .confirm-box h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px}
-  .confirm-box p{font-size:13px;color:var(--text-2);line-height:1.8;margin-bottom:18px}
+  .confirm-box h3{font-size:100%;font-weight:700;color:var(--navy);margin-bottom:10px}
+  .confirm-box p{font-size:81.25%;color:var(--text-2);line-height:1.8;margin-bottom:18px}
   .confirm-amount{background:var(--green-light);border:1.5px solid #a9dfbf;border-radius:8px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-  .confirm-amount-lbl{font-size:12px;font-weight:600;color:var(--green)}
-  .confirm-amount-val{font-size:20px;font-weight:700;color:var(--navy)}
+  .confirm-amount-lbl{font-size:75%;font-weight:600;color:var(--green)}
+  .confirm-amount-val{font-size:125%;font-weight:700;color:var(--navy)}
   .confirm-btns{display:flex;justify-content:flex-end;gap:10px}
-  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
   .btn:active{transform:scale(.97)}
   .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
   .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
 
-  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
   .toast.show{transform:translateY(0);opacity:1}
   .toast.success{border-left:4px solid var(--green)}
   .toast.error  {border-left:4px solid var(--red)}
@@ -225,23 +225,23 @@
   .loading-overlay.show{display:flex}
   .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .loading-text{font-size:13px;color:var(--text-2);font-weight:500}
+  .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 </style>
 </head>
-<body>
+<body style="font-size:20px">
 
 <header>
   <div class="logo">🧾</div>
-  <h1>跨餐廳對帳總覽</h1>
+  <h1>對帳總覽</h1>
   <span class="sub">主購專用</span>
-  <a class="hdr-back" href="index.html">← 返回管理系統</a>
+  <a class="hdr-back" href="index.html" style="margin-left:auto;background:var(--orange);color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">← 返回管理系統</a>
 </header>
 
 <!-- 餐廳篩選 -->
 <div class="scope-bar">
   <span class="scope-label">篩選餐廳：</span>
   <div class="scope-chips" id="scope-chips">
-    <span style="font-size:12px;color:var(--text-3)">載入中...</span>
+    <span style="font-size:75%;color:var(--text-3)">載入中...</span>
   </div>
 </div>
 
@@ -280,7 +280,7 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="supabase.js"></script>
+<script src="db.js"></script>
 <script>
 // ═══════════════════ STATE ═══════════════════
 let restaurants   = [];
@@ -302,7 +302,7 @@ function showToast(msg,type='success'){
 
 // ═══════════════════ INIT ═══════════════════
 async function init(){
-  showLoading('連線 Supabase...');
+  showLoading('連線 Database...');
   try{
     [restaurants,orders]=await Promise.all([RestaurantsAPI.getAll(),OrdersAPI.getAll()]);
     // 預選有未付款的餐廳
@@ -371,9 +371,9 @@ function renderSummary(){
   document.getElementById('summary-bar').innerHTML=`
     <div class="s-card"><div class="s-lbl">主購人數</div><div class="s-val">${buyerSet.size} 人</div><div class="s-sub">共負責 ${rests.length} 家餐廳</div></div>
     <div class="s-card"><div class="s-lbl">涉及訂購人</div><div class="s-val">${unpaidPeople.size} 人</div><div class="s-sub">尚有未結帳</div></div>
-    <div class="s-card"><div class="s-lbl">範圍總金額</div><div class="s-val" style="font-size:17px">NT$ ${totalAll.toLocaleString()}</div><div class="s-sub">含已付＋未付</div></div>
+    <div class="s-card"><div class="s-lbl">範圍總金額</div><div class="s-val" style="font-size:106.25%">NT$ ${totalAll.toLocaleString()}</div><div class="s-sub">含已付＋未付</div></div>
     <div class="s-card"><div class="s-lbl">待收合計</div>
-      <div class="s-val" style="font-size:17px;color:${totalUnpaid>0?'var(--red)':'var(--green)'}">NT$ ${totalUnpaid.toLocaleString()}</div>
+      <div class="s-val" style="font-size:106.25%;color:${totalUnpaid>0?'var(--red)':'var(--green)'}">NT$ ${totalUnpaid.toLocaleString()}</div>
       <div class="s-sub">${totalUnpaid>0?'尚未結清':'全數已結清 🎉'}</div></div>`;
 }
 
@@ -465,7 +465,7 @@ function renderBuyerList(){
             <span class="or-date">📅 ${o.orderDate}</span>
             <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
             ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
-            <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:10px;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
+            <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:62.5%;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
             ${action}
           </div>`;
         }).join('');

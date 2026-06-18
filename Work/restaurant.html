@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>餐廳訂單頁</title>
+<title>訂餐明細 @Edda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -18,46 +18,46 @@
   body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
   header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
-  .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-  .hdr-title{font-size:16px;font-weight:700}
-  .hdr-rest-name{font-size:15px;font-weight:400;color:var(--blue-mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .hdr-back{margin-left:auto;font-size:12px;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
+  .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%;flex-shrink:0}
+  .hdr-title{font-size:100%;font-weight:700}
+  .hdr-rest-name{font-size:93.75%;font-weight:400;color:var(--blue-mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hdr-back{margin-left:auto;font-size:75%;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
   .hdr-back:hover{color:#fff}
 
   .hero-wrap{background:var(--navy);padding:0 28px 24px}
   .hero-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1020px}
-  .hero-name{font-size:22px;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .hero-name{font-size:137.5%;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:10px}
   .hero-meta{display:flex;flex-wrap:wrap;gap:8px 20px}
-  .hero-meta-item{font-size:13px;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:6px}
+  .hero-meta-item{font-size:81.25%;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:6px}
   .hero-meta-item strong{color:#fff}
   .hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto;align-items:center}
   .hero-stat{background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;text-align:center;min-width:90px}
-  .hero-stat .hs-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
-  .hero-stat .hs-value{font-size:18px;font-weight:700;color:#fff}
-  .hero-stat .hs-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+  .hero-stat .hs-label{font-size:62.5%;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+  .hero-stat .hs-value{font-size:112.5%;font-weight:700;color:#fff}
+  .hero-stat .hs-sub{font-size:68.75%;color:rgba(255,255,255,.55);margin-top:2px}
 
   main{flex:1;padding:28px;max-width:1060px;width:100%;margin:0 auto}
 
   .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-  .section-header h2{font-size:16px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
-  .count-badge{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .section-header h2{font-size:100%;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+  .count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:600;padding:3px 10px;border-radius:20px}
 
-  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
   .btn:active{transform:scale(.97)}
   .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
   .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
-  .btn-sm{padding:5px 12px;font-size:12px}
+  .btn-sm{padding:5px 12px;font-size:75%}
   .btn-check{background:var(--green-light);color:var(--green);border:1.5px solid #a9dfbf}.btn-check:hover{background:#d0f0e0}
 
   .filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-  .filter-btn{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s}
+  .filter-btn{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);font-size:75%;font-weight:600;cursor:pointer;background:var(--surface);color:var(--text-2);transition:all .15s}
   .filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
   .filter-btn:hover:not(.active){border-color:var(--blue);color:var(--blue)}
 
   .summary-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:24px}
   .strip-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:12px 16px}
-  .strip-card .sc-label{font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-  .strip-card .sc-value{font-size:17px;font-weight:700;color:var(--navy)}
+  .strip-card .sc-label{font-size:68.75%;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .strip-card .sc-value{font-size:106.25%;font-weight:700;color:var(--navy)}
 
   /* Person cards */
   .person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:32px}
@@ -68,46 +68,46 @@
   .person-card-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;gap:10px}
   .person-card.all-paid  .person-card-header{background:var(--green-light)}
   .person-card.has-unpaid .person-card-header{background:var(--red-light)}
-  .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
-  .person-name{font-size:14px;font-weight:700;color:var(--navy)}
-  .person-status{font-size:11px;font-weight:600;margin-top:2px}
+  .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:93.75%;font-weight:700;color:#fff;flex-shrink:0}
+  .person-name{font-size:87.5%;font-weight:700;color:var(--navy)}
+  .person-status{font-size:68.75%;font-weight:600;margin-top:2px}
   .person-card.all-paid  .person-status{color:var(--green)}
   .person-card.has-unpaid .person-status{color:var(--red)}
-  .person-total{font-size:15px;font-weight:700;color:var(--navy);text-align:right}
-  .person-total-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;text-align:right}
+  .person-total{font-size:93.75%;font-weight:700;color:var(--navy);text-align:right}
+  .person-total-label{font-size:62.5%;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;text-align:right}
   .person-unpaid-list{border-top:1px solid var(--border)}
-  .person-unpaid-row{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);font-size:12px}
+  .person-unpaid-row{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border);font-size:75%}
   .person-unpaid-row:last-child{border-bottom:none}
   .prow-date{color:var(--text-3);white-space:nowrap;flex-shrink:0}
   .prow-items{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-2)}
   .prow-amount{font-weight:700;color:var(--navy);white-space:nowrap;flex-shrink:0}
   .person-unpaid-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg);border-top:1px solid var(--border);gap:10px}
-  .unpaid-total-label{font-size:12px;color:var(--text-2)}
-  .unpaid-total-amt{font-size:15px;font-weight:700;color:var(--red)}
+  .unpaid-total-label{font-size:75%;color:var(--text-2)}
+  .unpaid-total-amt{font-size:93.75%;font-weight:700;color:var(--red)}
 
   /* Table */
   .table-wrap{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  thead th{background:var(--navy);color:#fff;padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.4px;white-space:nowrap}
+  table{width:100%;border-collapse:collapse;font-size:81.25%}
+  thead th{background:var(--navy);color:#fff;padding:11px 14px;text-align:left;font-size:75%;font-weight:600;letter-spacing:.4px;white-space:nowrap}
   tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
   tbody tr:last-child{border-bottom:none}
   tbody tr:hover{background:var(--blue-light)}
   tbody td{padding:10px 14px;vertical-align:middle}
   .amount-cell{font-weight:700;color:var(--navy)}
-  .status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:68.75%;font-weight:600}
   .status-paid  {background:#d5f5e3;color:#1a7a4a}
   .status-unpaid{background:#fde8e6;color:#c0392b}
-  .date-cell{display:inline-flex;align-items:center;gap:4px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:14px;white-space:nowrap}
+  .date-cell{display:inline-flex;align-items:center;gap:4px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:3px 9px;border-radius:14px;white-space:nowrap}
   tr.row-unpaid{background:#fffbf5}
   tr.row-unpaid:hover{background:#fff3e0}
 
   .empty-state{text-align:center;padding:40px 20px;color:var(--text-3)}
-  .empty-state .empty-icon{font-size:36px;margin-bottom:10px}
-  .empty-state p{font-size:14px}
+  .empty-state .empty-icon{font-size:225%;margin-bottom:10px}
+  .empty-state p{font-size:87.5%}
   #not-found{display:none;text-align:center;padding:80px 20px}
-  #not-found .nf-icon{font-size:60px;margin-bottom:16px}
-  #not-found h2{font-size:22px;color:var(--navy);margin-bottom:8px}
-  #not-found p{font-size:14px;color:var(--text-2)}
+  #not-found .nf-icon{font-size:375%;margin-bottom:16px}
+  #not-found h2{font-size:137.5%;color:var(--navy);margin-bottom:8px}
+  #not-found p{font-size:87.5%;color:var(--text-2)}
 
   /* Modal */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
@@ -115,19 +115,19 @@
   .modal{background:var(--surface);border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.2);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;animation:slideUp .22s ease}
   @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
   .modal-header{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-  .modal-header h3{font-size:16px;font-weight:700;color:var(--navy)}
-  .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-3);line-height:1}
+  .modal-header h3{font-size:100%;font-weight:700;color:var(--navy)}
+  .modal-close{background:none;border:none;font-size:125%;cursor:pointer;color:var(--text-3);line-height:1}
   .modal-body{padding:18px 24px;display:flex;flex-direction:column;gap:13px}
   .modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
   .form-group{display:flex;flex-direction:column;gap:5px}
-  .form-group label{font-size:12px;font-weight:600;color:var(--text-2)}
-  .form-control{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;color:var(--text);background:var(--bg);transition:border-color .15s,box-shadow .15s;font-family:inherit;width:100%}
+  .form-group label{font-size:75%;font-weight:600;color:var(--text-2)}
+  .form-control{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:81.25%;color:var(--text);background:var(--bg);transition:border-color .15s,box-shadow .15s;font-family:inherit;width:100%}
   .form-control:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,125,210,.12);background:#fff}
   .form-control[readonly]{background:#eef2f7;color:var(--text-2);cursor:default}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .form-static{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:13px;color:var(--text-2);background:#eef2f7}
+  .form-static{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:81.25%;color:var(--text-2);background:#eef2f7}
 
-  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
   .toast.show{transform:translateY(0);opacity:1}
   .toast.success{border-left:4px solid var(--green)}
   .toast.error  {border-left:4px solid var(--red)}
@@ -136,19 +136,19 @@
   .loading-overlay.show{display:flex}
   .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .loading-text{font-size:13px;color:var(--text-2);font-weight:500}
+  .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 
   .divider{height:1px;background:var(--border);margin:28px 0}
   .view-hidden{display:none!important}
 </style>
 </head>
-<body>
+<body style="font-size:20px">
 
 <header>
   <div class="logo-icon">🍱</div>
-  <span class="hdr-title">訂餐對帳</span>
+  <span class="hdr-title">訂餐明細 @Edda</span>
   <span class="hdr-rest-name" id="hdr-rest-name"></span>
-  <a class="hdr-back" href="index.html">← 返回管理</a>
+  <a class="hdr-back" href="index.html" style="margin-left:auto;background:var(--orange);color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">← 返回管理</a>
 </header>
 
 <div class="hero-wrap" id="hero-wrap">
@@ -230,7 +230,7 @@
         <div class="form-group"><label>金額 (元)</label><input class="form-control" id="order-amount" type="number" min="0" placeholder="0"></div>
         <div class="form-group"><label>備註</label><input class="form-control" id="order-note" placeholder="外帶、加辣..."></div>
       </div>
-      <div id="fee-preview" class="view-hidden" style="background:var(--blue-light);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text-2)">
+      <div id="fee-preview" class="view-hidden" style="background:var(--blue-light);border-radius:8px;padding:10px 14px;font-size:81.25%;color:var(--text-2)">
         🧾 此餐廳每筆訂單加收服務費 <strong id="fee-amt" style="color:var(--navy)">NT$ 0</strong>
 
 ，請付款給主購 <strong id="fee-receiver" style="color:var(--navy)">—</strong>
@@ -251,10 +251,10 @@
       <button class="modal-close" onclick="closeModal('modal-checkout')">✕</button>
     </div>
     <div class="modal-body">
-      <div style="font-size:13px;color:var(--text-2);line-height:1.7" id="checkout-desc"></div>
+      <div style="font-size:81.25%;color:var(--text-2);line-height:1.7" id="checkout-desc"></div>
       <div style="background:var(--green-light);border:1.5px solid #a9dfbf;border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
-        <span style="font-size:13px;font-weight:600;color:var(--green)">結帳金額合計</span>
-        <span style="font-size:20px;font-weight:700;color:var(--navy)" id="checkout-total">NT$ 0</span>
+        <span style="font-size:81.25%;font-weight:600;color:var(--green)">結帳金額合計</span>
+        <span style="font-size:125%;font-weight:700;color:var(--navy)" id="checkout-total">NT$ 0</span>
       </div>
     </div>
     <div class="modal-footer">
@@ -270,7 +270,7 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="supabase.js"></script>
+<script src="db.js"></script>
 <script>
 // ═══════════════════ STATE ═══════════════════
 let rest        = null;
@@ -297,7 +297,7 @@ function showToast(msg, type='success') {
 
 // ═══════════════════ INIT ═══════════════════
 async function init() {
-  showLoading('連線 Supabase...');
+  showLoading('連線 Database...');
   try {
     const allRests = await RestaurantsAPI.getAll();
     rest = allRests.find(r => r.id === restId);
@@ -355,10 +355,10 @@ function renderHeroStats() {
   const fee    = calcFee(rest.serviceFee) * orders.length;
   document.getElementById('hero-stats').innerHTML = `
     <div class="hero-stat"><div class="hs-label">訂單數</div><div class="hs-value">${orders.length}</div><div class="hs-sub">筆</div></div>
-    <div class="hero-stat"><div class="hs-label">總金額</div><div class="hs-value" style="font-size:15px">NT$&nbsp;${total.toLocaleString()}</div><div class="hs-sub">費 +${fee.toLocaleString()}</div></div>
+    <div class="hero-stat"><div class="hs-label">總金額</div><div class="hs-value" style="font-size:93.75%">NT$&nbsp;${total.toLocaleString()}</div><div class="hs-sub">費 +${fee.toLocaleString()}</div></div>
     <div class="hero-stat" style="${unpaid>0?'background:rgba(231,76,60,.25)':''}">
       <div class="hs-label">未結清</div>
-      <div class="hs-value" style="font-size:15px;${unpaid>0?'color:#ffb3ad':''}">NT$&nbsp;${unpaid.toLocaleString()}</div>
+      <div class="hs-value" style="font-size:93.75%;${unpaid>0?'color:#ffb3ad':''}">NT$&nbsp;${unpaid.toLocaleString()}</div>
       <div class="hs-sub">${unpaid>0?'待結清':'✓ 已付清'}</div>
     </div>`;
 }
@@ -378,9 +378,9 @@ function renderSummaryStrip() {
   document.getElementById('summary-strip').innerHTML = `
     <div class="strip-card"><div class="sc-label">訂單筆數</div><div class="sc-value">${orders.length} 筆</div></div>
     <div class="strip-card"><div class="sc-label">訂購人數</div><div class="sc-value">${people} 人</div></div>
-    <div class="strip-card"><div class="sc-label">總金額</div><div class="sc-value" style="font-size:15px">NT$ ${total.toLocaleString()}</div></div>
-    <div class="strip-card"><div class="sc-label">服務費</div><div class="sc-value" style="font-size:15px">NT$ ${fee.toLocaleString()}</div></div>
-    <div class="strip-card"><div class="sc-label">未付款</div><div class="sc-value" style="font-size:15px;color:${unpaidAmt>0?'var(--red)':'var(--green)'}">NT$ ${unpaidAmt.toLocaleString()}</div></div>`;
+    <div class="strip-card"><div class="sc-label">總金額</div><div class="sc-value" style="font-size:93.75%">NT$ ${total.toLocaleString()}</div></div>
+    <div class="strip-card"><div class="sc-label">服務費</div><div class="sc-value" style="font-size:93.75%">NT$ ${fee.toLocaleString()}</div></div>
+    <div class="strip-card"><div class="sc-label">未付款</div><div class="sc-value" style="font-size:93.75%;color:${unpaidAmt>0?'var(--red)':'var(--green)'}">NT$ ${unpaidAmt.toLocaleString()}</div></div>`;
 }
 
 function renderPersonGrid() {
@@ -457,10 +457,10 @@ function renderOrdersTable() {
       <td style="font-weight:600">${esc(o.orderer)}</td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)}</td>
       <td class="amount-cell">NT$ ${Number(o.amount||0).toLocaleString()}</td>
-      <td style="font-size:12px;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
-      <td style="font-size:12px;color:var(--text-2)">${esc(rest.receiver)||'—'}</td>
+      <td style="font-size:75%;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
+      <td style="font-size:75%;color:var(--text-2)">${esc(rest.receiver)||'—'}</td>
       <td><span class="status-badge ${isPaid?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
-      <td style="font-size:12px;color:var(--text-3)">${esc(o.note)}</td>
+      <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
     </tr>`;
   }).join('');
 }
