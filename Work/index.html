@@ -49,17 +49,17 @@
 
   /* Cards */
   .restaurant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
-  .restaurant-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden;transition:box-shadow .2s,transform .2s}
+  .restaurant-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden;transition:box-shadow .2s,transform .2s;display: flex;flex-direction: column;}
   .restaurant-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   .card-accent-unpaid{height:4px;background:linear-gradient(90deg,var(--red),#F1948A)}
   .card-accent-paid  {height:4px;background:linear-gradient(90deg,var(--green),#52BE80)}
-  .card-body{padding:16px 18px 14px}
+  .card-body{padding:16px 18px 14px;flex:1;display:flex;flex-direction: column;}
   .card-name{font-size:93.75%;font-weight:700;color:var(--navy);margin-bottom:6px}
   .date-pill{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px}
-  .card-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+  .card-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;flex:1}
   .card-meta-row{font-size:75%;color:var(--text-2);display:flex;align-items:center;gap:6px}
   .card-note{font-size:68.75%;color:var(--text-3);font-style:italic;margin-bottom:12px}
-  .card-actions{display:flex;gap:7px;flex-wrap:wrap}
+  .card-actions{display:flex;gap:7px;flex-wrap:wrap;margin:5px 0}
   .card-footer{display:flex;align-items:center;justify-content:space-between;padding:9px 18px;background:var(--bg);border-top:1px solid var(--border);gap:8px;flex-wrap:wrap}
   .order-summary{font-size:75%;color:var(--text-2)}
   .order-summary strong{color:var(--navy);font-size:81.25%}
@@ -456,15 +456,19 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
           ${r.address  ? `<div class="card-meta-row"><span>📍</span>${esc(r.address)}</div>` : ''}
           ${r.receiver ? `<div class="card-meta-row"><span>👤</span>收款人：<strong style="color:var(--navy)">${esc(r.receiver)}</strong></div>` : ''}
           ${r.serviceFee ? `<div class="card-meta-row"><span>🧾</span>服務費：NT$ ${feePerOrder.toLocaleString()}／筆（共 NT$ ${feeTotal.toLocaleString()}）</div>` : ''}
+		  ${r.serviceFee ? `<div class="card-meta-row"><span>💵</span>總金額：NT$ ${totalAmt} 元</div>` : ''}
         </div>
         ${r.note ? `<div class="card-note">💬 ${esc(r.note)}</div>` : ''}
-        <div class="card-actions">
-          <button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')">＋ 訂單</button>
-          <button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 批量匯入</button>
-          <button class="btn btn-ghost btn-sm" onclick="openRestaurantModal('${r.id}')">✏️ 編輯</button>
-          <button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗 分享</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteRestaurant('${r.id}')">🗑</button>
+		<div class="card-actions">
+			<button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')">＋ 訂單</button>
+			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 批量匯入</button>
+			<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗 分享</button>
+		</div>
+        <div class="card-actions" style="justify-content: flex-end;">
+          <button class="btn btn-ghost btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="openRestaurantModal('${r.id}')">✏️</button>
+          <button class="btn btn-danger btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="deleteRestaurant('${r.id}')">🗑</button>
         </div>
+		
       </div>
       <div class="card-footer">
         <div class="order-summary">共 <strong>${ords.length}</strong> 筆</div>
