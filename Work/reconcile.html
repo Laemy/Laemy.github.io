@@ -144,23 +144,23 @@
   .orderer-paid-label{font-size:75%;color:var(--green);font-weight:600}
 
   /* ── 未付款訂單列 ── */
-  .order-rows-wrap{background:#fffcf8}
+  .order-rows-wrap{background:#fff}
 
   .order-row{
     display:flex;align-items:center;gap:10px;
     padding:8px 20px 8px 82px;
-    border-bottom:1px solid #f5f0e8;
+    border-bottom:1px solid var(--border);
     transition:background .12s;
   }
   .order-row:last-child{border-bottom:none}
-  .order-row:hover{background:#fff3e0}
-  .order-row.paid-row{background:var(--bg);opacity:.55}
-  .order-row.paid-row:hover{background:var(--blue-light);opacity:1}
+  .order-row:hover{background:#f5f8fb}
+  .order-row.paid-row{background:#f5f5f5;opacity:1}
+  .order-row.paid-row:hover{background:#eaeaea}
 
-  .or-date{font-size:68.75%;color:#fff;background:var(--navy);padding:2px 8px;border-radius:12px;white-space:nowrap;flex-shrink:0;font-weight:600}
+  .or-date{font-size:75%;color:var(--text-3);padding:0;background:none;white-space:nowrap;flex-shrink:0;font-weight:400}
   .or-items{flex:1;font-size:75%;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .or-note{font-size:68.75%;color:var(--text-3);white-space:nowrap;flex-shrink:0}
-  .or-amt{font-size:87.5%;font-weight:700;color:var(--navy);white-space:nowrap;min-width:76px;text-align:right;flex-shrink:0}
+  .or-amt{font-size:81.25%;font-weight:700;color:var(--navy);white-space:nowrap;min-width:76px;text-align:right;flex-shrink:0}
 
   /* ── 操作按鈕 ── */
   .btn-pay{
@@ -328,11 +328,17 @@ async function reloadData(){
 // ═══════════════════ SCOPE CHIPS ═══════════════════
 function buildScopeChips(){
   const hasUnpaid=id=>orders.some(o=>o.restaurantId===id&&o.paidStatus==='未付款');
-  document.getElementById('scope-chips').innerHTML=restaurants.map(r=>{
-    const unpaid=hasUnpaid(r.id), checked=selectedRests.has(r.id);
-    return `<label class="scope-chip ${unpaid?'has-unpaid':''} ${checked?'checked':''}" id="chip-${r.id}">
+  // 只顯示有未付款的餐廳，按建立日期降序（最新的在前）
+  const unpaidRests = restaurants.filter(r=>hasUnpaid(r.id)).sort((a,b)=>{
+    const dateA = a.createdAt || '';
+    const dateB = b.createdAt || '';
+    return dateB.localeCompare(dateA);
+  });
+  document.getElementById('scope-chips').innerHTML=unpaidRests.map(r=>{
+    const checked=selectedRests.has(r.id);
+    return `<label class="scope-chip has-unpaid ${checked?'checked':''}" id="chip-${r.id}">
       <input type="checkbox" ${checked?'checked':''} onchange="toggleRest('${r.id}',this.checked)">
-      ${esc(r.name)}${unpaid?' ⚠':' ✓'}
+      ${esc(r.name)} ⚠
     </label>`;
   }).join('');
 }
@@ -445,28 +451,33 @@ function renderBuyerList(){
 
       const ordererGroupsHtml=Object.entries(ordererMap).map(([orderer,oOrds])=>{
         const oUnpaid   =oOrds.filter(o=>o.paidStatus==='未付款');
+        const oPaid     =oOrds.filter(o=>o.paidStatus==='已付款');
         const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+orderTotal(o),0);
         const hasUnpaid =oUnpaid.length>0;
         const oColor    =avatarColor(orderer);
 
-        const sorted=[...oOrds].sort((a,z)=>{
-          if(a.paidStatus!==z.paidStatus) return a.paidStatus==='未付款'?-1:1;
-          return z.orderDate.localeCompare(a.orderDate);
-        });
-
-        const rowsHtml=sorted.map(o=>{
-          const isPaid   =o.paidStatus==='已付款';
+        // 未付款的行放在前面，已付款的行放在後面
+        const unpaidRows=oUnpaid.sort((a,z)=>z.orderDate.localeCompare(a.orderDate)).map(o=>{
           const amt      =Number(o.amount||0);
           const rowTotal =amt+fee;
-          const action   =isPaid
-            ?`<span class="paid-label">✔ 已付款</span>`
-            :`<button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${rowTotal})">💳 已付款</button>`;
-          return `<div class="order-row ${isPaid?'paid-row':''}">
+          return `<div class="order-row">
             <span class="or-date">📅 ${o.orderDate}</span>
             <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
             ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
-            <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:62.5%;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
-            ${action}
+            <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:56.25%;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
+            <button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${rowTotal})">💳 付款</button>
+          </div>`;
+        }).join('');
+
+        const paidRows=oPaid.sort((a,z)=>z.orderDate.localeCompare(a.orderDate)).map(o=>{
+          const amt      =Number(o.amount||0);
+          const rowTotal =amt+fee;
+          return `<div class="order-row paid-row">
+            <span class="or-date">${o.orderDate}</span>
+            <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
+            ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
+            <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:56.25%;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
+            <span class="paid-label">✔ 已付款</span>
           </div>`;
         }).join('');
 
@@ -487,7 +498,7 @@ function renderBuyerList(){
               ?`<span class="orderer-unpaid-amt">未付 NT$&nbsp;${oUnpaidAmt.toLocaleString()}</span>`
               :`<span class="orderer-paid-label">✔ 已結清</span>`}
           </div>
-          <div class="order-rows-wrap">${rowsHtml}</div>
+          <div class="order-rows-wrap">${unpaidRows}${paidRows}</div>
           ${footer}
         </div>`;
       }).join('');

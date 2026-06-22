@@ -49,11 +49,11 @@
 
   /* Cards */
   .restaurant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
-  .restaurant-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden;transition:box-shadow .2s,transform .2s;display: flex;flex-direction: column;}
+  .restaurant-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden;transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column;height:100%;}
   .restaurant-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   .card-accent-unpaid{height:4px;background:linear-gradient(90deg,var(--red),#F1948A)}
   .card-accent-paid  {height:4px;background:linear-gradient(90deg,var(--green),#52BE80)}
-  .card-body{padding:16px 18px 14px;flex:1;display:flex;flex-direction: column;}
+  .card-body{padding:16px 18px 14px;flex:1;display:flex;flex-direction:column;}
   .card-name{font-size:93.75%;font-weight:700;color:var(--navy);margin-bottom:6px}
   .date-pill{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px}
   .card-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;flex:1}
@@ -434,9 +434,17 @@ function renderRestaurants() {
 
 function renderCardGrid(gridId, emptyId, rests, zone) {
   const grid=document.getElementById(gridId), empty=document.getElementById(emptyId);
-  if (!rests.length) { grid.innerHTML=''; empty.classList.remove('view-hidden'); return; }
+  // 按最新訂單日期排序，最新的在前
+  const sorted = [...rests].sort((a,b)=>{
+    const datesA = orders.filter(o=>o.restaurantId===a.id).map(o=>o.orderDate).sort();
+    const datesB = orders.filter(o=>o.restaurantId===b.id).map(o=>o.orderDate).sort();
+    const latestA = datesA.length ? datesA[datesA.length-1] : a.createdAt || '';
+    const latestB = datesB.length ? datesB[datesB.length-1] : b.createdAt || '';
+    return latestB.localeCompare(latestA);
+  });
+  if (!sorted.length) { grid.innerHTML=''; empty.classList.remove('view-hidden'); return; }
   empty.classList.add('view-hidden');
-  grid.innerHTML = rests.map(r => {
+  grid.innerHTML = sorted.map(r => {
     const ords     = orders.filter(o=>o.restaurantId===r.id);
     const totalAmt = ords.reduce((s,o)=>s+Number(o.amount||0),0);
     const feePerOrder = calcFee(r.serviceFee);
