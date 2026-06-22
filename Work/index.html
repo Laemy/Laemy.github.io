@@ -865,16 +865,25 @@ function parseBulkText(text) {
       const rest = line.slice(0, amtMatch.index).trim();
       const firstToken = rest.split(/\s+/)[0] || '';
       const remainder = rest.slice(firstToken.length).trim();
-      const isNewOrderer = firstToken && knownNames.has(firstToken);
-
-      if (isNewOrderer) {
+      
+      // 使用 matchMemberName 進行模糊比對（與 LINE 格式一致）
+      const matched = matchMemberName(firstToken, knownNames);
+      
+      if (matched) {
+        // 找到相符的人名（完全或模糊比對）
+        current = { orderer: matched, items: remainder ? [remainder] : [], amount };
+        rows.push(current);
+      } else if (firstToken) {
+        // 完全不在清單中，保留原文字當訂購人
         current = { orderer: firstToken, items: remainder ? [remainder] : [], amount };
         rows.push(current);
         knownNames.add(firstToken);
       } else if (current) {
+        // 沒有人名，延續上一筆（品項合併、金額加總）
         if (rest) current.items.push(rest);
         current.amount += amount;
       } else {
+        // 都沒有，建立空人名的訂單
         current = { orderer: '', items: rest ? [rest] : [], amount };
         rows.push(current);
       }

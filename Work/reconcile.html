@@ -449,7 +449,18 @@ function renderBuyerList(){
         ordererMap[name].push(o);
       });
 
-      const ordererGroupsHtml=Object.entries(ordererMap).map(([orderer,oOrds])=>{
+      const ordererGroupsHtml=Object.entries(ordererMap).sort(([nameA, oOrdsA], [nameB, oOrdsB])=>{
+        // 計算每個訂購人的未付款金額
+        const unpaidA = oOrdsA.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
+        const unpaidB = oOrdsB.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
+        
+        // 先分組：有未付款的人在前，已全部付款的人在後
+        if ((unpaidA > 0) !== (unpaidB > 0)) {
+          return (unpaidA > 0) ? -1 : 1;
+        }
+        // 同一組內，有未付款的按金額降冪排序，已全部付款的按名字排序
+        return unpaidB - unpaidA || nameA.localeCompare(nameB,'zh');
+      }).map(([orderer,oOrds])=>{
         const oUnpaid   =oOrds.filter(o=>o.paidStatus==='未付款');
         const oPaid     =oOrds.filter(o=>o.paidStatus==='已付款');
         const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+orderTotal(o),0);

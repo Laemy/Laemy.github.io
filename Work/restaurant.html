@@ -394,7 +394,14 @@ function renderPersonGrid() {
     map[name].total += Number(o.amount||0);
     if (o.paidStatus==='未付款') { map[name].unpaidAmt += Number(o.amount||0); map[name].unpaidOrders.push(o); }
   });
-  const persons = Object.values(map).sort((a,b)=>b.unpaidAmt-a.unpaidAmt||a.name.localeCompare(b.name,'zh'));
+  const persons = Object.values(map).sort((a,b)=>{
+    // 先分組：有未付款的人在前，已全部付款的人在後
+    if ((a.unpaidAmt > 0) !== (b.unpaidAmt > 0)) {
+      return (a.unpaidAmt > 0) ? -1 : 1;
+    }
+    // 同一組內，有未付款的按金額降冪排序，已全部付款的按名字排序
+    return b.unpaidAmt - a.unpaidAmt || a.name.localeCompare(b.name,'zh');
+  });
   document.getElementById('person-count').textContent = persons.length+' 人';
   if (!persons.length) { grid.innerHTML=''; empty.classList.remove('view-hidden'); return; }
   empty.classList.add('view-hidden');
