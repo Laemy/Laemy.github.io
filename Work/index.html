@@ -649,9 +649,7 @@ function openOrderModal(restaurantId, orderId) {
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); });
-});
+// 移除點擊視窗外自動關閉的功能 - 只能透過按鈕關閉
 
 // ═══════════════════ SAVE / DELETE ═══════════════════
 async function saveRestaurant() {
