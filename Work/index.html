@@ -757,18 +757,20 @@ function openBulkModal(restaurantId) {
   const threeDaysAgoStr = threeDaysAgo.toISOString().slice(0, 10);
   
   // 篩選出3天內有訂單的餐廳，並添加最新訂單日期
-  const recentRests = restaurants.map(r => {
+  /*const recentRests = restaurants.map(r => {
     const rOrders = orders.filter(o => o.restaurantId === r.id);
     const latestDate = rOrders.length ? rOrders.map(o => o.orderDate).sort().pop() : null;
     return { ...r, latestDate };
-  }).filter(r => r.latestDate && r.latestDate >= threeDaysAgoStr);
+  }).filter(r => r.createdAt && r.createdAt >= threeDaysAgoStr);*/
+  
+  const recentRests = restaurants.filter(r => r.createdAt >= threeDaysAgoStr);
   
   // 按最新日期排序（最新的在前）
-  recentRests.sort((a, b) => b.latestDate.localeCompare(a.latestDate));
+  recentRests.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   
   // 生成選項，附加日期
   const options = recentRests.map(r => {
-    const [year, month, day] = r.latestDate.split('-');
+    const [year, month, day] = r.createdAt.split('-');
     const dateStr = `${month}/${day}`;
     return `<option value="${r.id}">${esc(r.name)} (${dateStr})</option>`;
   }).join('');
