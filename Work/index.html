@@ -137,11 +137,6 @@
   .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 
   .view-hidden{display:none}
-  
-  ::-webkit-input-placeholder { color: #d6dce6; }
-  input::-moz-placeholder { color: #d6dce6; }
-  input::-moz-placeholder{color:#d6dce6;}
-  :-ms-input-placeholder{color: #d6dce6;}
 </style>
 </head>
 <body style="font-size:20px">
@@ -809,13 +804,14 @@ const BULK_LINE_HEADER_RE = /^(\d{1,2}:\d{2})\s+(.+)$/;
 
 function bulkCleanItemsText(str) {
   return str
-    .replace(/=\s*\$\s*[0-9,]+/g, '')
-    .replace(/[+,，]/g, '、')
-    .replace(/\$\s*[0-9,]+/g, '')
-    .replace(/,?謝謝[。!~]?/g, '')
-    .replace(/\s+/g, ' ')
-    .replace(/、\s*、/g, '、')
-    .replace(/^、|、$/g, '')
+    .replace(/=\s*\$\s*[0-9,]+/g, '')  // 移除 "= $數字"
+    .replace(/[+,，]/g, '、')           // 把 +,, 替換為 、
+    .replace(/\$\s*[0-9,]+/g, '')       // 移除所有 $數字
+    .replace(/,?謝謝[。!~]?/g, '')      // 移除謝謝
+    .replace(/[。.!！]/g, '')           // 移除句點和驚嘆號
+    .replace(/\s+/g, ' ')               // 整理空白
+    .replace(/、\s*、/g, '、')          // 移除多餘的、
+    .replace(/^、|、$/g, '')            // 移除開頭結尾的、
     .trim();
 }
 
@@ -906,7 +902,10 @@ function parseBulkText(text) {
     if (pendingOrderer) {
       // 等待中的 LINE header 的品項行
       if (!anyAmounts.length) continue; // 雜訊（提醒訊息等），忽略
-      const finalAmount = anyAmounts[anyAmounts.length-1];
+      // 如果有多個金額，自動加總；否則取唯一的金額
+      const finalAmount = anyAmounts.length > 1 
+        ? anyAmounts.reduce((s, a) => s + a, 0)
+        : anyAmounts[0];
       const itemsText = bulkCleanItemsText(line);
       current = { orderer: pendingOrderer, items: itemsText?[itemsText]:[], amount: finalAmount };
       rows.push(current);
