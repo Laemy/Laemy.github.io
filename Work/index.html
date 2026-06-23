@@ -137,6 +137,11 @@
   .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 
   .view-hidden{display:none}
+  
+  ::-webkit-input-placeholder { color: #d6dce6; }
+  input::-moz-placeholder { color: #d6dce6; }
+  input::-moz-placeholder{color:#d6dce6;}
+  :-ms-input-placeholder{color: #d6dce6;}
 </style>
 </head>
 <body style="font-size:20px">
@@ -746,9 +751,31 @@ let bulkPreviewRows = [];   // [{orderer, items, amount}]
 let bulkRowSeq = 0;
 
 function openBulkModal(restaurantId) {
+  // 計算3天前的日期
+  const today = new Date();
+  const threeDaysAgo = new Date(today.getTime() - 3 * 24 * 60 * 60 * 1000);
+  const threeDaysAgoStr = threeDaysAgo.toISOString().slice(0, 10);
+  
+  // 篩選出3天內有訂單的餐廳，並添加最新訂單日期
+  const recentRests = restaurants.map(r => {
+    const rOrders = orders.filter(o => o.restaurantId === r.id);
+    const latestDate = rOrders.length ? rOrders.map(o => o.orderDate).sort().pop() : null;
+    return { ...r, latestDate };
+  }).filter(r => r.latestDate && r.latestDate >= threeDaysAgoStr);
+  
+  // 按最新日期排序（最新的在前）
+  recentRests.sort((a, b) => b.latestDate.localeCompare(a.latestDate));
+  
+  // 生成選項，附加日期
+  const options = recentRests.map(r => {
+    const [year, month, day] = r.latestDate.split('-');
+    const dateStr = `${month}/${day}`;
+    return `<option value="${r.id}">${esc(r.name)} (${dateStr})</option>`;
+  }).join('');
+  
   document.getElementById('bulk-restaurant-select').innerHTML =
-    '<option value="">— 請選擇餐廳 —</option>' +
-    restaurants.map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join('');
+    '<option value="">— 請選擇餐廳 —</option>' + options;
+  
   if (restaurantId) document.getElementById('bulk-restaurant-select').value = restaurantId;
   document.getElementById('bulk-date').value = todayStr();
   document.getElementById('bulk-text').value = '';
