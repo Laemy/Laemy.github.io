@@ -10,7 +10,7 @@ const DB_ANON_KEY = 'sb_publishable_65S8BPgHlFHmRZHvmzxzyA_Ut7BViu6';
 const MEMBER_LIST = [
   { name: '耕宇', aliases: ['耕宇'] },
   { name: '來毅', aliases: ['來毅'] },
-  { name: '怡蒨', aliases: ['怡蒨', 'Edda', '怡蒨-Edda'] },
+  { name: '怡蒨', aliases: ['怡蒨', 'Edda', '怡蒨-Edda', 'edda'] },
   { name: '進成', aliases: ['進成', 'Andy', '主任', '進成主任'] },
   { name: '俊麟', aliases: ['俊麟'] },
   { name: '靜怡', aliases: ['靜怡', '林靜怡'] },
@@ -19,7 +19,7 @@ const MEMBER_LIST = [
   { name: '瀞萱', aliases: ['瀞萱'] },
   { name: '培華', aliases: ['培華'] },
   { name: '廷毓', aliases: ['廷毓'] },
-  { name: '銀燦', aliases: ['銀燦', 'stanny5', '銀燦-stanny5'] },
+  { name: '銀燦', aliases: ['銀燦', 'stanny5', '銀燦-stanny5', 'Stanny5'] },
   { name: '育淇', aliases: ['育淇', '預期'] },
   { name: '亭諭', aliases: ['亭諭'] }
 ];
