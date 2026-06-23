@@ -137,6 +137,11 @@
   .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 
   .view-hidden{display:none}
+  
+  ::-webkit-input-placeholder { color: #d6dce6; }
+  input::-moz-placeholder { color: #d6dce6; }
+  input::-moz-placeholder{color:#d6dce6;}
+  :-ms-input-placeholder{color: #d6dce6;}
 </style>
 </head>
 <body style="font-size:20px">
@@ -619,8 +624,11 @@ function openRestaurantModal(id) {
 
 function openOrderModal(restaurantId, orderId) {
   const ordSel = document.getElementById('order-orderer');
-  ordSel.innerHTML = '<option value="">— 請選擇訂購人 —</option>' +
-    MEMBER_LIST.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  const memberOptions = MEMBER_LIST.map(m=>{
+    const name = typeof m === 'object' ? m.name : m;
+    return `<option value="${esc(name)}">${esc(name)}</option>`;
+  }).join('');
+  ordSel.innerHTML = '<option value="">— 請選擇訂購人 —</option>' + memberOptions;
   ['order-items','order-note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('order-amount').value='';
   document.getElementById('order-date').value=todayStr();
@@ -774,9 +782,25 @@ function bulkBackToInput() { bulkShowStep('input'); }
 //    - 多品項加總時，取最後的「= $總額」當訂單金額；沒有 "=" 則取行內最後一個 $金額
 //    - 沒有 $ 金額的行（如提醒訊息）視為雜訊，忽略
 function matchMemberName(token, knownNames) {
-  if (knownNames.has(token)) return token;
-  for (const m of knownNames) {
-    if (token.includes(m)) return m;
+  // knownNames 可能是 Set（舊邏輯）或 Map（新邏輯）
+  if (knownNames instanceof Map) {
+    // 使用新的別名映射
+    // 1. 完全比對 - 檢查是否在別名映射中
+    if (knownNames.has(token)) {
+      return knownNames.get(token);
+    }
+    // 2. 模糊比對 - 檢查是否有別名包含該字串
+    for (const [alias, mainName] of knownNames) {
+      if (token.includes(alias)) {
+        return mainName;
+      }
+    }
+  } else {
+    // 向後相容：舊的 Set 邏輯
+    if (knownNames.has(token)) return token;
+    for (const m of knownNames) {
+      if (token.includes(m)) return m;
+    }
   }
   return null;
 }
@@ -797,7 +821,24 @@ function bulkCleanItemsText(str) {
 
 function parseBulkText(text) {
   const rawLines = text.split('\n').map(l=>l.trim()).filter(Boolean);
-  const knownNames = new Set(MEMBER_LIST);
+  
+  // 建立別名到主名字的映射
+  const aliasMap = new Map();
+  const memberNames = [];
+  for (const member of MEMBER_LIST) {
+    if (typeof member === 'object' && member.name && member.aliases) {
+      // 新結構：{ name: '主名', aliases: ['別名1', '別名2'] }
+      memberNames.push(member.name);
+      for (const alias of member.aliases) {
+        aliasMap.set(alias, member.name);
+      }
+    } else {
+      // 舊結構相容：直接是字串
+      memberNames.push(member);
+      aliasMap.set(member, member);
+    }
+  }
+  const knownNames = aliasMap;
   const rows = [];
   let current = null;
   let pendingOrderer = null; // 來自 LINE header、尚未讀到品項行的訂購人
@@ -816,17 +857,32 @@ function parseBulkText(text) {
       const inlineAmt = line.match(/\$[0-9,]+/);
       if (inlineAmt) {
         // 人名與品項同一行（例：11:37 高捷-林靜怡 米苔目（乾) $60）
-        let matched = matchMemberName(nameOnly, knownNames);
+        // 改進邏輯：先找到別名，再提取品項
+        let matched = null;
+        let matchedAlias = null;
+        
+        // 檢查所有已知的別名
+        for (const [alias, mainName] of knownNames) {
+          if (nameOnly.includes(alias)) {
+            matched = mainName;
+            matchedAlias = alias;
+            break;
+          }
+        }
+        
         let itemsText = nameOnly;
-        if (matched) {
-          const firstWord = nameOnly.split(/\s+/)[0] || '';
-          itemsText = firstWord.includes(matched)
-            ? nameOnly.slice(firstWord.length).trim()
-            : (nameOnly.slice(0, nameOnly.indexOf(matched)) + nameOnly.slice(nameOnly.indexOf(matched)+matched.length)).trim();
-        } else {
+        if (matched && matchedAlias) {
+          // 使用別名來提取品項
+          const aliasIndex = nameOnly.indexOf(matchedAlias);
+          itemsText = nameOnly.slice(aliasIndex + matchedAlias.length).trim();
+        } else if (!matched) {
+          // 沒有找到匹配的別名，嘗試簡單的空白分割
           const parts = nameOnly.split(/\s+/);
           matched = parts.shift() || nameOnly;
           itemsText = parts.join(' ');
+        } else {
+          const firstWord = nameOnly.split(/\s+/)[0] || '';
+          itemsText = nameOnly.slice(firstWord.length).trim();
         }
         const amounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
         const finalAmount = amounts[amounts.length-1] || 0;
@@ -834,13 +890,13 @@ function parseBulkText(text) {
         current = { orderer: matched, items: itemsText?[itemsText]:[], amount: finalAmount };
         rows.push(current);
         pendingOrderer = null;
-        knownNames.add(matched);
+        knownNames.set(matched, matched);
       } else {
         // 人名單獨一行，下一行才是品項
         const matched = matchMemberName(nameOnly, knownNames) || nameOnly;
         pendingOrderer = matched;
         current = null;
-        knownNames.add(matched);
+        knownNames.set(matched, matched);
       }
       continue;
     }
@@ -877,7 +933,7 @@ function parseBulkText(text) {
         // 完全不在清單中，保留原文字當訂購人
         current = { orderer: firstToken, items: remainder ? [remainder] : [], amount };
         rows.push(current);
-        knownNames.add(firstToken);
+        knownNames.set(firstToken, firstToken);
       } else if (current) {
         // 沒有人名，延續上一筆（品項合併、金額加總）
         if (rest) current.items.push(rest);

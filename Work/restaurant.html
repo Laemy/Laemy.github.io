@@ -506,8 +506,11 @@ async function confirmCheckout() {
 function openOrderModal() {
   // 填充訂購人下拉選單
   const ordSel = document.getElementById('order-orderer');
-  ordSel.innerHTML = '<option value="">— 請選擇訂購人 —</option>' +
-    MEMBER_LIST.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  const memberOptions = MEMBER_LIST.map(m=>{
+    const name = typeof m === 'object' ? m.name : m;
+    return `<option value="${esc(name)}">${esc(name)}</option>`;
+  }).join('');
+  ordSel.innerHTML = '<option value="">— 請選擇訂購人 —</option>' + memberOptions;
   ordSel.value='';
   ['order-items','order-note'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('order-amount').value='';
