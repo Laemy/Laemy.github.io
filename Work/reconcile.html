@@ -101,15 +101,15 @@
   ══════════════════════════════════ */
   .orderer-group{border-bottom:none;margin-bottom:12px;border-radius:8px;overflow:hidden;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 1px 4px rgba(30,58,95,0.04)}
   .orderer-group:last-child{margin-bottom:0}
-  .orderer-group.all-paid{background:#E1E1E1;border-color:#D9E0E8;filter: grayscale();}
-  .orderer-group.all-paid .orderer-header{background:#E1E1E1;border-bottom-color:#E8EEF6;color:#8BA0BA}
+  .orderer-group.all-paid{background:#FAFBFC;border-color:#D9E0E8}
+  .orderer-group.all-paid .orderer-header{background:#FAFBFC;border-bottom-color:#E8EEF6;color:#8BA0BA}
   .orderer-group.all-paid .orderer-name{color:#8BA0BA}
   .orderer-group.all-paid .orderer-paid-label{color:#6BA084}
-  .orderer-group.all-paid .order-rows-wrap{background:#E1E1E1}
+  .orderer-group.all-paid .order-rows-wrap{background:#FAFBFC}
   .orderer-group.all-paid .rest-section{background:#F0F2F5;border-left-color:#B8C8D8}
   .orderer-group.all-paid .rest-header{background:#F0F2F5;border-bottom-color:#E0E8F0}
   .orderer-group.all-paid .rest-header-name{color:#8BA0BA}
-  .orderer-group.all-paid .order-row{background:#E1E1E1;color:#8BA0BA}
+  .orderer-group.all-paid .order-row{background:#FAFBFC;color:#8BA0BA}
 
   .orderer-header{
     display:flex;align-items:center;gap:10px;
@@ -140,10 +140,9 @@
 
   .rest-header{
     display:flex;align-items:center;gap:10px;
-    padding:5px 16px;
+    padding:10px 16px;
     background:#F5F8FB;
     border-bottom:1px solid #E8EEF6;
-	font-size:90%;
   }
   .rest-header-icon{font-size:93.75%;flex-shrink:0}
   .rest-header-name{font-size:81.25%;font-weight:700;color:var(--navy);flex:1}
@@ -158,11 +157,10 @@
 
   .order-row{
     display:flex;align-items:center;gap:10px;
-    padding:5px 16px;
+    padding:8px 16px;
     border-bottom:1px solid #f0f3f8;
     transition:background .12s;
     background:#fff;
-	font-size:85%;
   }
   .order-row:last-child{border-bottom:none}
   .order-row:hover{background:#f9fbfd}
@@ -237,6 +235,225 @@
   .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
+
+  /* ═══════════════════════════════════════════
+     RWD ── 平板 & 手機版本
+  ═════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    body{font-size:18px}
+    header{padding:0 16px;height:56px;gap:10px}
+    .logo{width:28px;height:28px;font-size:100%}
+    header h1{font-size:93.75%}
+    header .sub{font-size:68.75%}
+    .hdr-back{font-size:68.75%;padding:6px 12px}
+    
+    .scope-bar{padding:8px 16px;gap:10px}
+    .scope-label{font-size:68.75%}
+    .scope-chip{font-size:68.75%;padding:4px 10px}
+    
+    main{padding:16px;max-width:100%}
+    .summary-bar{grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:16px}
+    .s-card{padding:10px 12px}
+    .s-card .s-lbl{font-size:56.25%;margin-bottom:3px}
+    .s-card .s-val{font-size:106.25%}
+    .s-card .s-sub{font-size:62.5%;margin-top:2px}
+    
+    .buyer-section{margin-bottom:16px}
+    .buyer-header{padding:10px 14px;gap:10px}
+    .buyer-avatar{width:36px;height:36px;font-size:93.75%}
+    .buyer-name{font-size:93.75%}
+    .buyer-meta{font-size:68.75%;margin-top:1px}
+    .buyer-totals{gap:12px;margin-top:8px;width:100%}
+    .buyer-total-item{flex:1;min-width:0}
+    .buyer-total-lbl{font-size:56.25%}
+    .buyer-total-val{font-size:100%}
+    
+    .orderer-group{margin-bottom:10px;border-radius:6px}
+    .orderer-header{padding:10px 14px}
+    .orderer-avatar{width:28px;height:28px;font-size:75%}
+    .orderer-name{font-size:81.25%}
+    .orderer-unpaid-amt{font-size:75%}
+    .orderer-paid-label{font-size:68.75%}
+    
+    .rest-section{margin:0 0 6px 12px;border-left-width:3px}
+    .rest-header{padding:9px 12px;gap:8px}
+    .rest-header-icon{font-size:81.25%}
+    .rest-header-name{font-size:75%}
+    .rest-header-badges{gap:6px}
+    .badge{padding:2px 7px;font-size:62.5%}
+    
+    .order-row{padding:7px 12px;gap:8px}
+    .or-date{font-size:68.75%;min-width:65px}
+    .or-items{font-size:68.75%}
+    .or-note{font-size:62.5%}
+    .or-amt{font-size:75%;min-width:110px}
+    
+    .btn-pay{padding:3px 9px;font-size:62.5%}
+    .btn-settle{padding:4px 12px;font-size:68.75%}
+    .paid-label{font-size:62.5%;padding:3px 8px}
+    
+    .orderer-footer{padding:8px 12px}
+    .orderer-footer-left{font-size:68.75%}
+    
+    .confirm-box{max-width:90%;padding:20px}
+    .confirm-box h3{font-size:93.75%}
+    .confirm-box p{font-size:75%}
+    .confirm-amount-val{font-size:112.5%}
+    .btn{padding:8px 14px;font-size:75%}
+    
+    .toast{bottom:16px;right:16px;padding:10px 16px;font-size:75%}
+  }
+
+  @media (max-width: 768px) {
+    body{font-size:16px}
+    header{padding:0 12px;height:52px;gap:8px}
+    .logo{width:28px;height:28px}
+    header h1{font-size:87.5%}
+    header .sub{font-size:62.5%}
+    .hdr-back{font-size:62.5%;padding:5px 10px;gap:4px}
+    
+    .scope-bar{padding:6px 12px;gap:8px;border-bottom:1px solid var(--border)}
+    .scope-label{font-size:62.5%}
+    .scope-chip{font-size:62.5%;padding:3px 9px}
+    .scope-chip input{width:12px;height:12px}
+    
+    main{padding:12px;max-width:100%;margin:0 auto}
+    .summary-bar{grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:12px}
+    .s-card{padding:8px 10px;border-radius:8px}
+    .s-card .s-lbl{font-size:50%;margin-bottom:2px}
+    .s-card .s-val{font-size:93.75%}
+    .s-card .s-sub{font-size:56.25%;margin-top:1px}
+    
+    .buyer-section{margin-bottom:12px;border-radius:6px}
+    .buyer-header{flex-direction:column;align-items:flex-start;padding:8px 12px;gap:8px}
+    .buyer-avatar{width:32px;height:32px;font-size:87.5%}
+    .buyer-info{width:100%}
+    .buyer-name{font-size:87.5%}
+    .buyer-meta{font-size:62.5%}
+    .buyer-totals{width:100%;gap:8px;flex-wrap:wrap}
+    .buyer-total-item{flex:0 1 48%;min-width:0}
+    .buyer-total-lbl{font-size:50%}
+    .buyer-total-val{font-size:93.75%}
+    
+    .buyer-body{padding:8px;border-radius:0 0 6px 6px}
+    
+    .orderer-group{margin-bottom:8px;border-radius:6px;border:1px solid var(--border)}
+    .orderer-header{padding:8px 12px}
+    .orderer-avatar{width:26px;height:26px;font-size:68.75%}
+    .orderer-name{font-size:75%}
+    .orderer-unpaid-amt{font-size:68.75%}
+    
+    .rest-section{margin:0 0 4px 10px;border-left-width:3px;border-radius:0 4px 4px 0}
+    .rest-header{padding:8px 10px;gap:6px}
+    .rest-header-icon{font-size:75%}
+    .rest-header-name{font-size:68.75%}
+    .rest-header-badges{gap:4px;flex-wrap:wrap}
+    .badge{padding:2px 6px;font-size:56.25%}
+    
+    .order-row{padding:6px 10px;gap:6px;flex-wrap:wrap}
+    .or-date{font-size:62.5%;min-width:60px}
+    .or-items{font-size:62.5%;flex-basis:100%;order:2}
+    .or-note{font-size:56.25%;flex-basis:100%;order:3}
+    .or-amt{font-size:68.75%;min-width:100px;order:4}
+    
+    .btn-pay{padding:3px 8px;font-size:56.25%;gap:3px}
+    .btn-settle{padding:3px 10px;font-size:62.5%}
+    .paid-label{font-size:56.25%;padding:2px 6px}
+    
+    .orderer-footer{padding:6px 10px;flex-direction:column;align-items:flex-start}
+    .orderer-footer-left{font-size:62.5%;width:100%}
+    
+    .confirm-overlay{inset:0}
+    .confirm-box{max-width:95%;padding:16px;border-radius:12px}
+    .confirm-box h3{font-size:87.5%;margin-bottom:8px}
+    .confirm-box p{font-size:68.75%;line-height:1.6;margin-bottom:12px}
+    .confirm-amount{padding:8px 12px;margin-bottom:12px}
+    .confirm-amount-lbl{font-size:68.75%}
+    .confirm-amount-val{font-size:100%}
+    .confirm-btns{gap:8px}
+    .btn{padding:7px 12px;font-size:68.75%;gap:4px}
+    
+    .toast{bottom:12px;right:12px;padding:8px 14px;font-size:68.75%;border-radius:6px}
+    
+    .empty-state{padding:30px 16px;text-align:center}
+    .empty-state .ei{font-size:200%;margin-bottom:10px}
+    .empty-state p{font-size:75%}
+  }
+
+  @media (max-width: 480px) {
+    body{font-size:14px}
+    header{height:48px;padding:0 10px}
+    header h1{font-size:81.25%}
+    header .sub{display:none}
+    .hdr-back{font-size:56.25%;padding:4px 8px}
+    
+    .scope-bar{padding:4px 10px;gap:6px}
+    .scope-label{font-size:56.25%;display:none}
+    .scope-chips{flex:1}
+    .scope-chip{font-size:56.25%;padding:2px 8px}
+    
+    main{padding:8px}
+    .summary-bar{grid-template-columns:1fr;gap:4px;margin-bottom:8px}
+    .s-card{padding:6px 8px;border-radius:6px}
+    .s-card .s-lbl{font-size:43.75%}
+    .s-card .s-val{font-size:87.5%}
+    .s-card .s-sub{font-size:50%}
+    
+    .buyer-section{margin-bottom:8px;border-radius:4px}
+    .buyer-header{padding:6px 10px}
+    .buyer-avatar{width:28px;height:28px;font-size:81.25%}
+    .buyer-name{font-size:81.25%}
+    .buyer-meta{font-size:56.25%;line-height:1.4}
+    .buyer-totals{width:100%;gap:6px}
+    .buyer-total-item{flex:1;min-width:0}
+    .buyer-total-lbl{font-size:43.75%}
+    .buyer-total-val{font-size:87.5%}
+    
+    .buyer-body{padding:6px;gap:6px}
+    
+    .orderer-group{margin-bottom:6px;border:1px solid var(--border);border-radius:4px}
+    .orderer-header{padding:6px 10px;gap:6px}
+    .orderer-avatar{width:24px;height:24px;font-size:62.5%}
+    .orderer-name{font-size:68.75%}
+    .orderer-unpaid-amt{font-size:62.5%}
+    .orderer-paid-label{font-size:56.25%}
+    
+    .rest-section{margin:0 0 2px 8px;border-left-width:2px}
+    .rest-header{padding:6px 8px;gap:4px}
+    .rest-header-icon{font-size:68.75%}
+    .rest-header-name{font-size:62.5%}
+    .rest-header-badges{gap:2px;flex-wrap:wrap}
+    .badge{padding:1px 5px;font-size:50%}
+    
+    .order-rows-wrap{border-top:none}
+    .order-row{padding:4px 8px;gap:4px;font-size:13px}
+    .or-date{font-size:56.25%;min-width:55px}
+    .or-items{font-size:56.25%;flex-basis:100%;order:2}
+    .or-note{font-size:50%;flex-basis:100%;order:3}
+    .or-amt{font-size:62.5%;min-width:85px;order:4;text-align:right}
+    
+    .btn-pay{padding:2px 6px;font-size:50%;gap:2px}
+    .btn-settle{padding:2px 8px;font-size:56.25%}
+    .paid-label{font-size:50%;padding:1px 5px}
+    
+    .orderer-footer{padding:4px 8px;gap:6px;flex-direction:column}
+    .orderer-footer-left{font-size:56.25%;width:100%}
+    
+    .confirm-box{max-width:98%;padding:12px;margin:10px}
+    .confirm-box h3{font-size:81.25%;margin-bottom:6px}
+    .confirm-box p{font-size:62.5%;line-height:1.5;margin-bottom:10px}
+    .confirm-amount{padding:6px 10px;margin-bottom:10px}
+    .confirm-amount-lbl{font-size:56.25%}
+    .confirm-amount-val{font-size:93.75%}
+    .confirm-btns{gap:6px}
+    .btn{padding:6px 10px;font-size:62.5%}
+    
+    .toast{bottom:8px;right:8px;padding:6px 12px;font-size:62.5%;border-radius:4px;border-left-width:3px}
+    
+    .empty-state{padding:20px 12px}
+    .empty-state .ei{font-size:150%;margin-bottom:8px}
+    .empty-state p{font-size:68.75%}
+  }
 </style>
 </head>
 <body style="font-size:20px">
@@ -487,7 +704,7 @@ function renderBuyerList(){
             <span class="or-items" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</span>
             ${o.note?`<span class="or-note">📝 ${esc(o.note)}</span>`:''}
             <span class="or-amt">NT$&nbsp;${amt.toLocaleString()}${fee>0?`<span style="font-size:56.25%;color:var(--text-3);font-weight:400"> +${fee}</span>`:''}　＝　<strong>NT$&nbsp;${rowTotal.toLocaleString()}</strong></span>
-            <button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${rowTotal})">付款</button>
+            <button class="btn-pay" onclick="askPay('${o.id}','${esc(orderer)}','${esc(restName)}',${rowTotal})">💳 付款</button>
           </div>`;
         }).join('');
 
@@ -533,7 +750,7 @@ function renderBuyerList(){
 
     return `<div class="buyer-section">
       <div class="buyer-header" style="background:${color}">
-        <div class="buyer-avatar" style="background:${color};color:${bgLight}">${esc(b.buyer.charAt(0))}</div>
+        <div class="buyer-avatar" style="background:${bgLight};color:${color}">${esc(b.buyer.charAt(0))}</div>
         <div class="buyer-info">
           <div class="buyer-name">👤 ${esc(b.buyer)}</div>
           <div class="buyer-meta">${b.ordererCount} 人訂購・${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>

@@ -142,6 +142,191 @@
   input::-moz-placeholder { color: #d6dce6; }
   input::-moz-placeholder{color:#d6dce6;}
   :-ms-input-placeholder{color: #d6dce6;}
+
+  /* ═══════════════════════════════════════════
+     RWD ── 平板 & 手機版本
+  ═════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    body{font-size:18px}
+    header{padding:0 16px;height:56px;gap:10px}
+    .logo-icon{width:28px;height:28px;font-size:100%}
+    header h1{font-size:93.75%}
+    .tab-bar{padding:0 16px}
+    .tab-btn{padding:12px 16px;font-size:81.25%}
+    main{padding:20px 16px;max-width:100%}
+    
+    .section-header{margin-bottom:16px}
+    .section-header h2{font-size:100%}
+    .count-badge{font-size:68.75%;padding:2px 8px}
+    .btn{padding:8px 14px;font-size:75%}
+    
+    .restaurant-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .card-body{padding:14px 16px 12px}
+    .card-name{font-size:87.5%;margin-bottom:4px}
+    .date-pill{font-size:62.5%;padding:3px 8px}
+    .card-meta-row{font-size:68.75%}
+    .card-actions{gap:6px}
+    .card-footer{gap:6px}
+    
+    .summary-bar{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+    .summary-card{padding:12px 14px}
+    .summary-card .s-label{font-size:62.5%}
+    .summary-card .s-value{font-size:112.5%}
+    
+    table{font-size:75%}
+    thead th{padding:10px 12px;font-size:68.75%}
+    tbody td{padding:9px 12px}
+    
+    .accordion-block{margin-bottom:10px}
+    .accordion-header{padding:12px 16px;gap:10px}
+    .accordion-name{font-size:81.25%}
+    .acc-stat{font-size:68.75%;padding:2px 8px}
+    
+    .modal{max-width:85%}
+    .form-control{padding:8px 10px;font-size:75%}
+    .form-group label{font-size:68.75%}
+    
+    .toast{bottom:16px;right:16px;font-size:68.75%}
+  }
+
+  @media (max-width: 768px) {
+    body{font-size:16px}
+    header{padding:0 12px;height:52px;gap:8px}
+    .logo-icon{width:26px;height:26px;font-size:93.75%}
+    header h1{font-size:87.5%}
+    header a{padding:5px 10px;font-size:62.5%}
+    
+    .tab-bar{padding:0 12px;overflow-x:auto}
+    .tab-btn{padding:10px 12px;font-size:75%;white-space:nowrap}
+    
+    main{padding:14px;max-width:100%;margin:0 auto}
+    
+    .section-header{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px}
+    .section-header h2{font-size:93.75%}
+    .section-header > div:last-child{width:100%;display:flex;gap:6px;flex-wrap:wrap}
+    .count-badge{font-size:62.5%;padding:2px 7px}
+    .btn{padding:7px 12px;font-size:68.75%}
+    .btn-sm{padding:4px 9px;font-size:62.5%}
+    
+    .zone-wrap{margin-bottom:20px}
+    .zone-label{margin-bottom:10px}
+    .zone-title{font-size:68.75%;padding:4px 10px}
+    
+    .restaurant-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .card-body{padding:12px 14px}
+    .card-name{font-size:81.25%}
+    .date-pill{font-size:56.25%;padding:2px 6px}
+    .card-meta-row{font-size:62.5%;gap:4px}
+    .card-note{font-size:62.5%}
+    .card-actions{gap:4px}
+    .card-footer{padding:8px 12px;flex-wrap:wrap}
+    .order-summary{font-size:68.75%}
+    .status-badge{padding:2px 8px;font-size:62.5%}
+    
+    .summary-bar{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+    .summary-card{padding:10px 12px}
+    .summary-card .s-label{font-size:56.25%}
+    .summary-card .s-value{font-size:100%}
+    
+    .table-wrap{overflow-x:auto;border-radius:6px}
+    table{font-size:68.75%}
+    thead th{padding:9px 10px;font-size:62.5%;white-space:nowrap}
+    tbody td{padding:8px 10px}
+    
+    .accordion-block{margin-bottom:8px;border-radius:6px}
+    .accordion-header{padding:10px 12px;gap:8px}
+    .accordion-name{font-size:75%}
+    .accordion-stats{gap:6px}
+    .acc-stat{font-size:62.5%;padding:2px 6px}
+    
+    .modal{max-width:90%;max-height:85vh}
+    .modal-header{padding:14px 16px 10px}
+    .modal-header h3{font-size:93.75%}
+    .modal-body{padding:14px 16px;gap:10px}
+    .form-group{gap:4px}
+    .form-group label{font-size:62.5%}
+    .form-control{padding:7px 9px;font-size:68.75%}
+    .form-row{gap:10px}
+    
+    .toast{bottom:12px;right:12px;font-size:62.5%;padding:8px 12px}
+    .empty-state{padding:30px 16px}
+    .empty-state .empty-icon{font-size:180%}
+    .empty-state p{font-size:68.75%}
+  }
+
+  @media (max-width: 480px) {
+    body{font-size:14px}
+    header{height:48px;padding:0 10px;gap:6px}
+    .logo-icon{width:24px;height:24px;font-size:87.5%}
+    header h1{font-size:81.25%}
+    header a{padding:4px 8px;font-size:56.25%;gap:3px}
+    
+    .tab-bar{padding:0 10px}
+    .tab-btn{padding:8px 10px;font-size:68.75%;padding-left:0;padding-right:0}
+    
+    main{padding:8px;margin:0}
+    
+    .section-header{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:10px}
+    .section-header h2{font-size:87.5%}
+    .section-header > div{width:100%}
+    .section-header > div:last-child{display:flex;gap:4px;flex-wrap:wrap}
+    .count-badge{font-size:56.25%;padding:1px 6px}
+    .btn{padding:6px 10px;font-size:62.5%;gap:3px}
+    .btn-sm{padding:3px 8px;font-size:56.25%}
+    
+    .zone-wrap{margin-bottom:16px}
+    .zone-label{margin-bottom:8px;gap:8px}
+    .zone-title{font-size:62.5%;padding:3px 8px}
+    .zone-line{height:1px}
+    
+    .restaurant-grid{grid-template-columns:1fr;gap:8px}
+    .card-accent-unpaid{height:3px}
+    .card-accent-paid{height:3px}
+    .card-body{padding:10px 12px}
+    .card-name{font-size:75%;margin-bottom:2px}
+    .date-pill{font-size:50%;padding:2px 6px;margin-bottom:6px}
+    .card-meta{gap:2px;margin-bottom:8px}
+    .card-meta-row{font-size:56.25%;gap:3px}
+    .card-note{font-size:56.25%;margin-bottom:8px}
+    .card-actions{gap:3px;margin:3px 0}
+    .card-footer{padding:6px 10px;gap:4px}
+    .order-summary{font-size:62.5%}
+    .status-badge{padding:1px 6px;font-size:56.25%}
+    
+    .summary-bar{grid-template-columns:1fr;gap:6px;margin-bottom:12px}
+    .summary-card{padding:8px 10px}
+    .summary-card .s-label{font-size:50%}
+    .summary-card .s-value{font-size:87.5%}
+    
+    .table-wrap{overflow-x:auto;border-radius:4px;margin-bottom:8px}
+    table{font-size:62.5%}
+    thead th{padding:6px 8px;font-size:56.25%}
+    tbody td{padding:6px 8px}
+    
+    .accordion-block{margin-bottom:6px;border-radius:4px}
+    .accordion-header{padding:8px 10px;gap:6px}
+    .accordion-name{font-size:68.75%}
+    .accordion-stats{gap:4px;flex-wrap:wrap}
+    .acc-stat{font-size:56.25%;padding:1px 5px}
+    
+    .modal{max-width:95%;padding:8px;border-radius:10px}
+    .modal-header{padding:10px 12px 8px}
+    .modal-header h3{font-size:87.5%}
+    .modal-close{font-size:106.25%}
+    .modal-body{padding:10px 12px;gap:8px}
+    .form-group{gap:3px}
+    .form-group label{font-size:56.25%}
+    .form-control{padding:6px 8px;font-size:62.5%;border-radius:5px}
+    .form-row{gap:8px}
+    .form-static{padding:6px 8px;font-size:62.5%}
+    .modal-footer{padding:8px 12px;gap:6px}
+    
+    .toast{bottom:8px;right:8px;font-size:56.25%;padding:6px 10px;border-radius:4px;border-left-width:3px}
+    
+    .empty-state{padding:20px 12px}
+    .empty-state .empty-icon{font-size:140%}
+    .empty-state p{font-size:62.5%}
+  }
 </style>
 </head>
 <body style="font-size:20px">
@@ -756,7 +941,7 @@ function openBulkModal(restaurantId) {
   const threeDaysAgo = new Date(today.getTime() - 3 * 24 * 60 * 60 * 1000);
   const threeDaysAgoStr = threeDaysAgo.toISOString().slice(0, 10);
   
-  // 篩選出3天內有訂單的餐廳，並添加最新訂單日期
+  // 篩選出3天內建立的餐廳
   /*const recentRests = restaurants.map(r => {
     const rOrders = orders.filter(o => o.restaurantId === r.id);
     const latestDate = rOrders.length ? rOrders.map(o => o.orderDate).sort().pop() : null;

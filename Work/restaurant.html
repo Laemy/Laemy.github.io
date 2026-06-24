@@ -140,6 +140,201 @@
 
   .divider{height:1px;background:var(--border);margin:28px 0}
   .view-hidden{display:none!important}
+
+  /* ═══════════════════════════════════════════
+     RWD ── 平板 & 手機版本
+  ═════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    body{font-size:18px}
+    header{padding:0 16px;height:56px;gap:10px}
+    .logo-icon{width:28px;height:28px;font-size:100%}
+    .hdr-title{font-size:93.75%}
+    .hdr-rest-name{font-size:81.25%}
+    .hdr-back{font-size:68.75%;padding:6px 12px}
+    
+    .hero-wrap{padding:0 16px 16px}
+    .hero-card{padding:16px 18px;gap:16px}
+    .hero-name{font-size:125%;margin-bottom:8px}
+    .hero-meta-item{font-size:75%;gap:4px}
+    .hero-stat{min-width:80px;padding:8px 12px}
+    .hero-stat .hs-label{font-size:56.25%;margin-bottom:2px}
+    .hero-stat .hs-value{font-size:100%}
+    .hero-stat .hs-sub{font-size:62.5%}
+    
+    main{padding:20px 16px;max-width:100%}
+    .section-header h2{font-size:93.75%}
+    .count-badge{font-size:68.75%;padding:2px 8px}
+    .btn{padding:8px 14px;font-size:75%}
+    
+    .summary-strip{grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:16px}
+    .strip-card{padding:10px 12px}
+    .strip-card .sc-label{font-size:62.5%;margin-bottom:2px}
+    .strip-card .sc-value{font-size:100%}
+    
+    .person-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+    .person-card{border-radius:6px}
+    .person-card-header{padding:11px 14px;gap:8px}
+    .avatar{width:32px;height:32px;font-size:81.25%}
+    .person-name{font-size:81.25%}
+    .person-status{font-size:62.5%;margin-top:1px}
+    .person-total{font-size:87.5%}
+    .person-total-label{font-size:56.25%}
+    .person-unpaid-row{padding:8px 12px;font-size:68.75%;gap:6px}
+    .prow-date{font-size:62.5%}
+    
+    .table-wrap{border-radius:6px}
+    table{font-size:75%}
+    thead th{padding:10px 12px;font-size:68.75%}
+    tbody td{padding:9px 12px}
+    .amount-cell{font-weight:700}
+    
+    .filter-bar{gap:6px;margin-bottom:12px}
+    .filter-btn{padding:5px 12px;font-size:68.75%}
+    
+    .modal{max-width:80%}
+    .form-control{padding:8px 10px;font-size:75%}
+    .form-group label{font-size:68.75%}
+    
+    .toast{bottom:16px;right:16px;font-size:68.75%}
+  }
+
+  @media (max-width: 768px) {
+    body{font-size:16px}
+    header{padding:0 12px;height:52px;gap:8px}
+    .logo-icon{width:26px;height:26px;font-size:93.75%}
+    .hdr-title{font-size:87.5%}
+    .hdr-rest-name{font-size:75%;overflow:visible;white-space:normal}
+    .hdr-back{font-size:62.5%;padding:5px 10px}
+    
+    .hero-wrap{padding:0 12px 12px}
+    .hero-card{flex-wrap:wrap;padding:12px 14px;gap:12px;border-radius:10px}
+    .hero-name{font-size:112.5%;margin-bottom:6px}
+    .hero-meta{gap:6px 12px}
+    .hero-meta-item{font-size:68.75%;gap:3px}
+    .hero-stats{width:100%;gap:8px}
+    .hero-stat{min-width:70px;padding:8px 10px;border-radius:8px}
+    .hero-stat .hs-label{font-size:50%;margin-bottom:2px}
+    .hero-stat .hs-value{font-size:93.75%}
+    .hero-stat .hs-sub{font-size:56.25%}
+    
+    main{padding:14px;max-width:100%;margin:0 auto}
+    .section-header{flex-wrap:wrap;margin-bottom:12px;gap:8px}
+    .section-header h2{font-size:87.5%}
+    .section-header > *:last-child{width:100%}
+    .count-badge{font-size:62.5%;padding:2px 7px}
+    .btn{padding:7px 12px;font-size:68.75%}
+    
+    .summary-strip{grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin-bottom:12px}
+    .strip-card{padding:8px 10px;border-radius:6px}
+    .strip-card .sc-label{font-size:56.25%}
+    .strip-card .sc-value{font-size:93.75%}
+    
+    .person-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+    .person-card{border-radius:6px;border:1px solid var(--border)}
+    .person-card-header{padding:10px 12px;gap:8px}
+    .avatar{width:28px;height:28px;font-size:75%}
+    .person-name{font-size:75%}
+    .person-status{font-size:56.25%}
+    .person-total{font-size:81.25%}
+    .person-total-label{font-size:50%}
+    .person-unpaid-list{display:none}
+    
+    .divider{margin:16px 0}
+    
+    .filter-bar{gap:4px;margin-bottom:10px;overflow-x:auto}
+    .filter-btn{padding:4px 10px;font-size:62.5%;white-space:nowrap;flex-shrink:0}
+    
+    .table-wrap{overflow-x:auto;border-radius:6px;margin-bottom:12px}
+    table{font-size:68.75%}
+    thead th{padding:9px 10px;font-size:62.5%}
+    tbody td{padding:8px 10px}
+    
+    .modal{max-width:90%;max-height:85vh}
+    .modal-header{padding:12px 14px 8px}
+    .modal-header h3{font-size:87.5%}
+    .modal-body{padding:12px 14px;gap:10px}
+    .form-group{gap:4px}
+    .form-group label{font-size:62.5%}
+    .form-control{padding:7px 9px;font-size:68.75%;border-radius:6px}
+    .form-row{gap:10px}
+    .form-static{padding:7px 9px;font-size:62.5%}
+    
+    .toast{bottom:12px;right:12px;font-size:62.5%;padding:8px 12px}
+    .empty-state{padding:20px 14px}
+    .empty-state .empty-icon{font-size:160%}
+    .empty-state p{font-size:68.75%}
+  }
+
+  @media (max-width: 480px) {
+    body{font-size:14px}
+    header{height:48px;padding:0 10px;gap:6px}
+    .logo-icon{width:24px;height:24px;font-size:87.5%}
+    .hdr-title{font-size:81.25%}
+    .hdr-rest-name{display:none}
+    .hdr-back{font-size:56.25%;padding:4px 8px;gap:3px}
+    
+    .hero-wrap{padding:0 10px 8px}
+    .hero-card{flex-direction:column;padding:10px 12px;gap:8px;border-radius:8px}
+    .hero-name{font-size:100%;margin-bottom:4px}
+    .hero-meta{gap:4px 8px;flex-direction:column}
+    .hero-meta-item{font-size:62.5%;gap:2px}
+    .hero-stats{width:100%;gap:4px;min-width:0}
+    .hero-stat{min-width:auto;flex:1;padding:6px 8px;border-radius:6px}
+    .hero-stat .hs-label{font-size:43.75%}
+    .hero-stat .hs-value{font-size:87.5%}
+    .hero-stat .hs-sub{font-size:50%;margin-top:1px}
+    
+    main{padding:8px;margin:0}
+    .section-header{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:10px}
+    .section-header h2{font-size:81.25%}
+    .section-header > *:last-child{width:100%;display:flex;gap:4px;flex-wrap:wrap}
+    .count-badge{font-size:56.25%;padding:1px 6px}
+    .btn{padding:6px 10px;font-size:62.5%;gap:2px}
+    
+    .summary-strip{grid-template-columns:repeat(2,1fr);gap:4px;margin-bottom:10px}
+    .strip-card{padding:6px 8px;border-radius:4px;border:1px solid var(--border)}
+    .strip-card .sc-label{font-size:50%}
+    .strip-card .sc-value{font-size:87.5%}
+    
+    .person-grid{grid-template-columns:1fr;gap:8px;margin-bottom:16px}
+    .person-card{border-radius:4px;border:1px solid var(--border)}
+    .person-card-header{padding:8px 10px;gap:6px;flex-wrap:wrap}
+    .avatar{width:24px;height:24px;font-size:68.75%}
+    .person-name{font-size:68.75%;flex-basis:100%;order:1}
+    .person-status{font-size:50%;order:2;flex-basis:100%;margin-top:2px}
+    .person-total{font-size:75%;order:3}
+    .person-total-label{font-size:43.75%;text-align:right}
+    .person-unpaid-list{display:none}
+    
+    .divider{margin:12px 0;height:1px}
+    
+    .filter-bar{gap:3px;margin-bottom:8px;overflow-x:auto}
+    .filter-btn{padding:3px 8px;font-size:56.25%;white-space:nowrap;flex-shrink:0;border-radius:4px}
+    
+    .table-wrap{overflow-x:auto;border-radius:4px;margin-bottom:8px}
+    table{font-size:62.5%;width:100%}
+    thead th{padding:6px 8px;font-size:56.25%;white-space:nowrap}
+    tbody td{padding:6px 8px}
+    tr.row-unpaid{background:#fffbf5}
+    
+    .modal{max-width:95%;padding:8px;border-radius:10px}
+    .modal-header{padding:10px 12px 8px;border-radius:10px 10px 0 0}
+    .modal-header h3{font-size:81.25%}
+    .modal-close{font-size:100%}
+    .modal-body{padding:10px 12px;gap:8px}
+    .form-group{gap:3px}
+    .form-group label{font-size:56.25%}
+    .form-control{padding:6px 8px;font-size:62.5%;border-radius:5px}
+    .form-row{gap:8px;grid-template-columns:1fr}
+    .form-static{padding:6px 8px;font-size:56.25%;border-radius:5px}
+    .modal-footer{padding:8px 12px;gap:6px}
+    
+    .toast{bottom:8px;right:8px;font-size:56.25%;padding:6px 10px;border-radius:4px;border-left-width:3px}
+    
+    .empty-state{padding:16px 10px}
+    .empty-state .empty-icon{font-size:120%}
+    .empty-state p{font-size:62.5%;margin:8px 0}
+  }
 </style>
 </head>
 <body style="font-size:20px">
