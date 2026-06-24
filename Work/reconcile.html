@@ -77,6 +77,8 @@
     border-radius:0 0 12px 12px;
     overflow:hidden;
     box-shadow:var(--shadow);
+    padding:14px;
+    background:var(--surface);
   }
 
   /* ── 主購統計帶 ── */
@@ -95,72 +97,71 @@
   .bss-val{font-size:93.75%;font-weight:700;color:var(--navy)}
 
   /* ══════════════════════════════════
-     LEVEL 2 ── 餐廳群組
+     LEVEL 2 ── 訂購人群組
   ══════════════════════════════════ */
-  .rest-section{border-bottom:2px solid var(--border)}
-  .rest-section:last-child{border-bottom:none}
+  .orderer-group{border-bottom:none;margin-bottom:12px;border-radius:8px;overflow:hidden;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 1px 4px rgba(30,58,95,0.04)}
+  .orderer-group:last-child{margin-bottom:0}
+
+  .orderer-header{
+    display:flex;align-items:center;gap:10px;
+    padding:12px 18px;
+    background:var(--surface);
+    border-bottom:2px solid var(--border);
+  }
+  .orderer-avatar{
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:81.25%;font-weight:700;color:#fff;flex-shrink:0;
+  }
+  .orderer-name{font-size:87.5%;font-weight:700;color:var(--navy);flex:1}
+  .orderer-unpaid-amt{font-size:81.25%;font-weight:700;color:var(--red)}
+  .orderer-paid-label{font-size:75%;color:var(--green);font-weight:600}
+
+  /* ══════════════════════════════════
+     LEVEL 3 ── 餐廳群組
+  ══════════════════════════════════ */
+  .rest-section{
+    margin:0 0 8px 16px;
+    border-left:4px solid var(--blue);
+    border-radius:0 6px 6px 0;
+    overflow:hidden;
+    background:#F5F8FB;
+  }
+  .rest-section:last-child{margin-bottom:0}
 
   .rest-header{
     display:flex;align-items:center;gap:10px;
-    padding:10px 20px;
-    background:#EEF4FB;
-    border-bottom:1px solid var(--border);
-    cursor:pointer;user-select:none;
-    transition:background .15s;
+    padding:10px 16px;
+    background:#F5F8FB;
+    border-bottom:1px solid #E8EEF6;
   }
-  .rest-header:hover{background:#E3EEF9}
-  .rest-header-icon{font-size:100%;flex-shrink:0}
-  .rest-header-name{font-size:87.5%;font-weight:700;color:var(--navy);flex:1}
+  .rest-header-icon{font-size:93.75%;flex-shrink:0}
+  .rest-header-name{font-size:81.25%;font-weight:700;color:var(--navy);flex:1}
   .rest-header-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .badge{display:inline-block;padding:2px 9px;border-radius:14px;font-size:68.75%;font-weight:600}
   .badge-unpaid{background:var(--red-light);color:var(--red)}
   .badge-paid  {background:var(--green-light);color:var(--green)}
   .badge-total {background:var(--blue-light);color:var(--blue)}
-  .rest-chevron{font-size:75%;color:var(--text-3);transition:transform .2s;flex-shrink:0}
-  .rest-chevron.open{transform:rotate(180deg)}
 
-  .rest-body{display:none}
-  .rest-body.open{display:block}
-
-  /* ══════════════════════════════════
-     LEVEL 3 ── 訂購人群組
-  ══════════════════════════════════ */
-  .orderer-group{border-bottom:1px solid var(--border)}
-  .orderer-group:last-child{border-bottom:none}
-
-  .orderer-header{
-    display:flex;align-items:center;gap:10px;
-    padding:9px 20px 9px 44px;
-    background:var(--surface);
-    border-bottom:1px solid #f0f3f8;
-  }
-  .orderer-avatar{
-    width:28px;height:28px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:75%;font-weight:700;color:#fff;flex-shrink:0;
-  }
-  .orderer-name{font-size:81.25%;font-weight:700;color:var(--navy);flex:1}
-  .orderer-unpaid-amt{font-size:81.25%;font-weight:700;color:var(--red)}
-  .orderer-paid-label{font-size:75%;color:var(--green);font-weight:600}
-
-  /* ── 未付款訂單列 ── */
-  .order-rows-wrap{background:#fff}
+  /* ── 訂單列 ── */
+  .order-rows-wrap{background:#fff;border-top:1px solid #E8EEF6}
 
   .order-row{
     display:flex;align-items:center;gap:10px;
-    padding:8px 20px 8px 82px;
-    border-bottom:1px solid var(--border);
+    padding:8px 16px;
+    border-bottom:1px solid #f0f3f8;
     transition:background .12s;
+    background:#fff;
   }
   .order-row:last-child{border-bottom:none}
-  .order-row:hover{background:#f5f8fb}
-  .order-row.paid-row{background:#f5f5f5;opacity:1}
-  .order-row.paid-row:hover{background:#eaeaea}
+  .order-row:hover{background:#f9fbfd}
+  .order-row.paid-row{background:#fafafa;opacity:1}
+  .order-row.paid-row:hover{background:#f5f5f5}
 
-  .or-date{font-size:75%;color:var(--text-3);padding:0;background:none;white-space:nowrap;flex-shrink:0;font-weight:400}
+  .or-date{font-size:75%;color:var(--text-3);padding:0;background:none;white-space:nowrap;flex-shrink:0;font-weight:400;min-width:75px}
   .or-items{flex:1;font-size:75%;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .or-note{font-size:68.75%;color:var(--text-3);white-space:nowrap;flex-shrink:0}
-  .or-amt{font-size:81.25%;font-weight:700;color:var(--navy);white-space:nowrap;min-width:76px;text-align:right;flex-shrink:0}
+  .or-amt{font-size:81.25%;font-weight:700;color:var(--navy);white-space:nowrap;min-width:140px;text-align:right;flex-shrink:0}
 
   /* ── 操作按鈕 ── */
   .btn-pay{
@@ -178,12 +179,11 @@
     border:1.5px solid #a9dfbf;white-space:nowrap;flex-shrink:0;
   }
 
-  /* ── 訂購人結清列 ── */
   .orderer-footer{
     display:flex;align-items:center;justify-content:space-between;
-    padding:8px 20px 8px 82px;
-    background:#fff8f0;border-top:1px dashed #f5cba7;
-    border-bottom:1px solid var(--border);
+    padding:10px 16px;
+    background:#f9f9f9;
+    border-top:1px solid #f0f3f8;
     gap:10px;flex-wrap:wrap;
   }
   .orderer-footer-left{font-size:75%;color:var(--text-2)}
@@ -395,23 +395,26 @@ function renderBuyerList(){
     return Number(o.amount||0) + calcFee(rest?.serviceFee||0);
   }
 
-  // 1. 以主購（receiver）分群
+  // 1. 以主購（receiver）分群 → 訂購人 → 餐廳
   const buyerMap={};
   filtered.forEach(o=>{
     const rest=restaurants.find(r=>r.id===o.restaurantId);
     const buyer=rest?.receiver||'(未設定收款人)';
+    const orderer=o.orderer||'(未填姓名)';
     if(!buyerMap[buyer]) buyerMap[buyer]={};
-    if(!buyerMap[buyer][o.restaurantId]) buyerMap[buyer][o.restaurantId]=[];
-    buyerMap[buyer][o.restaurantId].push(o);
+    if(!buyerMap[buyer][orderer]) buyerMap[buyer][orderer]={};
+    if(!buyerMap[buyer][orderer][o.restaurantId]) buyerMap[buyer][orderer][o.restaurantId]=[];
+    buyerMap[buyer][orderer][o.restaurantId].push(o);
   });
 
   // 2. 計算金額（含服務費），只顯示有未付款的主購群組
-  const buyers=Object.entries(buyerMap).map(([buyer,restMap])=>{
-    const allOrds  =Object.values(restMap).flat();
+  const buyers=Object.entries(buyerMap).map(([buyer,ordererMap])=>{
+    const allOrds  =Object.values(ordererMap).flatMap(rm=>Object.values(rm).flat());
     const unpaidAmt=allOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
     const totalAmt =allOrds.reduce((s,o)=>s+orderTotal(o),0);
-    const restCount=Object.keys(restMap).length;
-    return {buyer,restMap,unpaidAmt,totalAmt,restCount,orderCount:allOrds.length};
+    const restCount=new Set(allOrds.map(o=>o.restaurantId)).size;
+    const ordererCount=Object.keys(ordererMap).length;
+    return {buyer,ordererMap,unpaidAmt,totalAmt,restCount,ordererCount,orderCount:allOrds.length};
   }).filter(b=>b.unpaidAmt>0).sort((a,b)=>b.unpaidAmt-a.unpaidAmt);
 
   if(!buyers.length){ container.innerHTML=''; emptyEl.style.display='block'; return; }
@@ -427,48 +430,45 @@ function renderBuyerList(){
     const color    =buyerColor(b.buyer);
     const bgLight  =color+'22';
     const paidAmt  =b.totalAmt-b.unpaidAmt;
-    const restNames=[...new Set(Object.keys(b.restMap).map(id=>restaurants.find(r=>r.id===id)?.name||'').filter(Boolean))].join('、');
+    const allRests=new Set();
+    Object.values(b.ordererMap).forEach(rm=>Object.keys(rm).forEach(rId=>allRests.add(rId)));
+    const restNames=[...allRests].map(id=>restaurants.find(r=>r.id===id)?.name||'').filter(Boolean).join('、');
 
-    // ── Level 2: 餐廳群組 ──
-    const restGroupsHtml=Object.entries(b.restMap).map(([restId,rOrds],ri)=>{
-      const rest         =restaurants.find(r=>r.id===restId);
-      const restName     =rest?.name||'(已刪除)';
-      const fee          =calcFee(rest?.serviceFee||0);
-      const restUnpaid   =rOrds.filter(o=>o.paidStatus==='未付款');
-      const restUnpaidAmt=restUnpaid.reduce((s,o)=>s+orderTotal(o),0);
-      const restTotal    =rOrds.reduce((s,o)=>s+orderTotal(o),0);
-      const allPaid      =restUnpaid.length===0;
-      const bodyId       =`rb-${bi}-${ri}`;
-      const chevId       =`rc-${bi}-${ri}`;
+    // ── Level 2: 訂購人群組 ──
+    const ordererGroupsHtml=Object.entries(b.ordererMap).sort(([nameA, restMapA], [nameB, restMapB])=>{
+      const oOrdsA=Object.values(restMapA).flat();
+      const oOrdsB=Object.values(restMapB).flat();
+      const unpaidA = oOrdsA.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
+      const unpaidB = oOrdsB.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
+      // 先分組：有未付款的人在前，已全部付款的人在後
+      if ((unpaidA > 0) !== (unpaidB > 0)) {
+        return (unpaidA > 0) ? -1 : 1;
+      }
+      // 同一組內，有未付款的按金額降冪排序，已全部付款的按名字排序
+      return unpaidB - unpaidA || nameA.localeCompare(nameB,'zh');
+    }).map(([orderer,restMap],oi)=>{
+      const allOrdrs=Object.values(restMap).flat();
+      const oUnpaid   =allOrdrs.filter(o=>o.paidStatus==='未付款');
+      const oPaid     =allOrdrs.filter(o=>o.paidStatus==='已付款');
+      const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+orderTotal(o),0);
+      const oTotalAmt =allOrdrs.reduce((s,o)=>s+orderTotal(o),0);
+      const hasUnpaid =oUnpaid.length>0;
+      const oColor    =avatarColor(orderer);
+      const bodyId    =`oo-${bi}-${oi}`;
+      const chevId    =`oc-${bi}-${oi}`;
 
-      // ── Level 3: 訂購人群組 ──
-      const ordererMap={};
-      rOrds.forEach(o=>{
-        const name=o.orderer||'(未填姓名)';
-        if(!ordererMap[name]) ordererMap[name]=[];
-        ordererMap[name].push(o);
-      });
-
-      const ordererGroupsHtml=Object.entries(ordererMap).sort(([nameA, oOrdsA], [nameB, oOrdsB])=>{
-        // 計算每個訂購人的未付款金額
-        const unpaidA = oOrdsA.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
-        const unpaidB = oOrdsB.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+orderTotal(o),0);
-        
-        // 先分組：有未付款的人在前，已全部付款的人在後
-        if ((unpaidA > 0) !== (unpaidB > 0)) {
-          return (unpaidA > 0) ? -1 : 1;
-        }
-        // 同一組內，有未付款的按金額降冪排序，已全部付款的按名字排序
-        return unpaidB - unpaidA || nameA.localeCompare(nameB,'zh');
-      }).map(([orderer,oOrds])=>{
-        const oUnpaid   =oOrds.filter(o=>o.paidStatus==='未付款');
-        const oPaid     =oOrds.filter(o=>o.paidStatus==='已付款');
-        const oUnpaidAmt=oUnpaid.reduce((s,o)=>s+orderTotal(o),0);
-        const hasUnpaid =oUnpaid.length>0;
-        const oColor    =avatarColor(orderer);
+      // ── Level 3: 餐廳群組 ──
+      const restGroupsHtml=Object.entries(restMap).map(([restId,rOrds],ri)=>{
+        const rest         =restaurants.find(r=>r.id===restId);
+        const restName     =rest?.name||'(已刪除)';
+        const fee          =calcFee(rest?.serviceFee||0);
+        const restUnpaid   =rOrds.filter(o=>o.paidStatus==='未付款');
+        const restUnpaidAmt=restUnpaid.reduce((s,o)=>s+orderTotal(o),0);
+        const restTotal    =rOrds.reduce((s,o)=>s+orderTotal(o),0);
+        const allPaid      =restUnpaid.length===0;
 
         // 未付款的行放在前面，已付款的行放在後面
-        const unpaidRows=oUnpaid.sort((a,z)=>z.orderDate.localeCompare(a.orderDate)).map(o=>{
+        const unpaidRows=restUnpaid.sort((a,z)=>z.orderDate.localeCompare(a.orderDate)).map(o=>{
           const amt      =Number(o.amount||0);
           const rowTotal =amt+fee;
           return `<div class="order-row">
@@ -480,7 +480,7 @@ function renderBuyerList(){
           </div>`;
         }).join('');
 
-        const paidRows=oPaid.sort((a,z)=>z.orderDate.localeCompare(a.orderDate)).map(o=>{
+        const paidRows=rOrds.filter(o=>o.paidStatus==='已付款').sort((a,z)=>z.orderDate.localeCompare(a.orderDate)).map(o=>{
           const amt      =Number(o.amount||0);
           const rowTotal =amt+fee;
           return `<div class="order-row paid-row">
@@ -492,44 +492,31 @@ function renderBuyerList(){
           </div>`;
         }).join('');
 
-        const footer=hasUnpaid?`
-          <div class="orderer-footer">
-            <div class="orderer-footer-left">
-              未結帳合計：<strong>NT$ ${oUnpaidAmt.toLocaleString()}</strong>
-              （${oUnpaid.length} 筆${fee>0?`，含服務費 NT$ ${(oUnpaid.length*fee).toLocaleString()}`:''}）
+        return `<div class="rest-section">
+          <div class="rest-header">
+            <span class="rest-header-icon">🍽</span>
+            <span class="rest-header-name">${esc(restName)}</span>
+            <div class="rest-header-badges">
+              ${fee>0?`<span class="badge badge-total" style="background:var(--blue-light);color:var(--blue)">服務費 NT$ ${fee}/筆</span>`:''}
+              ${!allPaid
+                ?`<span class="badge badge-unpaid">未付 NT$&nbsp;${restUnpaidAmt.toLocaleString()}</span>`
+                :`<span class="badge badge-paid">✔ 已結清</span>`}
+              <span class="badge badge-total">合計 NT$&nbsp;${restTotal.toLocaleString()}</span>
             </div>
-            <button class="btn-settle" onclick="askSettle('${esc(orderer)}','${restId}','${esc(restName)}')">✔ 全部結清</button>
-          </div>`:'';
-
-        return `<div class="orderer-group">
-          <div class="orderer-header">
-            <div class="orderer-avatar" style="background:${oColor}">${esc(orderer.charAt(0))}</div>
-            <span class="orderer-name">${esc(orderer)}</span>
-            ${hasUnpaid
-              ?`<span class="orderer-unpaid-amt">未付 NT$&nbsp;${oUnpaidAmt.toLocaleString()}</span>`
-              :`<span class="orderer-paid-label">✔ 已結清</span>`}
           </div>
           <div class="order-rows-wrap">${unpaidRows}${paidRows}</div>
-          ${footer}
         </div>`;
       }).join('');
 
-      return `<div class="rest-section">
-        <div class="rest-header" onclick="toggleRest2('${bodyId}','${chevId}')">
-          <span class="rest-header-icon">🍽</span>
-          <span class="rest-header-name">${esc(restName)}</span>
-          <div class="rest-header-badges">
-            ${fee>0?`<span class="badge badge-total" style="background:var(--blue-light);color:var(--blue)">服務費 NT$ ${fee}/筆</span>`:''}
-            ${!allPaid
-              ?`<span class="badge badge-unpaid">未付 NT$&nbsp;${restUnpaidAmt.toLocaleString()}</span>`
-              :`<span class="badge badge-paid">✔ 已結清</span>`}
-            <span class="badge badge-total">合計 NT$&nbsp;${restTotal.toLocaleString()}</span>
-          </div>
-          <span class="rest-chevron open" id="${chevId}">▼</span>
+      return `<div class="orderer-group">
+        <div class="orderer-header">
+          <div class="orderer-avatar" style="background:${oColor}">${esc(orderer.charAt(0))}</div>
+          <span class="orderer-name">${esc(orderer)}</span>
+          ${hasUnpaid
+            ?`<span class="orderer-unpaid-amt">未付 NT$&nbsp;${oUnpaidAmt.toLocaleString()}</span>`
+            :`<span class="orderer-paid-label">✔ 已結清</span>`}
         </div>
-        <div class="rest-body open" id="${bodyId}">
-          ${ordererGroupsHtml}
-        </div>
+        <div class="order-rows-wrap">${restGroupsHtml}</div>
       </div>`;
     }).join('');
 
@@ -538,7 +525,7 @@ function renderBuyerList(){
         <div class="buyer-avatar" style="background:${bgLight};color:${color}">${esc(b.buyer.charAt(0))}</div>
         <div class="buyer-info">
           <div class="buyer-name">👤 ${esc(b.buyer)}</div>
-          <div class="buyer-meta">${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>
+          <div class="buyer-meta">${b.ordererCount} 人訂購・${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>
         </div>
         <div class="buyer-totals">
           <div class="buyer-total-item">
@@ -555,19 +542,7 @@ function renderBuyerList(){
           </div>
         </div>
       </div>
-      <!-- 統計帶：各餐廳未付 -->
-      <div class="buyer-stats-strip">
-        ${Object.entries(b.restMap).map(([rId,rOrds])=>{
-          const rn  =restaurants.find(r=>r.id===rId)?.name||'—';
-          const rFee=calcFee(restaurants.find(r=>r.id===rId)?.serviceFee||0);
-          const ru  =rOrds.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0)+rFee,0);
-          return `<div class="bss-item">
-            <div class="bss-lbl">${esc(rn)}</div>
-            <div class="bss-val" style="color:${ru>0?'var(--red)':'var(--green)'}">NT$ ${ru.toLocaleString()}</div>
-          </div>`;
-        }).join('')}
-      </div>
-      <div class="buyer-body">${restGroupsHtml}</div>
+      <div class="buyer-body">${ordererGroupsHtml}</div>
     </div>`;
   }).join('');
 }
