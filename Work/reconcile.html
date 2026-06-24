@@ -101,6 +101,15 @@
   ══════════════════════════════════ */
   .orderer-group{border-bottom:none;margin-bottom:12px;border-radius:8px;overflow:hidden;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 1px 4px rgba(30,58,95,0.04)}
   .orderer-group:last-child{margin-bottom:0}
+  .orderer-group.all-paid{background:#E1E1E1;border-color:#D9E0E8;filter: grayscale();}
+  .orderer-group.all-paid .orderer-header{background:#E1E1E1;border-bottom-color:#E8EEF6;color:#8BA0BA}
+  .orderer-group.all-paid .orderer-name{color:#8BA0BA}
+  .orderer-group.all-paid .orderer-paid-label{color:#6BA084}
+  .orderer-group.all-paid .order-rows-wrap{background:#E1E1E1}
+  .orderer-group.all-paid .rest-section{background:#F0F2F5;border-left-color:#B8C8D8}
+  .orderer-group.all-paid .rest-header{background:#F0F2F5;border-bottom-color:#E0E8F0}
+  .orderer-group.all-paid .rest-header-name{color:#8BA0BA}
+  .orderer-group.all-paid .order-row{background:#E1E1E1;color:#8BA0BA}
 
   .orderer-header{
     display:flex;align-items:center;gap:10px;
@@ -131,9 +140,10 @@
 
   .rest-header{
     display:flex;align-items:center;gap:10px;
-    padding:10px 16px;
+    padding:5px 16px;
     background:#F5F8FB;
     border-bottom:1px solid #E8EEF6;
+	font-size:90%;
   }
   .rest-header-icon{font-size:93.75%;flex-shrink:0}
   .rest-header-name{font-size:81.25%;font-weight:700;color:var(--navy);flex:1}
@@ -152,6 +162,7 @@
     border-bottom:1px solid #f0f3f8;
     transition:background .12s;
     background:#fff;
+	font-size:85%;
   }
   .order-row:last-child{border-bottom:none}
   .order-row:hover{background:#f9fbfd}
@@ -508,7 +519,7 @@ function renderBuyerList(){
         </div>`;
       }).join('');
 
-      return `<div class="orderer-group">
+      return `<div class="orderer-group ${!hasUnpaid?'all-paid':''}">
         <div class="orderer-header">
           <div class="orderer-avatar" style="background:${oColor}">${esc(orderer.charAt(0))}</div>
           <span class="orderer-name">${esc(orderer)}</span>
@@ -522,7 +533,7 @@ function renderBuyerList(){
 
     return `<div class="buyer-section">
       <div class="buyer-header" style="background:${color}">
-        <div class="buyer-avatar" style="background:${bgLight};color:${color}">${esc(b.buyer.charAt(0))}</div>
+        <div class="buyer-avatar" style="background:${color};color:${bgLight}">${esc(b.buyer.charAt(0))}</div>
         <div class="buyer-info">
           <div class="buyer-name">👤 ${esc(b.buyer)}</div>
           <div class="buyer-meta">${b.ordererCount} 人訂購・${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>
@@ -542,7 +553,7 @@ function renderBuyerList(){
           </div>
         </div>
       </div>
-      <div class="buyer-body">${ordererGroupsHtml}</div>
+      <div class="buyer-body" style="background:${bgLight};">${ordererGroupsHtml}</div>
     </div>`;
   }).join('');
 }
