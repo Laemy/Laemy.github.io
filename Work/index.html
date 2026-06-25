@@ -667,7 +667,7 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
 			<button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')">＋ 訂單</button>
 			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 匯入</button>
 			<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗</button>
-			<a class="btn btn-share btn-sm" href="{$url}" target="_blank">↗️</a>
+			<a class="btn btn-share btn-sm" href="${url}" target="_blank">↗️</a>
 		</div>
         <div class="card-actions" style="justify-content: flex-end;">
           <button class="btn btn-ghost btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="openRestaurantModal('${r.id}')">✏️</button>

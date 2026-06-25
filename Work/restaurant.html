@@ -25,7 +25,7 @@
   .hdr-back:hover{color:#fff}
 
   .hero-wrap{background:var(--navy);padding:0 28px 24px}
-  .hero-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1020px}
+  .hero-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;max-width:1020px;margin:0 auto;}
   .hero-name{font-size:137.5%;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:10px}
   .hero-meta{display:flex;flex-wrap:wrap;gap:8px 20px}
   .hero-meta-item{font-size:81.25%;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:6px}
@@ -540,7 +540,7 @@ function renderHero() {
   if (rest.serviceFee) mi.push(`<span class="hero-meta-item">🧾 服務費：<strong>NT$ ${Number(rest.serviceFee).toLocaleString()} ／筆</strong></span>`);
   if (rest.note)       mi.push(`<span class="hero-meta-item">💬 ${esc(rest.note)}</span>`);
   document.getElementById('hero-meta').innerHTML = mi.join('');
-  renderHeroStats();
+  //renderHeroStats();
 }
 
 function renderHeroStats() {
@@ -691,7 +691,7 @@ async function confirmCheckout() {
     showToast(`已將 ${checkoutIds.length} 筆訂單標記為已結帳 ✓`);
     closeModal('modal-checkout');
     await loadOrders();
-    renderHeroStats();
+    //renderHeroStats();
     renderAll();
   } catch(e) { showToast('錯誤：'+e.message,'error'); }
   finally { hideLoading(); }
@@ -735,7 +735,7 @@ async function saveOrder() {
     showToast('訂單已送出 ✓');
     closeModal('modal-order');
     await loadOrders();
-    renderHeroStats();
+    //renderHeroStats();
     renderAll();
   } catch(e) { showToast('錯誤：'+e.message,'error'); }
   finally { hideLoading(); }
