@@ -29,6 +29,7 @@
   .section-header h2{font-size:112.5%;font-weight:700;color:var(--navy)}
   .count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:8px}
 
+  a.btn{text-decoration:none;}
   .btn{padding:9px 18px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px}
   .btn:active{transform:scale(.97)}
   .btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{filter:brightness(1.1)}
@@ -644,6 +645,9 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
     const unpaidN  = ords.filter(o=>o.paidStatus==='未付款').length;
     const dates    = ords.map(o=>o.orderDate).sort();
     const latest   = dates.length ? dates[dates.length-1] : r.createdAt;
+	const base=window.location.href.replace(/[^/]*$/,'');
+	const url=base+'restaurant.html?id='+encodeURIComponent(r.id);
+	
     return `<div class="restaurant-card">
       <div class="${zone==='unpaid'?'card-accent-unpaid':'card-accent-paid'}"></div>
       <div class="card-body">
@@ -661,8 +665,9 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
         ${r.note ? `<div class="card-note">💬 ${esc(r.note)}</div>` : ''}
 		<div class="card-actions">
 			<button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')">＋ 訂單</button>
-			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 批量匯入</button>
-			<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗 分享</button>
+			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 匯入</button>
+			<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗</button>
+			<a class="btn btn-share btn-sm" href="{$url}" target="_blank">↗️</a>
 		</div>
         <div class="card-actions" style="justify-content: flex-end;">
           <button class="btn btn-ghost btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="openRestaurantModal('${r.id}')">✏️</button>
