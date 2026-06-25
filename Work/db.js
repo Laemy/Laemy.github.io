@@ -5,23 +5,25 @@
 const DB_URL     = 'https://ojwoqmpyxtcjemrnkorz.supabase.co';
 const DB_ANON_KEY = 'sb_publishable_65S8BPgHlFHmRZHvmzxzyA_Ut7BViu6';
 
+
 // ── 固定人名清單（訂購人 & 主購共用）───────────────────────
 // 結構：{ name: '主要名稱', aliases: ['別名1', '別名2', ...] }
 const MEMBER_LIST = [
   { name: '耕宇', aliases: ['耕宇'] },
   { name: '來毅', aliases: ['來毅'] },
   { name: '怡蒨', aliases: ['怡蒨', 'Edda', '怡蒨-Edda', 'edda'] },
-  { name: '進成', aliases: ['進成', 'Andy', '主任', '進成主任','Andy Yang(進成)'] },
-  { name: '俊麟', aliases: ['俊麟','郭課','俊麟課長','access'] },
+  { name: '進成', aliases: ['進成', 'Andy', '主任', '進成主任'] },
+  { name: '俊麟', aliases: ['俊麟','郭課','俊麟課長'] },
   { name: '靜怡', aliases: ['靜怡', '林靜怡', '靜怡課長'] },
   { name: '宏明', aliases: ['宏明'] },
   { name: '威蓁', aliases: ['威蓁'] },
   { name: '瀞萱', aliases: ['瀞萱'] },
   { name: '培華', aliases: ['培華'] },
-  { name: '廷毓', aliases: ['廷毓','Nick Chang廷毓','Nick'] },
+  { name: '廷毓', aliases: ['廷毓'] },
   { name: '銀燦', aliases: ['銀燦', 'stanny5', '銀燦-stanny5', 'Stanny5'] },
   { name: '育淇', aliases: ['育淇', '預期'] },
-  { name: '亭諭', aliases: ['亭諭'] }
+  { name: '亭諭', aliases: ['亭諭'] },
+  { name: '景斌', aliases: ['莊景斌 Benjamin','Benjamin','景斌','莊景斌'] }
 ];
 
 // ── 輔助函數：取得所有主要名稱的陣列 ──────────────────────

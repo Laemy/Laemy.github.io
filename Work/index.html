@@ -29,7 +29,6 @@
   .section-header h2{font-size:112.5%;font-weight:700;color:var(--navy)}
   .count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:8px}
 
-  a.btn{text-decoration:none;}
   .btn{padding:9px 18px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;display:inline-flex;align-items:center;gap:6px}
   .btn:active{transform:scale(.97)}
   .btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{filter:brightness(1.1)}
@@ -143,6 +142,191 @@
   input::-moz-placeholder { color: #d6dce6; }
   input::-moz-placeholder{color:#d6dce6;}
   :-ms-input-placeholder{color: #d6dce6;}
+
+  /* ═══════════════════════════════════════════
+     RWD ── 平板 & 手機版本
+  ═════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    body{font-size:18px}
+    header{padding:0 16px;height:56px;gap:10px}
+    .logo-icon{width:28px;height:28px;font-size:100%}
+    header h1{font-size:93.75%}
+    .tab-bar{padding:0 16px}
+    .tab-btn{padding:12px 16px;font-size:81.25%}
+    main{padding:20px 16px;max-width:100%}
+    
+    .section-header{margin-bottom:16px}
+    .section-header h2{font-size:100%}
+    .count-badge{font-size:68.75%;padding:2px 8px}
+    .btn{padding:8px 14px;font-size:75%}
+    
+    .restaurant-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .card-body{padding:14px 16px 12px}
+    .card-name{font-size:87.5%;margin-bottom:4px}
+    .date-pill{font-size:62.5%;padding:3px 8px}
+    .card-meta-row{font-size:68.75%}
+    .card-actions{gap:6px}
+    .card-footer{gap:6px}
+    
+    .summary-bar{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+    .summary-card{padding:12px 14px}
+    .summary-card .s-label{font-size:62.5%}
+    .summary-card .s-value{font-size:112.5%}
+    
+    table{font-size:75%}
+    thead th{padding:10px 12px;font-size:68.75%}
+    tbody td{padding:9px 12px}
+    
+    .accordion-block{margin-bottom:10px}
+    .accordion-header{padding:12px 16px;gap:10px}
+    .accordion-name{font-size:81.25%}
+    .acc-stat{font-size:68.75%;padding:2px 8px}
+    
+    .modal{max-width:85%}
+    .form-control{padding:8px 10px;font-size:75%}
+    .form-group label{font-size:68.75%}
+    
+    .toast{bottom:16px;right:16px;font-size:68.75%}
+  }
+
+  @media (max-width: 768px) {
+    body{font-size:16px}
+    header{padding:0 12px;height:52px;gap:8px}
+    .logo-icon{width:26px;height:26px;font-size:93.75%}
+    header h1{font-size:87.5%}
+    header a{padding:5px 10px;font-size:62.5%}
+    
+    .tab-bar{padding:0 12px;overflow-x:auto}
+    .tab-btn{padding:10px 12px;font-size:75%;white-space:nowrap}
+    
+    main{padding:14px;max-width:100%;margin:0 auto}
+    
+    .section-header{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px}
+    .section-header h2{font-size:93.75%}
+    .section-header > div:last-child{width:100%;display:flex;gap:6px;flex-wrap:wrap}
+    .count-badge{font-size:62.5%;padding:2px 7px}
+    .btn{padding:7px 12px;font-size:68.75%}
+    .btn-sm{padding:4px 9px;font-size:62.5%}
+    
+    .zone-wrap{margin-bottom:20px}
+    .zone-label{margin-bottom:10px}
+    .zone-title{font-size:68.75%;padding:4px 10px}
+    
+    .restaurant-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .card-body{padding:12px 14px}
+    .card-name{font-size:81.25%}
+    .date-pill{font-size:56.25%;padding:2px 6px}
+    .card-meta-row{font-size:62.5%;gap:4px}
+    .card-note{font-size:62.5%}
+    .card-actions{gap:4px}
+    .card-footer{padding:8px 12px;flex-wrap:wrap}
+    .order-summary{font-size:68.75%}
+    .status-badge{padding:2px 8px;font-size:62.5%}
+    
+    .summary-bar{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+    .summary-card{padding:10px 12px}
+    .summary-card .s-label{font-size:56.25%}
+    .summary-card .s-value{font-size:100%}
+    
+    .table-wrap{overflow-x:auto;border-radius:6px}
+    table{font-size:68.75%}
+    thead th{padding:9px 10px;font-size:62.5%;white-space:nowrap}
+    tbody td{padding:8px 10px}
+    
+    .accordion-block{margin-bottom:8px;border-radius:6px}
+    .accordion-header{padding:10px 12px;gap:8px}
+    .accordion-name{font-size:75%}
+    .accordion-stats{gap:6px}
+    .acc-stat{font-size:62.5%;padding:2px 6px}
+    
+    .modal{max-width:90%;max-height:85vh}
+    .modal-header{padding:14px 16px 10px}
+    .modal-header h3{font-size:93.75%}
+    .modal-body{padding:14px 16px;gap:10px}
+    .form-group{gap:4px}
+    .form-group label{font-size:62.5%}
+    .form-control{padding:7px 9px;font-size:68.75%}
+    .form-row{gap:10px}
+    
+    .toast{bottom:12px;right:12px;font-size:62.5%;padding:8px 12px}
+    .empty-state{padding:30px 16px}
+    .empty-state .empty-icon{font-size:180%}
+    .empty-state p{font-size:68.75%}
+  }
+
+  @media (max-width: 480px) {
+    body{font-size:14px}
+    header{height:48px;padding:0 10px;gap:6px}
+    .logo-icon{width:24px;height:24px;font-size:87.5%}
+    header h1{font-size:81.25%}
+    header a{padding:4px 8px;font-size:56.25%;gap:3px}
+    
+    .tab-bar{padding:0 10px}
+    .tab-btn{padding:8px 10px;font-size:68.75%;padding-left:0;padding-right:0}
+    
+    main{padding:8px;margin:0}
+    
+    .section-header{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:10px}
+    .section-header h2{font-size:87.5%}
+    .section-header > div{width:100%}
+    .section-header > div:last-child{display:flex;gap:4px;flex-wrap:wrap}
+    .count-badge{font-size:56.25%;padding:1px 6px}
+    .btn{padding:6px 10px;font-size:62.5%;gap:3px}
+    .btn-sm{padding:3px 8px;font-size:56.25%}
+    
+    .zone-wrap{margin-bottom:16px}
+    .zone-label{margin-bottom:8px;gap:8px}
+    .zone-title{font-size:62.5%;padding:3px 8px}
+    .zone-line{height:1px}
+    
+    .restaurant-grid{grid-template-columns:1fr;gap:8px}
+    .card-accent-unpaid{height:3px}
+    .card-accent-paid{height:3px}
+    .card-body{padding:10px 12px}
+    .card-name{font-size:75%;margin-bottom:2px}
+    .date-pill{font-size:50%;padding:2px 6px;margin-bottom:6px}
+    .card-meta{gap:2px;margin-bottom:8px}
+    .card-meta-row{font-size:56.25%;gap:3px}
+    .card-note{font-size:56.25%;margin-bottom:8px}
+    .card-actions{gap:3px;margin:3px 0}
+    .card-footer{padding:6px 10px;gap:4px}
+    .order-summary{font-size:62.5%}
+    .status-badge{padding:1px 6px;font-size:56.25%}
+    
+    .summary-bar{grid-template-columns:1fr;gap:6px;margin-bottom:12px}
+    .summary-card{padding:8px 10px}
+    .summary-card .s-label{font-size:50%}
+    .summary-card .s-value{font-size:87.5%}
+    
+    .table-wrap{overflow-x:auto;border-radius:4px;margin-bottom:8px}
+    table{font-size:62.5%}
+    thead th{padding:6px 8px;font-size:56.25%}
+    tbody td{padding:6px 8px}
+    
+    .accordion-block{margin-bottom:6px;border-radius:4px}
+    .accordion-header{padding:8px 10px;gap:6px}
+    .accordion-name{font-size:68.75%}
+    .accordion-stats{gap:4px;flex-wrap:wrap}
+    .acc-stat{font-size:56.25%;padding:1px 5px}
+    
+    .modal{max-width:95%;padding:8px;border-radius:10px}
+    .modal-header{padding:10px 12px 8px}
+    .modal-header h3{font-size:87.5%}
+    .modal-close{font-size:106.25%}
+    .modal-body{padding:10px 12px;gap:8px}
+    .form-group{gap:3px}
+    .form-group label{font-size:56.25%}
+    .form-control{padding:6px 8px;font-size:62.5%;border-radius:5px}
+    .form-row{gap:8px}
+    .form-static{padding:6px 8px;font-size:62.5%}
+    .modal-footer{padding:8px 12px;gap:6px}
+    
+    .toast{bottom:8px;right:8px;font-size:56.25%;padding:6px 10px;border-radius:4px;border-left-width:3px}
+    
+    .empty-state{padding:20px 12px}
+    .empty-state .empty-icon{font-size:140%}
+    .empty-state p{font-size:62.5%}
+  }
 </style>
 </head>
 <body style="font-size:20px">
@@ -332,12 +516,14 @@
         <div class="form-group">
           <label>貼上訂單文字</label>
           <textarea class="form-control" id="bulk-text" rows="11" style="font-family:monospace;font-size:81.25%"
-            placeholder="支援兩種格式，可混合貼上：&#10;&#10;① 簡單格式：&#10;耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;&#10;② LINE 群組訊息格式：&#10;11:00 高捷-廷毓 (Nick Chang) 【6/16 午餐】&#10;陽春麵 $50 + 滷蛋 $15 = $65 ,謝謝"></textarea>
+            placeholder="貼上訂單文字（每行可有人名和金額）：&#10;&#10;耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;米苔目 $25&#10;&#10;LINE 群組訊息也支援：&#10;11:00 高捷-廷毓 (Nick) 陽春麵 $50 滷蛋 $15&#10;高菜 $30"></textarea>
         </div>
         <div style="font-size:75%;color:var(--text-3);line-height:1.7">
-          💡 支援兩種格式，可直接整段貼上自動辨識：<br>
-          ① <strong>簡單格式</strong>：「人名 品項 $金額」，沒有人名開頭的行會自動併入上一行同一人，金額加總。<br>
-          ② <strong>LINE 群組訊息格式</strong>：「HH:MM 群組-人名 (英文名) 【日期標籤】」+ 下一行「品項 $50 + 品項 $15 = $65」。人名會自動比對固定名單（含模糊比對，如「林靜怡」會比對到「靜怡」），名單外的新名字也會保留；沒有金額的提醒訊息會自動忽略。
+          💡 使用說明：<br>
+          • <strong>人名比對</strong>：自動模糊比對固定名單（如「靜怡」會自動比對「林靜怡」）<br>
+          • <strong>金額計算</strong>：行內所有金額自動加總（必須有 $）<br>
+          • <strong>品項提取</strong>：自動移除人名和金額，保留品項描述<br>
+          • <strong>續行合併</strong>：沒有人名開頭的行會自動併入上一行同一人
         </div>
       </div>
 
@@ -458,9 +644,6 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
     const unpaidN  = ords.filter(o=>o.paidStatus==='未付款').length;
     const dates    = ords.map(o=>o.orderDate).sort();
     const latest   = dates.length ? dates[dates.length-1] : r.createdAt;
-	
-	const base=window.location.href.replace(/[^/]*$/,'');
-	const url=base+'restaurant.html?id='+encodeURIComponent(r.id);
     return `<div class="restaurant-card">
       <div class="${zone==='unpaid'?'card-accent-unpaid':'card-accent-paid'}"></div>
       <div class="card-body">
@@ -478,11 +661,8 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
         ${r.note ? `<div class="card-note">💬 ${esc(r.note)}</div>` : ''}
 		<div class="card-actions">
 			<button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')">＋ 訂單</button>
-			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 匯入</button>
+			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')">📋 批量匯入</button>
 			<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗 分享</button>
-		
-			<a class="btn btn-share btn-sm" href="${url}" target="_blank" >↗️</a>
-	  
 		</div>
         <div class="card-actions" style="justify-content: flex-end;">
           <button class="btn btn-ghost btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="openRestaurantModal('${r.id}')">✏️</button>
@@ -753,7 +933,6 @@ function copyFromModal() {
   showToast('已複製分享連結 🔗');
 }
 
-
 // ═══════════════════ BULK IMPORT ═══════════════════
 let bulkPreviewRows = [];   // [{orderer, items, amount}]
 let bulkRowSeq = 0;
@@ -841,14 +1020,14 @@ const BULK_LINE_HEADER_RE = /^(\d{1,2}:\d{2})\s+(.+)$/;
 
 function bulkCleanItemsText(str) {
   return str
-    .replace(/=\s*\$\s*[0-9,]+/g, '')  // 移除 "= $數字"
-    .replace(/[+,，]/g, '、')           // 把 +,, 替換為 、
-    .replace(/\$\s*[0-9,]+/g, '')       // 移除所有 $數字
-    .replace(/,?謝謝[。!~]?/g, '')      // 移除謝謝
-    .replace(/[。.!！]/g, '')           // 移除句點和驚嘆號
-    .replace(/\s+/g, ' ')               // 整理空白
-    .replace(/、\s*、/g, '、')          // 移除多餘的、
-    .replace(/^、|、$/g, '')            // 移除開頭結尾的、
+    .replace(/[＋+,，]/g, '、')            // 把 ＋+,， 替換為 、
+    .replace(/\.{2,}|…|…+/g, '')          // 移除 .., ..., …
+    .replace(/,?謝謝[。!~]?/g, '')        // 移除謝謝
+    .replace(/[（）()[\]【】\[\]{}]/g, '') // 移除各種括號（保留$金額）
+    .replace(/[。.!！?？;；:：~～\-\—_]/g, '') // 移除標點符號（保留$）
+    .replace(/\s+/g, ' ')                  // 整理空白
+    .replace(/、\s*、/g, '、')             // 移除多餘的、
+    .replace(/^、|、$/g, '')               // 移除開頭結尾的、
     .trim();
 }
 
@@ -857,139 +1036,105 @@ function parseBulkText(text) {
   
   // 建立別名到主名字的映射
   const aliasMap = new Map();
-  const memberNames = [];
   for (const member of MEMBER_LIST) {
     if (typeof member === 'object' && member.name && member.aliases) {
-      // 新結構：{ name: '主名', aliases: ['別名1', '別名2'] }
-      memberNames.push(member.name);
       for (const alias of member.aliases) {
         aliasMap.set(alias, member.name);
       }
     } else {
-      // 舊結構相容：直接是字串
-      memberNames.push(member);
       aliasMap.set(member, member);
     }
   }
-  const knownNames = aliasMap;
+  
   const rows = [];
-  let current = null;
-  let pendingOrderer = null; // 來自 LINE header、尚未讀到品項行的訂購人
-
+  let currentOrderer = null;
+  let currentItems = [];
+  let currentAmount = 0;
+  
   for (const line of rawLines) {
-    const headerMatch = line.match(BULK_LINE_HEADER_RE);
-
-    if (headerMatch) {
-      // ── LINE 訊息開頭：HH:MM 群組-人名 (英文名) 【標籤】 ──
-      let nameOnly = headerMatch[2]
-        .replace(/【[^】]*】/g, '')
-        .replace(/\([A-Za-z .]+\)/g, '')
-        .trim();
-      nameOnly = nameOnly.replace(/^[\u4e00-\u9fa5A-Za-z0-9]+-/, '').trim();
-
-      const inlineAmt = line.match(/\$[0-9,]+/);
-      if (inlineAmt) {
-        // 人名與品項同一行（例：11:37 高捷-林靜怡 米苔目（乾) $60）
-        // 改進邏輯：先找到別名，再提取品項
-        let matched = null;
-        let matchedAlias = null;
-        
-        // 檢查所有已知的別名
-        for (const [alias, mainName] of knownNames) {
-          if (nameOnly.includes(alias)) {
-            matched = mainName;
-            matchedAlias = alias;
-            break;
-          }
-        }
-        
-        let itemsText = nameOnly;
-        if (matched && matchedAlias) {
-          // 使用別名來提取品項
-          const aliasIndex = nameOnly.indexOf(matchedAlias);
-          itemsText = nameOnly.slice(aliasIndex + matchedAlias.length).trim();
-        } else if (!matched) {
-          // 沒有找到匹配的別名，嘗試簡單的空白分割
-          const parts = nameOnly.split(/\s+/);
-          matched = parts.shift() || nameOnly;
-          itemsText = parts.join(' ');
-        } else {
-          const firstWord = nameOnly.split(/\s+/)[0] || '';
-          itemsText = nameOnly.slice(firstWord.length).trim();
-        }
-        const amounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
-        const finalAmount = amounts[amounts.length-1] || 0;
-        itemsText = bulkCleanItemsText(itemsText);
-        current = { orderer: matched, items: itemsText?[itemsText]:[], amount: finalAmount };
-        rows.push(current);
-        pendingOrderer = null;
-        knownNames.set(matched, matched);
-      } else {
-        // 人名單獨一行，下一行才是品項
-        const matched = matchMemberName(nameOnly, knownNames) || nameOnly;
-        pendingOrderer = matched;
-        current = null;
-        knownNames.set(matched, matched);
+    // 提取所有金額（必須有 $）
+    const amounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
+    
+    // 如果這行沒有金額，就是品項行或雜訊
+    if (!amounts.length) {
+      // 如果有前一個訂購人，將此行作為品項併入
+      if (currentOrderer) {
+        const cleaned = bulkCleanItemsText(line);
+        if (cleaned) currentItems.push(cleaned);
       }
       continue;
     }
-
-    const anyAmounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
-
-    if (pendingOrderer) {
-      // 等待中的 LINE header 的品項行
-      if (!anyAmounts.length) continue; // 雜訊（提醒訊息等），忽略
-      // 如果有多個金額，自動加總；否則取唯一的金額
-      const finalAmount = anyAmounts.length > 1 
-        ? anyAmounts.reduce((s, a) => s + a, 0)
-        : anyAmounts[0];
-      const itemsText = bulkCleanItemsText(line);
-      current = { orderer: pendingOrderer, items: itemsText?[itemsText]:[], amount: finalAmount };
-      rows.push(current);
-      pendingOrderer = null;
-      continue;
-    }
-
-    // ── 簡單格式：人名 品項 $金額（金額在行尾）──
-    const amtMatch = line.match(/\$\s*([0-9,]+)\s*$/);
-    if (amtMatch) {
-      const amount = Number(amtMatch[1].replace(/,/g,'')) || 0;
-      const rest = line.slice(0, amtMatch.index).trim();
-      const firstToken = rest.split(/\s+/)[0] || '';
-      const remainder = rest.slice(firstToken.length).trim();
-      
-      // 使用 matchMemberName 進行模糊比對（與 LINE 格式一致）
-      const matched = matchMemberName(firstToken, knownNames);
-      
-      if (matched) {
-        // 找到相符的人名（完全或模糊比對）
-        current = { orderer: matched, items: remainder ? [remainder] : [], amount };
-        rows.push(current);
-      } else if (firstToken) {
-        // 完全不在清單中，保留原文字當訂購人
-        current = { orderer: firstToken, items: remainder ? [remainder] : [], amount };
-        rows.push(current);
-        knownNames.set(firstToken, firstToken);
-      } else if (current) {
-        // 沒有人名，延續上一筆（品項合併、金額加總）
-        if (rest) current.items.push(rest);
-        current.amount += amount;
-      } else {
-        // 都沒有，建立空人名的訂單
-        current = { orderer: '', items: rest ? [rest] : [], amount };
-        rows.push(current);
+    
+    // 計算此行的總金額
+    const lineAmount = amounts.reduce((s, a) => s + a, 0);
+    
+    // 清理整行（保留金額）
+    let lineText = bulkCleanItemsText(line);
+    
+    // 嘗試找到人名
+    let foundOrderer = null;
+    let matchedAlias = null;
+    
+    // 逐個檢查別名（優先較長的別名，確保準確匹配）
+    const sortedAliases = Array.from(aliasMap.keys()).sort((a, b) => b.length - a.length);
+    for (const alias of sortedAliases) {
+      if (lineText.includes(alias)) {
+        foundOrderer = aliasMap.get(alias);
+        matchedAlias = alias;
+        break;
       }
-      continue;
     }
-
-    // 沒有 $ 金額也沒有 pending 訂購人：雜訊行，忽略
+    
+    // 如果找到新訂購人
+    if (foundOrderer) {
+      // 保存前一個訂單
+      if (currentOrderer) {
+        rows.push({
+          orderer: currentOrderer,
+          items: currentItems.join('、').replace(/\s*、\s*/g,'、').trim(),
+          amount: currentAmount
+        });
+      }
+      
+      // 開始新訂單
+      currentOrderer = foundOrderer;
+      currentAmount = lineAmount;
+      currentItems = [];
+      
+      // 提取品項（移除人名別名後的內容，保留金額）
+      const aliasIndex = lineText.indexOf(matchedAlias);
+      const itemsAfterName = lineText.slice(aliasIndex + matchedAlias.length).trim();
+      if (itemsAfterName) currentItems.push(itemsAfterName);
+    } else {
+      // 沒找到人名
+      if (currentOrderer) {
+        // 併入上一個訂購人
+        currentAmount += lineAmount;
+        if (lineText) currentItems.push(lineText);
+      } else {
+        // 沒有前一個訂購人，創建新訂單（人名為空或未識別）
+        // 嘗試從行的開頭找人名
+        const firstToken = line.split(/[\s$]/)[0];
+        if (firstToken && !firstToken.includes('$')) {
+          currentOrderer = firstToken;
+          currentAmount = lineAmount;
+          currentItems = [lineText];
+        }
+      }
+    }
   }
-
-  return rows.map(r => ({
-    orderer: r.orderer,
-    items: r.items.filter(Boolean).join('、').replace(/\s*、\s*/g,'、').trim(),
-    amount: r.amount
-  }));
+  
+  // 保存最後一個訂單
+  if (currentOrderer) {
+    rows.push({
+      orderer: currentOrderer,
+      items: currentItems.join('、').replace(/\s*、\s*/g,'、').trim(),
+      amount: currentAmount
+    });
+  }
+  
+  // 過濾掉人名為空的訂單
+  return rows.filter(r => r.orderer && r.orderer.trim());
 }
 
 function bulkParse() {

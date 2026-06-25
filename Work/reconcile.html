@@ -101,7 +101,7 @@
   ══════════════════════════════════ */
   .orderer-group{border-bottom:none;margin-bottom:12px;border-radius:8px;overflow:hidden;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 1px 4px rgba(30,58,95,0.04)}
   .orderer-group:last-child{margin-bottom:0}
-  .orderer-group.all-paid{background:#FAFBFC;border-color:#D9E0E8;filter: grayscale();}
+  .orderer-group.all-paid{background:#FAFBFC;border-color:#D9E0E8}
   .orderer-group.all-paid .orderer-header{background:#FAFBFC;border-bottom-color:#E8EEF6;color:#8BA0BA}
   .orderer-group.all-paid .orderer-name{color:#8BA0BA}
   .orderer-group.all-paid .orderer-paid-label{color:#6BA084}
@@ -283,12 +283,12 @@
     .badge{padding:2px 7px;font-size:62.5%}
     
     .order-row{padding:7px 12px;gap:8px}
-    .or-date{font-size:75%;min-width:65px}
-    .or-items{font-size:75%}
-    .or-note{font-size:75%}
+    .or-date{font-size:68.75%;min-width:65px}
+    .or-items{font-size:68.75%}
+    .or-note{font-size:62.5%}
     .or-amt{font-size:75%;min-width:110px}
     
-    .btn-pay{padding:3px 9px;font-size:80%}
+    .btn-pay{padding:3px 9px;font-size:62.5%}
     .btn-settle{padding:4px 12px;font-size:68.75%}
     .paid-label{font-size:62.5%;padding:3px 8px}
     
@@ -354,9 +354,9 @@
     .or-date{font-size:62.5%;min-width:60px}
     .or-items{font-size:62.5%;flex-basis:100%;order:2}
     .or-note{font-size:56.25%;flex-basis:100%;order:3}
-    .or-amt{font-size:75%;min-width:100px;order:4}
+    .or-amt{font-size:68.75%;min-width:100px;order:4}
     
-    .btn-pay{padding:3px 8px;font-size:80%;gap:3px}
+    .btn-pay{padding:3px 8px;font-size:56.25%;gap:3px}
     .btn-settle{padding:3px 10px;font-size:62.5%}
     .paid-label{font-size:56.25%;padding:2px 6px}
     
@@ -430,9 +430,9 @@
     .or-date{font-size:56.25%;min-width:55px}
     .or-items{font-size:56.25%;flex-basis:100%;order:2}
     .or-note{font-size:50%;flex-basis:100%;order:3}
-    .or-amt{font-size:75%;min-width:85px;order:4;text-align:right}
+    .or-amt{font-size:62.5%;min-width:85px;order:4;text-align:right}
     
-    .btn-pay{padding:2px 6px;font-size:80%;gap:2px}
+    .btn-pay{padding:2px 6px;font-size:50%;gap:2px}
     .btn-settle{padding:2px 8px;font-size:56.25%}
     .paid-label{font-size:50%;padding:1px 5px}
     
@@ -750,7 +750,7 @@ function renderBuyerList(){
 
     return `<div class="buyer-section">
       <div class="buyer-header" style="background:${color}">
-        
+        <div class="buyer-avatar" style="background:${bgLight};color:${color}">${esc(b.buyer.charAt(0))}</div>
         <div class="buyer-info">
           <div class="buyer-name">👤 ${esc(b.buyer)}</div>
           <div class="buyer-meta">${b.ordererCount} 人訂購・${b.restCount} 家餐廳・${b.orderCount} 筆訂單・負責：${esc(restNames)}</div>
@@ -770,7 +770,7 @@ function renderBuyerList(){
           </div>
         </div>
       </div>
-      <div class="buyer-body" style="background:${bgLight};">${ordererGroupsHtml}</div>
+      <div class="buyer-body">${ordererGroupsHtml}</div>
     </div>`;
   }).join('');
 }
