@@ -517,14 +517,15 @@
         <div class="form-group">
           <label>貼上訂單文字</label>
           <textarea class="form-control" id="bulk-text" rows="11" style="font-family:monospace;font-size:81.25%"
-            placeholder="貼上訂單文字（每行可有人名和金額）：&#10;&#10;耕宇 肉圓*4 $80&#10;味噌湯 $30&#10;主任 肉圓*2 $40&#10;米苔目 $25&#10;&#10;LINE 群組訊息也支援：&#10;11:00 高捷-廷毓 (Nick) 陽春麵 $50 滷蛋 $15&#10;高菜 $30"></textarea>
+            placeholder="支援兩種格式，可混合貼上：&#10;&#10;【基本格式】&#10;怡蒨 紫米飯糰 $70&#10;廷毓(Nick Chang) 雞排丼飯$95&#10;&#10;【LINE 群組格式】&#10;08:36 高捷-宏明 鍋燒冬粉 $80 謝謝&#10;08:40 高捷-俊麟(access) 復刻紅茶，一分糖去冰，$35，謝謝~&#10;09:01 高捷-進成(Andy Yang) 原味鍋燒意麵(大) $85&#10;金萱青茶 無糖微冰 $30"></textarea>
         </div>
         <div style="font-size:75%;color:var(--text-3);line-height:1.7">
           💡 使用說明：<br>
-          • <strong>人名比對</strong>：自動模糊比對固定名單（如「靜怡」會自動比對「林靜怡」）<br>
+          • <strong>人名比對</strong>：自動模糊比對固定名單（如「靜怡」會自動比對「林靜怡」，括號內英文別名如 access 也支援）<br>
           • <strong>金額計算</strong>：行內所有金額自動加總（必須有 $）<br>
-          • <strong>品項提取</strong>：自動移除人名和金額，保留品項描述<br>
-          • <strong>續行合併</strong>：沒有人名開頭的行會自動併入上一行同一人
+          • <strong>品項提取</strong>：自動移除人名、時間戳記、群組名稱與「謝謝」等語助詞，保留品項與金額<br>
+          • <strong>續行合併</strong>：沒有人名開頭的行會自動併入上一行同一人（品項合併、金額加總）<br>
+          • <strong>無金額行忽略</strong>：沒有 $ 金額的行（如提醒訊息、已收回訊息）會直接被忽略，不會併入任何訂單
         </div>
       </div>
 
@@ -561,7 +562,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="db.js?v=0702"></script>
+<script src="db.js"></script>
 <script>
 // ═══════════════════ UI STATE ═══════════════════
 let restaurants = [];
@@ -797,6 +798,11 @@ function openRestaurantModal(id) {
   document.getElementById('rest-service-fee').value=0;
   document.getElementById('rest-date').value=todayStr();
   document.getElementById('modal-rest-title').textContent='新增餐廳';
+  // 新增餐廳時，自動帶入上次使用的收款人（同一瀏覽器 session 記憶）
+  if (!id) {
+    const lastReceiver = sessionStorage.getItem('lastReceiver');
+    if (lastReceiver) document.getElementById('rest-receiver').value = lastReceiver;
+  }
   if (id) {
     const r=restaurants.find(x=>x.id===id);
     if (r) {
@@ -861,6 +867,8 @@ async function saveRestaurant() {
     receiver:document.getElementById('rest-receiver').value.trim(),
     serviceFee:Number(document.getElementById('rest-service-fee').value)||0,
     note:document.getElementById('rest-note').value.trim() };
+  // 記住這次填寫的收款人，下次新增餐廳時自動帶入
+  if (obj.receiver) sessionStorage.setItem('lastReceiver', obj.receiver);
   showLoading(editId?'更新中...':'新增中...');
   try {
     if (editId) { await RestaurantsAPI.update(editId, obj); showToast('餐廳資料已更新 ✓'); }
@@ -991,37 +999,48 @@ function bulkBackToInput() { bulkShowStep('input'); }
 
 // 解析規則：
 // 支援兩種輸入格式，可混合出現：
-// 1) 簡單格式：「人名 品項 $金額」，沒有人名開頭的行視為延續上一筆同一人（品項合併、金額加總）
-// 2) LINE 群組訊息格式：「HH:MM 群組-人名 (英文名) 【日期標籤】」接著下一行（或同行）的「品項 $50 + 品項 $30 = $80」
-//    - 人名比對：MEMBER_LIST 完全比對優先，找不到則模糊比對（清單人名是該字串的子字串，例：靜怡 ⊂ 林靜怡）
-//    - 完全不在清單中的人名，保留原文字當訂購人
-//    - 多品項加總時，取最後的「= $總額」當訂單金額；沒有 "=" 則取行內最後一個 $金額
-//    - 沒有 $ 金額的行（如提醒訊息）視為雜訊，忽略
-function matchMemberName(token, knownNames) {
-  // knownNames 可能是 Set（舊邏輯）或 Map（新邏輯）
-  if (knownNames instanceof Map) {
-    // 使用新的別名映射
-    // 1. 完全比對 - 檢查是否在別名映射中
-    if (knownNames.has(token)) {
-      return knownNames.get(token);
+// 1) 簡單格式：「人名(別名) 品項 $金額」
+// 2) LINE 群組訊息格式：「HH:MM 群組-人名(別名) 品項 $金額 謝謝…等語助詞」
+//    - 人名比對：一律以「行首的人名區塊」與 MEMBER_LIST 比對，完全比對優先，找不到則模糊比對
+//      （清單別名是該字串的子字串，例：靜怡 ⊂ 林靜怡；括號內別名如 access、Nick Chang 亦可比對）
+//    - 完全不在清單中的人名，且是該筆訂單的第一行時，保留原文字當訂購人
+//    - 沒有人名開頭的行，視為延續上一筆同一人（品項合併、金額加總）
+//    - 一行內有多個 $ 金額，一律加總
+//    - 沒有 $ 金額的行（提醒訊息、已收回訊息等雜訊）直接忽略，不併入任何訂單
+//    - 僅保留人名、品項與金額等主要文字，「謝謝」、時間戳記、群組名稱、多餘標點符號一律移除
+
+// 去除 LINE 訊息開頭的時間戳記「HH:MM 」
+const BULK_TIME_PREFIX_RE = /^\d{1,2}:\d{2}\s+/;
+
+// 從行首解析「(群組-)人名(別名)」，例如：
+//   「高捷-俊麟(access) 復刻紅茶 $35」→ nameToken:俊麟 aliasParen:access rest:復刻紅茶 $35
+//   「廷毓(Nick Chang) 雞排丼飯$95」  → nameToken:廷毓 aliasParen:Nick Chang rest:雞排丼飯$95
+//   「怡蒨 紫米飯糰 $70」            → nameToken:怡蒨 aliasParen:(空) rest:紫米飯糰 $70
+const BULK_NAME_EXTRACT_RE = /^(?:[^\s()（）\-]+-)?([^\s()（）]+)(?:[\(（]([^)）]*)[\)）])?\s*([\s\S]*)$/;
+
+function bulkExtractName(line) {
+  const m = line.match(BULK_NAME_EXTRACT_RE);
+  if (!m) return { nameToken: '', aliasParen: '', rest: line };
+  return { nameToken: (m[1] || '').trim(), aliasParen: (m[2] || '').trim(), rest: (m[3] || '').trim() };
+}
+
+// 比對人名：完全比對優先，其次模糊比對（清單別名為字串的子字串）
+function bulkMatchName(nameToken, aliasParen, aliasMap, sortedAliases) {
+  if (nameToken && aliasMap.has(nameToken)) return aliasMap.get(nameToken);
+  if (aliasParen && aliasMap.has(aliasParen)) return aliasMap.get(aliasParen);
+  if (nameToken) {
+    for (const alias of sortedAliases) {
+      if (nameToken.includes(alias)) return aliasMap.get(alias);
     }
-    // 2. 模糊比對 - 檢查是否有別名包含該字串
-    for (const [alias, mainName] of knownNames) {
-      if (token.includes(alias)) {
-        return mainName;
-      }
-    }
-  } else {
-    // 向後相容：舊的 Set 邏輯
-    if (knownNames.has(token)) return token;
-    for (const m of knownNames) {
-      if (token.includes(m)) return m;
+  }
+  if (aliasParen) {
+    const lower = aliasParen.toLowerCase();
+    for (const alias of sortedAliases) {
+      if (lower === alias.toLowerCase() || aliasParen.includes(alias)) return aliasMap.get(alias);
     }
   }
   return null;
 }
-
-const BULK_LINE_HEADER_RE = /^(\d{1,2}:\d{2})\s+(.+)$/;
 
 function bulkCleanItemsText(str) {
   return str
@@ -1038,107 +1057,65 @@ function bulkCleanItemsText(str) {
 
 function parseBulkText(text) {
   const rawLines = text.split('\n').map(l=>l.trim()).filter(Boolean);
-  
+
   // 建立別名到主名字的映射
   const aliasMap = new Map();
   for (const member of MEMBER_LIST) {
     if (typeof member === 'object' && member.name && member.aliases) {
-      for (const alias of member.aliases) {
-        aliasMap.set(alias, member.name);
-      }
+      for (const alias of member.aliases) aliasMap.set(alias, member.name);
     } else {
       aliasMap.set(member, member);
     }
   }
-  
+  const sortedAliases = Array.from(aliasMap.keys()).sort((a, b) => b.length - a.length);
+
   const rows = [];
-  let currentOrderer = null;
-  let currentItems = [];
-  let currentAmount = 0;
-  
-  for (const line of rawLines) {
-    // 提取所有金額（必須有 $）
-    const amounts = [...line.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
-    
-    // 如果這行沒有金額，就是品項行或雜訊
-    if (!amounts.length) {
-      // 如果有前一個訂購人，將此行作為品項併入
-      if (currentOrderer) {
-        const cleaned = bulkCleanItemsText(line);
-        if (cleaned) currentItems.push(cleaned);
-      }
-      continue;
+  let current = null; // { orderer, items:[], amount }
+
+  function flushCurrent() {
+    if (current && current.orderer) {
+      rows.push({
+        orderer: current.orderer,
+        items: current.items.join('、').replace(/\s*、\s*/g,'、').trim(),
+        amount: current.amount
+      });
     }
-    
-    // 計算此行的總金額
+    current = null;
+  }
+
+  for (const rawLine of rawLines) {
+    // 提取所有金額（必須有 $），一行內多筆金額直接加總
+    const amounts = [...rawLine.matchAll(/\$\s*([0-9,]+)/g)].map(m=>Number(m[1].replace(/,/g,'')));
+
+    // 沒有 $ 金額的行（提醒訊息、已收回訊息等雜訊）一律忽略，不併入任何訂單
+    if (!amounts.length) continue;
     const lineAmount = amounts.reduce((s, a) => s + a, 0);
-    
-    // 清理整行（保留金額）
-    let lineText = bulkCleanItemsText(line);
-    
-    // 嘗試找到人名
-    let foundOrderer = null;
-    let matchedAlias = null;
-    
-    // 逐個檢查別名（優先較長的別名，確保準確匹配）
-    const sortedAliases = Array.from(aliasMap.keys()).sort((a, b) => b.length - a.length);
-    for (const alias of sortedAliases) {
-      if (lineText.includes(alias)) {
-        foundOrderer = aliasMap.get(alias);
-        matchedAlias = alias;
-        break;
-      }
+
+    // 去除開頭時間戳記，再嘗試解析「(群組-)人名(別名) 品項…」
+    const line = rawLine.replace(BULK_TIME_PREFIX_RE, '');
+    const { nameToken, aliasParen, rest } = bulkExtractName(line);
+    const matchedName = bulkMatchName(nameToken, aliasParen, aliasMap, sortedAliases);
+
+    if (matchedName) {
+      // 辨識出人名 → 儲存前一筆，開啟新的一筆訂單
+      flushCurrent();
+      const itemsText = bulkCleanItemsText(rest);
+      current = { orderer: matchedName, items: itemsText ? [itemsText] : [], amount: lineAmount };
+    } else if (current) {
+      // 沒有辨識出人名 → 視為延續上一筆同一人（品項合併、金額加總）
+      const itemsText = bulkCleanItemsText(line);
+      current.amount += lineAmount;
+      if (itemsText) current.items.push(itemsText);
+    } else if (nameToken) {
+      // 完全不在清單中的人名，且是第一行 → 保留原文字當訂購人
+      flushCurrent();
+      const itemsText = bulkCleanItemsText(rest);
+      current = { orderer: nameToken, items: itemsText ? [itemsText] : [], amount: lineAmount };
     }
-    
-    // 如果找到新訂購人
-    if (foundOrderer) {
-      // 保存前一個訂單
-      if (currentOrderer) {
-        rows.push({
-          orderer: currentOrderer,
-          items: currentItems.join('、').replace(/\s*、\s*/g,'、').trim(),
-          amount: currentAmount
-        });
-      }
-      
-      // 開始新訂單
-      currentOrderer = foundOrderer;
-      currentAmount = lineAmount;
-      currentItems = [];
-      
-      // 提取品項（移除人名別名後的內容，保留金額）
-      const aliasIndex = lineText.indexOf(matchedAlias);
-      const itemsAfterName = lineText.slice(aliasIndex + matchedAlias.length).trim();
-      if (itemsAfterName) currentItems.push(itemsAfterName);
-    } else {
-      // 沒找到人名
-      if (currentOrderer) {
-        // 併入上一個訂購人
-        currentAmount += lineAmount;
-        if (lineText) currentItems.push(lineText);
-      } else {
-        // 沒有前一個訂購人，創建新訂單（人名為空或未識別）
-        // 嘗試從行的開頭找人名
-        const firstToken = line.split(/[\s$]/)[0];
-        if (firstToken && !firstToken.includes('$')) {
-          currentOrderer = firstToken;
-          currentAmount = lineAmount;
-          currentItems = [lineText];
-        }
-      }
-    }
+    // 否則（無法辨識任何人名、也沒有前一筆訂單可歸屬）此行忽略
   }
-  
-  // 保存最後一個訂單
-  if (currentOrderer) {
-    rows.push({
-      orderer: currentOrderer,
-      items: currentItems.join('、').replace(/\s*、\s*/g,'、').trim(),
-      amount: currentAmount
-    });
-  }
-  
-  // 過濾掉人名為空的訂單
+
+  flushCurrent();
   return rows.filter(r => r.orderer && r.orderer.trim());
 }
 
