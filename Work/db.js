@@ -20,8 +20,8 @@ const MEMBER_LIST = [
   { name: '瀞萱', aliases: ['瀞萱','Monica','靜'] },
   { name: '培華', aliases: ['培華','PeiHua','培'] },
   { name: '廷毓', aliases: ['廷毓','Nick Chang廷毓','Nick','廷'] },
-  { name: '銀燦', aliases: ['銀燦', 'stanny5', '銀燦-stanny5', 'Stanny5'] },
-  { name: '育淇', aliases: ['育淇', '預期','育其'] },
+  { name: '銀燦', aliases: ['銀燦', 'stanny5', '銀燦-stanny5', 'Stanny5', 'Stanny'] },
+  { name: '育淇', aliases: ['育淇', '預期', '育其', 'yuqi'] },
   { name: '亭諭', aliases: ['亭諭','小亭'] },
   { name: '暉文', aliases: ['黃暉文','文'] },
   { name: '景斌', aliases: ['莊景斌 Benjamin','Benjamin','景斌','莊景斌','景'] }
