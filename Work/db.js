@@ -9,8 +9,8 @@ const DB_ANON_KEY = 'sb_publishable_65S8BPgHlFHmRZHvmzxzyA_Ut7BViu6';
 // ── 固定人名清單（訂購人 & 主購共用）───────────────────────
 // 結構：{ name: '主要名稱', aliases: ['別名1', '別名2', ...] }
 const MEMBER_LIST = [
-  { name: '耕宇', aliases: ['耕宇','耕'] },
-  { name: '來毅', aliases: ['來毅','來'] },
+  { name: '耕宇', aliases: ['耕宇','耕','宇'] },
+  { name: '來毅', aliases: ['來毅','來','毅'] },
   { name: '怡蒨', aliases: ['怡蒨', 'Edda', '怡蒨-Edda', 'edda'] },
   { name: '進成', aliases: ['進成', 'Andy', '主任', '進成主任','Andy Yang(進成)'] },
   { name: '俊麟', aliases: ['俊麟','郭課','俊麟課長','access','郭'] },
