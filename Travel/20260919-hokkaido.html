@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1769aa">
+<title>2026-Hokkaido北海道 8天7夜</title>
+<style>
+:root{
+  --primary:#1769aa;
+  --primary2:#2196f3;
+  --bg:#f3f6f9;
+  --card:#fff;
+  --text:#263238;
+  --muted:#6b7780;
+  --line:#dce5eb;
+  --accent:#ff9800;
+  --green:#2e7d32;
+  --shadow:0 5px 18px rgba(30,60,90,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Microsoft JhengHei","Noto Sans TC",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+}
+button,a{font:inherit}
+a{color:inherit}
+.hero{
+  background:linear-gradient(135deg,#1769aa,#42a5f5);
+  color:#fff;
+  padding:30px 16px 24px;
+  text-align:center;
+}
+.hero h1{margin:0;font-size:30px}
+.hero p{margin:7px 0 0;font-size:15px;opacity:.95}
+.summary{
+  max-width:1100px;
+  margin:14px auto 0;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.summary span{
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:5px 11px;
+  font-size:13px;
+}
+.container{max-width:1100px;margin:auto;padding:14px 12px 50px}
+.notice{
+  background:#fff8e1;
+  border:1px solid #ffe082;
+  border-radius:14px;
+  padding:13px 15px;
+  margin-bottom:14px;
+  font-size:14px;
+}
+.tabs-wrap{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(243,246,249,.96);
+  backdrop-filter:blur(10px);
+  padding:8px 0;
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.tabs{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  padding:0 2px;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  background:#fff;
+  color:#455a64;
+  border-radius:12px;
+  padding:8px 12px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:13px;
+}
+.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.day-panel{display:none}
+.day-panel.active{display:block}
+.day-head{
+  margin-top:12px;
+  background:var(--card);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:17px;
+}
+.day-head h2{margin:0 0 7px;font-size:23px;color:var(--primary);display:flex;align-items: center;}
+.day-head h2 span{padding:0 10px;color:var(--card);font-size:18px;background:var(--primary2)}
+.day-meta{display:flex;flex-wrap:wrap;gap:7px}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  border-radius:999px;
+  background:#eef6fd;
+  color:#135b93;
+  padding:4px 9px;
+  font-size:12px;
+}
+.badge.green{background:#edf7ee;color:var(--green)}
+.badge.orange{background:#fff4e5;color:#a45b00}
+.route{
+  margin:12px 0;
+  background:#eaf4fb;
+  border-radius:12px;
+  padding:10px 13px;
+  font-size:13px;
+  color:#31576f;
+  font-weight:600;
+}
+.spot{
+  background:var(--card);
+  margin:12px 0;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.spot-top{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:0;
+}
+.photo-btn{
+  display:block;
+  width:100%;
+  height:150px;
+  border:0;
+  padding:0;
+  background:#dce7ee;
+  cursor:pointer;
+  overflow:hidden;
+  position:relative;
+}
+.photo-btn img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .25s;
+}
+.photo-btn:hover img{transform:scale(1.04)}
+.photo-label{
+  position:absolute;
+  left:8px;
+  bottom:8px;
+  background:rgba(0,0,0,.62);
+  color:#fff;
+  border-radius:7px;
+  padding:3px 7px;
+  font-size:11px;
+}
+.spot-body{padding:14px 15px}
+.spot-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.spot-title h3{margin:0;color:#155b8e;font-size:19px}
+.spot-desc{margin:6px 0;color:#4c5b64;font-size:14px}
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px 12px;
+  margin-top:9px;
+}
+.info-item{
+  font-size:13px;
+  color:#455a64;
+}
+.info-item b{color:#263238}
+.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  padding:7px 10px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.btn.map{background:#e8f3ff;color:#1565c0;border-color:#bbdefb}
+.btn.web{background:#f7f7f7}
+.transfer{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:4px 0;
+  padding:8px 13px;
+  color:#607d8b;
+  font-size:12px;
+}
+.transfer .line{height:1px;background:#ccd8df;flex:1}
+.transfer strong{
+  color:#455a64;
+  background:#fff;
+  border:1px solid #d9e2e7;
+  border-radius:999px;
+  padding:4px 9px;
+  white-space:nowrap;
+}
+.food{
+  background:#fff;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  margin:14px 0;
+  padding:15px;
+}
+.food h3{margin:0 0 9px;color:#7a4c00;font-size:18px}
+.food-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.food-card{
+  border:1px solid #eee2c9;
+  border-radius:12px;
+  padding:10px;
+  background:#fffaf1;
+}
+.food-card h4{margin:0 0 4px;font-size:15px}
+.food-card p{margin:0;color:#6b6256;font-size:12px}
+.food-card a{display:inline-block;margin-top:6px;color:#a45b00;text-decoration:none;font-size:12px;font-weight:700}
+.sources{
+  margin-top:12px;
+  font-size:11px;
+  color:#7b858b;
+}
+.sources a{color:#647d8a}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.78);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.modal.open{display:flex}
+.modal-box{
+  max-width:900px;
+  max-height:92vh;
+  width:min(900px,100%);
+  position:relative;
+  text-align:center;
+}
+.modal-box img{
+  max-width:100%;
+  max-height:80vh;
+  object-fit:contain;
+  border-radius:10px;
+  background:#111;
+}
+.modal-caption{
+  color:#fff;
+  font-size:13px;
+  margin-top:8px;
+}
+.close{
+  position:absolute;
+  right:-5px;
+  top:-42px;
+  border:0;
+  background:#fff;
+  color:#333;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:22px;
+  line-height:36px;
+}
+.footer{
+  text-align:center;
+  color:#78858c;
+  font-size:11px;
+  padding:25px 5px 5px;
+}
+@media(max-width:680px){
+  .hero{padding-top:24px}
+  .hero h1{font-size:25px}
+  .container{padding:8px 8px 40px}
+  .day-head{padding:14px}
+  .day-head h2{font-size:20px}
+  .spot-top{grid-template-columns:1fr}
+  .photo-btn{height:190px}
+  .info-grid{grid-template-columns:1fr}
+  .food-list{grid-template-columns:1fr}
+  .spot-title{align-items:flex-start}
+  .btn{padding:8px 10px}
+}
+</style>
+</head>
+
+<body>
+<header class="hero">
+  <h1>北海道 🇯🇵 Hokkaido</h1>
+  <p>8天7夜｜🗾札幌・支笏湖・登別・洞爺湖・二世谷・小樽</p>
+  <div class="summary">
+    <span>2026.9.19🔸2026.9.20</span>
+    <!---<span>🚗 Day 2～4 租車</span>
+    <span>📱 手機頁籤版</span>--->
+  </div>
+</header>
+
+<div class="container">
+  <!--<div class="notice">
+    <b>📌 使用提醒</b><br>
+    本頁以「9月中、親子、自駕不趕路」為原則。門票、營業時間與停車費為目前查到的參考資訊，
+    出發前仍建議再點擊各景點官方網站確認。9月北海道早晚偏涼，湖區與山區風勢也可能較強。
+    <br><b>⚠️ 重要更新：</b>新千歲機場「哆啦A夢 WAKUWAKU SKY PARK」已於2025/7/14閉館，
+    Day 8 已改為目前仍營業的 <b>ROYCE' Chocolate World</b>。
+  </div>-->
+
+  <div class="tabs-wrap">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-day="1">D1 ✈️</button>
+      <button class="tab" data-day="2">D2 🚗</button>
+      <button class="tab" data-day="3">D3 🚗</button>
+      <button class="tab" data-day="4">D4 🚗</button>
+      <button class="tab" data-day="5">D5 🚇</button>
+      <button class="tab" data-day="6">D6 🚶</button>
+      <button class="tab" data-day="7">D7 🚶</button>
+      <button class="tab" data-day="8">D8 ✈️</button>
+    </div>
+  </div>
+
+  <!-- DAY 1 -->
+  <section class="day-panel active" id="day1">
+    <div class="day-head">
+      <h2><span>9/19(六)</span> - DAY 1｜抵達北海道 → 札幌</h2>
+      <div class="day-meta">
+        <span class="badge">✈️ 新千歲機場</span><span class="badge">🏨 住札幌</span><span class="badge green">🚶 不租車</span>
+      </div>
+    </div>
+
+    <div class="route">✈️ 新千歲機場 → JR札幌站：約 40 km／JR 約 37～40 分鐘</div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Sapporo Odori Park Hokkaido" data-title="大通公園">
+          <img alt="大通公園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 大通公園</h3><span class="badge green">免費</span></div>
+          <p class="spot-desc">抵達後以散步、放鬆為主，不建議第一天安排太多行程。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
+            <div class="info-item">🕐 時間：<b>戶外公園全天</b></div>
+            <div class="info-item">👶 親子：<b>散步、草地、拍照</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Odori+Park+Sapporo">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>步行／地鐵</span><div class="line"></div><strong>約 1～2 km／10～25 分</strong><div class="line"></div><span>依住宿位置</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Tanukikoji Shopping Street Sapporo Hokkaido" data-title="狸小路商店街">
+          <img alt="狸小路商店街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 狸小路商店街</h3><span class="badge">逛街</span></div>
+          <p class="spot-desc">晚餐、藥妝、零食與親子用品採買集中處；店家營業時間各異。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
+            <div class="info-item">🕐 時間：<b>各店不同，多數白天～晚間</b></div>
+            <div class="info-item">👶 親子：<b>室內逛街，雨天備案佳</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Tanukikoji+Shopping+Street+Sapporo">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>Soup Curry GARAKU</h4><p>札幌名物湯咖哩；建議避開尖峰或預留排隊時間。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Soup+Curry+GARAKU+Sapporo">📍 導航</a></div>
+        <div class="food-card"><h4>Izakaya Aiyo TanukiKouji</h4><p>狸小路附近居酒屋，晚餐方便；親子同行可依年齡與時間選擇。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Izakaya+Aiyo+TanukiKouji+4-chome">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 2 -->
+  <section class="day-panel" id="day2">
+    <div class="day-head">
+      <h2><span>9/20(日)</span>-DAY 2｜札幌 → 支笏湖 → 登別</h2>
+      <div class="day-meta">
+        <span class="badge">🚗 早上取車</span><span class="badge">🏨 住登別</span><span class="badge orange">♨️ 溫泉</span>
+      </div>
+    </div>
+
+    <div class="route">建議 08:30 左右札幌取車 → 支笏湖 → 登別。9月中白天仍適合湖畔活動，但請預留天候彈性。</div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Lake Shikotsu Hokkaido Japan" data-title="支笏湖">
+          <img alt="支笏湖" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 支笏湖</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <p class="spot-desc">湖畔散步＋支笏湖遊客中心；若天氣穩定，可安排水中遊覽船。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 湖畔：<b>免費</b>；水中遊覽船另計</div>
+            <div class="info-item">🎫 水中船：<b>大人 ¥2,000／小學生 ¥1,000</b></div>
+            <div class="info-item">🅿️ 停車：<b>有，收費／季節可能變動</b></div>
+            <div class="info-item">🕐 遊船：<b>約 09:00～17:00，季節調整</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Lake+Shikotsu+Visitor+Center">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://shikotsu-ship.co.jp/price/">🚢 船班／票價</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 75 km／1 小時 20 分</strong><div class="line"></div><span>支笏湖 → 登別</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Noboribetsu Jigokudani Hokkaido Japan" data-title="登別地獄谷">
+          <img alt="登別地獄谷" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 登別地獄谷</h3><span class="badge green">免費</span></div>
+          <p class="spot-desc">木棧道觀察噴氣孔與火山地形；親子步行約 1 小時即可。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 地獄谷停車場：<b>普通車 ¥500／次</b></div>
+            <div class="info-item">🕐 時間：<b>戶外景點，通常全天可散步</b></div>
+            <div class="info-item">👶 親子：<b>有坡度，推車請視路線調整</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Noboribetsu+Jigokudani">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 2 km／5 分</strong><div class="line"></div><span>地獄谷 → 登別溫泉街</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Noboribetsu Onsen Hokkaido Japan" data-title="登別溫泉街">
+          <img alt="登別溫泉街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>③ 登別溫泉街</h3><span class="badge orange">晚上散步</span></div>
+          <p class="spot-desc">入住溫泉旅館後可慢慢逛極樂通商店街、閻魔堂，晚上回飯店泡湯。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>街區免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>依飯店／周邊停車場</b></div>
+            <div class="info-item">🕐 時間：<b>店家各異</b></div>
+            <div class="info-item">♨️ 建議：<b>今晚以飯店溫泉為主</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Noboribetsu+Onsen+Shopping+Street">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>溫泉市場</h4><p>登別溫泉街內，海鮮、丼飯等；營業約 11:30～20:00。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Onsen+Market+Noboribetsu">📍 導航</a></div>
+        <div class="food-card"><h4>登別溫泉街餐廳</h4><p>若住溫泉旅館，優先考慮旅館晚餐，親子較省移動時間。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Noboribetsu+Onsen+restaurants">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 3 -->
+  <section class="day-panel" id="day3">
+    <div class="day-head">
+      <h2><span>9/21(一)</span>DAY 3｜登別 → 洞爺湖 → 有珠山 → 二世谷</h2>
+      <div class="day-meta">
+        <span class="badge">🚗 自駕</span><span class="badge">🏨 住二世谷</span><span class="badge green">🌋 湖＋火山</span>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Lake Toya Hokkaido Japan" data-title="洞爺湖">
+          <img alt="洞爺湖" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 洞爺湖</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <p class="spot-desc">湖畔散步、拍照；如果小朋友喜歡搭船，可依當天時間加入洞爺湖遊覽船。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 湖畔：<b>免費</b></div>
+            <div class="info-item">🎫 遊覽船：<b>另計，依船公司公告</b></div>
+            <div class="info-item">🅿️ 停車：<b>湖畔／溫泉街周邊付費或飯店停車</b></div>
+            <div class="info-item">🕐 時間：<b>戶外湖畔全天</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Lake+Toya+Toyako+Hokkaido">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 15 km／25 分</strong><div class="line"></div><span>洞爺湖 → 昭和新山／有珠山</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Usuzan Ropeway Showa Shinzan Hokkaido" data-title="有珠山纜車">
+          <img alt="有珠山纜車" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 有珠山纜車</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <p class="spot-desc">搭纜車看洞爺湖與昭和新山，是 Day 3 最值得保留的景點。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 往返：<b>大人 ¥2,000／小學生 ¥1,000</b></div>
+            <div class="info-item">🅿️ 停車：<b>普通車 ¥500／日</b></div>
+            <div class="info-item">🕐 營業：<b>約 08:00～18:00，季節變動</b></div>
+            <div class="info-item">🚠 班距：<b>通常每 15 分鐘一班</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Usuzan+Ropeway">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://usuzan.hokkaido.jp/ja/">🚠 官方票價／時刻</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 55～60 km／1 小時 10 分</strong><div class="line"></div><span>有珠山 → 二世谷</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Mount Yotei Niseko Hokkaido Japan" data-title="二世谷／羊蹄山景觀">
+          <img alt="羊蹄山" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>③ 二世谷入住</h3><span class="badge">放慢腳步</span></div>
+          <p class="spot-desc">傍晚入住後不再排景點；若天氣好，可在住宿附近找羊蹄山視野。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>以住宿飯店為主</b></div>
+            <div class="info-item">🕐 建議：<b>17:00～18:00 前後入住</b></div>
+            <div class="info-item">🍦 親子：<b>牧場甜點可留到 Day 4</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Niseko+Hirafu+Hokkaido">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>THE TOYA</h4><p>洞爺湖溫泉區附近，咖啡／餐點；約 11:00～17:00。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=THE+TOYA+Toyako">📍 導航</a></div>
+        <div class="food-card"><h4>Kumo Restaurant</h4><p>二世谷 Hirafu，早餐與晚餐皆有時段；適合入住後就近用餐。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Kumo+Restaurant+Niseko">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 4 -->
+  <section class="day-panel" id="day4">
+    <div class="day-head">
+      <h2><span>9/22(二)</span>DAY 4｜二世谷 → 札幌（18:00前還車）</h2>
+      <div class="day-meta">
+        <span class="badge">🚗 自駕</span><span class="badge orange">⏰ 18:00前還車</span><span class="badge">🏨 住札幌</span>
+      </div>
+    </div>
+
+    <div class="route">建議最晚 14:00～14:30 離開二世谷，預留北海道道路、休息站與市區交通緩衝，目標 17:00 前抵達租車公司。</div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Niseko View Plaza Roadside Station Hokkaido" data-title="道之站 Niseko View Plaza">
+          <img alt="Niseko View Plaza" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 道之站 Niseko View Plaza</h3><span class="badge green">親子小停留</span></div>
+          <p class="spot-desc">買牛奶、蔬果、甜點與伴手禮；9月中農產選擇通常很豐富。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>免費</b></div>
+            <div class="info-item">🕐 資訊館：<b>09:00～18:00</b></div>
+            <div class="info-item">🥛 農產：<b>約 08:30～17:00（季節性）</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Niseko+View+Plaza+Roadside+Station">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://hokkaido-michinoeki.jp/?p=66002">🛣️ 營業資訊</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 100～110 km／2～2.5 小時</strong><div class="line"></div><span>二世谷 → 札幌</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Sapporo Japan city Hokkaido" data-title="札幌市區">
+          <img alt="札幌市區" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 返回札幌</h3><span class="badge orange">還車優先</span></div>
+          <p class="spot-desc">抵達札幌後先還車，再回飯店。晚上不建議安排跨區景點。</p>
+          <div class="info-grid">
+            <div class="info-item">🚗 還車：<b>目標 17:00前</b></div>
+            <div class="info-item">🅿️ 停車：<b>還車後以飯店／公共交通為主</b></div>
+            <div class="info-item">🕐 建議：<b>17:00～18:00 還車</b></div>
+            <div class="info-item">👶 親子：<b>晚餐後回飯店休息</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sapporo+Station+Hokkaido">📍 札幌站 Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>札幌站周邊拉麵</h4><p>還車後最方便；若不想排隊，可直接選札幌站／ESTA周邊餐廳。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sapporo+Station+Ramen">📍 導航</a></div>
+        <div class="food-card"><h4>札幌湯咖哩</h4><p>Day 1沒吃到可補；親子可選不辣等級。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sapporo+Soup+Curry+near+Sapporo+Station">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 5 -->
+  <section class="day-panel" id="day5">
+	<div class="day-head">
+      <h2><span>9/24(四)</span>DAY 6｜札幌親子日</h2>
+      <div class="day-meta">
+        <span class="badge green">👨‍👩‍👧 親子主日</span><span class="badge">🚇 地鐵／巴士</span><span class="badge">🏨 住札幌</span>
+      </div>
+    </div>
+
+    <div class="route">建議白色戀人公園＋圓山動物園二選一當主力也可以；若孩子體力好再兩個都去。</div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Shiroi Koibito Park Sapporo Hokkaido" data-title="白色戀人公園">
+          <img alt="白色戀人公園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 白色戀人公園</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <p class="spot-desc">巧克力工廠、甜點、遊戲區；2026/7/30起有料區價格調整。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 有料區：<b>大人 ¥1,200／4歲～中學生 ¥600／3歲以下免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>1小時 ¥300；買有料區票可 3小時 ¥300</b></div>
+            <div class="info-item">🕐 公園：<b>10:00～18:00</b></div>
+            <div class="info-item">🎟️ 有料區：<b>最終入場 16:30</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Shiroi+Koibito+Park+Sapporo">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://www.shiroikoibitopark.jp/facility/counter.html">🍫 官方票價</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>地鐵／巴士</span><div class="line"></div><strong>約 8～10 km／30～45 分</strong><div class="line"></div><span>白色戀人 → 圓山</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Sapporo Maruyama Zoo Hokkaido Japan" data-title="札幌市円山動物園">
+          <img alt="札幌市円山動物園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 札幌市円山動物園</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <p class="spot-desc">9月仍屬夏期開園；建議安排 2.5～3 小時，不必追求全部館舍。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>大人 ¥800；中學生以下免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊／園區停車場，依當日公告</b></div>
+            <div class="info-item">🕐 9月開園：<b>09:30～16:30</b></div>
+            <div class="info-item">🚪 最終入園：<b>16:00</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sapporo+Maruyama+Zoo">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://www.city.sapporo.jp/zoo/info/riyo/kaienjikan.html">🦁 官方時間／票價</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>Dany's Restaurant</h4><p>円山動物園第一休息區內，約 09:30～16:00；適合懶得移動的親子午餐。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Dany%27s+Restaurant+Maruyama+Zoo">📍 導航</a></div>
+        <div class="food-card"><h4>円山公園／宮ヶ丘周邊</h4><p>動物園結束後可往円山一帶找咖啡、甜點或晚餐。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=restaurants+near+Maruyama+Zoo+Sapporo">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 6 -->
+  <section class="day-panel" id="day6">
+      <div class="day-head">
+      <h2><span>9/23(三)</span>DAY 5｜小樽一日遊</h2>
+      <div class="day-meta">
+        <span class="badge">🚆 JR 約 35～45 分</span><span class="badge">🏨 住札幌</span><span class="badge green">🚶 以步行為主</span>
+      </div>
+    </div>
+
+    <div class="route">札幌站 → 小樽站：約 40 km／JR 快速約 35～45 分鐘。抵達後以「運河 → 堺町 → 三角市場」為主線。</div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Otaru Canal Hokkaido Japan" data-title="小樽運河">
+          <img alt="小樽運河" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 小樽運河</h3><span class="badge green">免費</span></div>
+          <p class="spot-desc">建議早上抵達先拍照、散步，避開中午後人潮。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 觀光停車場：<b>60分鐘 ¥300／當日上限 ¥1,000</b></div>
+            <div class="info-item">🕐 運河：<b>戶外全天</b></div>
+            <div class="info-item">📸 建議：<b>白天＋傍晚各拍一次</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Otaru+Canal+Hokkaido">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>步行</span><div class="line"></div><strong>約 0.6～1 km／10～15 分</strong><div class="line"></div><span>運河 → 堺町</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Sakaimachi Street Otaru Hokkaido" data-title="堺町通商店街">
+          <img alt="堺町通商店街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 堺町通商店街</h3><span class="badge">甜點＋伴手禮</span></div>
+          <p class="spot-desc">LeTAO、北一硝子、音樂盒等集中；親子可控制在 1.5～2 小時。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
+            <div class="info-item">🕐 時間：<b>各店不同，多數約 09:00～18:00</b></div>
+            <div class="info-item">🍰 親子：<b>甜點、音樂盒</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sakaimachi+Street+Otaru">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>步行</span><div class="line"></div><strong>約 1 km／15 分</strong><div class="line"></div><span>堺町 → 三角市場</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Otaru Sankaku Market Hokkaido" data-title="三角市場">
+          <img alt="三角市場" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>③ 三角市場</h3><span class="badge orange">海鮮午餐</span></div>
+          <p class="spot-desc">建議把海鮮丼安排在午餐；店家各自營業時間不同，太晚容易選擇變少。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
+            <div class="info-item">🕐 時間：<b>各店不同，通常上午～下午</b></div>
+            <div class="info-item">🍣 推薦：<b>海鮮丼、蟹、海膽</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Otaru+Sankaku+Market">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>Yoichiya Uni Specialty Restaurant</h4><p>堺町通附近海鮮丼，約 10:00～17:00。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Yoichiya+Uni+Specialty+Restaurant+Otaru">📍 導航</a></div>
+        <div class="food-card"><h4>LeTAO Main Store</h4><p>小樽代表甜點，適合下午茶與伴手禮。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=LeTAO+Main+Store+Otaru">📍 導航</a></div>
+      </div>
+    </div>
+
+    <div class="sources">停車參考：小樽觀光協會官方停車資訊。</div>
+  
+  
+    
+  </section>
+
+  <!-- DAY 7 -->
+  <section class="day-panel" id="day7">
+    <div class="day-head">
+      <h2><span>9/25(五)</span>DAY 7｜札幌市區慢遊</h2>
+      <div class="day-meta">
+        <span class="badge">🚇 大眾交通</span><span class="badge">🏨 住札幌</span><span class="badge orange">🛍️ 最後採買</span>
+      </div>
+    </div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Hokkaido University Sapporo Campus Japan" data-title="北海道大學">
+          <img alt="北海道大學" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 北海道大學</h3><span class="badge green">免費散步</span></div>
+          <p class="spot-desc">校園很大，親子不必走完整圈；建議挑中央大道、古河紀念講堂等區域。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>校園戶外免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>不建議自駕，校內停車受限</b></div>
+            <div class="info-item">🕐 時間：<b>戶外校園依校方規定</b></div>
+            <div class="info-item">👶 親子：<b>草地、樹蔭、散步</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Hokkaido+University+Sapporo+Campus">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>地鐵／步行</span><div class="line"></div><strong>約 2～4 km／15～25 分</strong><div class="line"></div><span>北海道大學 → 札幌啤酒博物館</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Sapporo Beer Museum Hokkaido Japan" data-title="札幌啤酒博物館">
+          <img alt="札幌啤酒博物館" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 札幌啤酒博物館</h3><span class="badge">大人景點</span></div>
+          <p class="spot-desc">如果同行小朋友對啤酒興趣不高，可縮短參觀時間，把重點放在紅磚建築與博物館。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 入館：<b>大人 ¥1,000／中學生～20歲 ¥500／小學生以下免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊／啤酒園停車依現場規定</b></div>
+            <div class="info-item">🕐 博物館：<b>11:00～18:00</b></div>
+            <div class="info-item">🚪 最終入館：<b>17:30</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sapporo+Beer+Museum">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://www.sapporobeer.jp/brewery/s_museum/kengaku/">🍺 官方資訊</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>地鐵／步行</span><div class="line"></div><strong>約 3～4 km／15～25 分</strong><div class="line"></div><span>啤酒博物館 → 狸小路</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Tanukikoji Shopping Street Sapporo Hokkaido" data-title="狸小路最後採買">
+          <img alt="狸小路商店街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>③ 狸小路最後採買</h3><span class="badge orange">伴手禮</span></div>
+          <p class="spot-desc">把藥妝、零食、衣物、伴手禮集中在最後一天補齊。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
+            <div class="info-item">🕐 時間：<b>各店不同</b></div>
+            <div class="info-item">🛍️ 建議：<b>先整理行李再買大件物品</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Tanukikoji+Shopping+Street+Sapporo">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>北海道大學中央食堂</h4><p>午餐可體驗校園食堂，平日約 11:00～19:00；假日營業需再確認。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Hokkaido+University+Central+Cafeteria">📍 導航</a></div>
+        <div class="food-card"><h4>札幌啤酒園</h4><p>若想安排成 Day 7 晚餐，可在啤酒博物館附近直接用餐；親子可選無酒精飲品。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Sapporo+Beer+Garden">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 8 -->
+  <section class="day-panel" id="day8">
+    <div class="day-head">
+      <h2><span>9/26(六)</span>DAY 8｜札幌 → 新千歲機場 → 台灣</h2>
+      <div class="day-meta">
+        <span class="badge">🚆 JR 約 37～40 分</span><span class="badge">✈️ 回台灣</span><span class="badge green">🍫 機場採買</span>
+      </div>
+    </div>
+
+    <div class="route">建議依國際線班機時間倒推，至少提早約 3 小時抵達機場；機場內可安排 2～3 小時採買。</div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Royce Chocolate World New Chitose Airport Hokkaido" data-title="ROYCE' Chocolate World">
+          <img alt="ROYCE' Chocolate World" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① ROYCE' Chocolate World</h3><span class="badge green">親子推薦</span></div>
+          <p class="spot-desc">巧克力展示、工廠玻璃窗觀察、伴手禮；目前是原先哆啦A夢 Sky Park 的替代方案。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>商店／博物館參觀免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>無專屬停車場，使用機場付費停車</b></div>
+            <div class="info-item">🕐 商店／博物館：<b>08:00～19:00</b></div>
+            <div class="info-item">🏭 工廠：<b>08:30～17:30</b></div>
+          </div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Royce+Chocolate+World+New+Chitose+Airport">📍 Google Maps</a>
+            <a class="btn web" target="_blank" href="https://www.royce.com/brand/shop/detail/?no=111">🍫 官方資訊</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer"><span>機場內步行</span><div class="line"></div><strong>約 5～15 分</strong><div class="line"></div><span>伴手禮／免稅店</span></div>
+
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="New Chitose Airport Hokkaido Japan terminal" data-title="新千歲機場">
+          <img alt="新千歲機場" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>② 新千歲機場採買＋報到</h3><span class="badge orange">最後採買</span></div>
+          <p class="spot-desc">北海道伴手禮、白色戀人、ROYCE、六花亭、海鮮與免稅店集中；最後確認行李重量。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 入場：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>若自駕停車另計</b></div>
+            <div class="info-item">🕐 商店：<b>依店家不同</b></div>
+            <div class="info-item">✈️ 建議：<b>國際線至少提前約3小時到機場</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=New+Chitose+Airport">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="food">
+      <h3>🍜 今日附近美食</h3>
+      <div class="food-list">
+        <div class="food-card"><h4>新千歲機場北海道拉麵道場</h4><p>機場內集中多家北海道拉麵，適合登機前解決午餐。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=New+Chitose+Airport+Ramen+Dojo">📍 導航</a></div>
+        <div class="food-card"><h4>機場海鮮丼</h4><p>若前幾天沒吃夠海鮮，可在機場最後補一次。</p><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=New+Chitose+Airport+seafood+don">📍 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    景點照片由頁面載入時透過 Wikimedia Commons 公開圖片搜尋取得；點擊照片可放大。<br>
+    距離／時間為行程規劃用的約略值，實際會受交通、天候、施工與停車狀況影響。
+  </div>
+</div>
+
+<div class="modal" id="photoModal">
+  <div class="modal-box">
+    <button class="close" id="closeModal">×</button>
+    <img id="modalImg" alt="">
+    <div class="modal-caption" id="modalCaption"></div>
+  </div>
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.day-panel');
+
+function showDay(day){
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.day === String(day)));
+  panels.forEach(p => p.classList.toggle('active', p.id === 'day' + day));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+tabs.forEach(tab => tab.addEventListener('click', () => showDay(tab.dataset.day)));
+
+const modal = document.getElementById('photoModal');
+const modalImg = document.getElementById('modalImg');
+const modalCaption = document.getElementById('modalCaption');
+const closeModal = document.getElementById('closeModal');
+
+function openModal(src, title){
+  modalImg.src = src;
+  modalCaption.textContent = title;
+  modal.classList.add('open');
+}
+function closePhoto(){
+  modal.classList.remove('open');
+  modalImg.src = '';
+}
+closeModal.addEventListener('click', closePhoto);
+modal.addEventListener('click', e => { if(e.target === modal) closePhoto(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closePhoto(); });
+
+async function loadCommonsImage(button){
+  const img = button.querySelector('img');
+  const query = button.dataset.query;
+  const title = button.dataset.title;
+
+  try{
+    const api = 'https://commons.wikimedia.org/w/api.php'
+      + '?action=query&generator=search&gsrsearch=' + encodeURIComponent(query)
+      + '&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*';
+    const res = await fetch(api);
+    const data = await res.json();
+    const pages = data.query && data.query.pages ? Object.values(data.query.pages) : [];
+    if(pages.length && pages[0].imageinfo && pages[0].imageinfo[0]){
+      const info = pages[0].imageinfo[0];
+      const src = info.thumburl || info.url;
+      img.src = src;
+      img.dataset.full = info.url || src;
+      button.addEventListener('click', () => openModal(img.dataset.full, title));
+      return;
+    }
+  }catch(e){}
+  img.src = 'https://dummyimage.com/1200x700/e0e7eb/607d8b&text=' + encodeURIComponent(title);
+  button.addEventListener('click', () => openModal(img.src, title));
+}
+
+document.querySelectorAll('.photo-btn').forEach(loadCommonsImage);
+</script>
+</body>
+</html>
