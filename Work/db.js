@@ -17,7 +17,7 @@ const MEMBER_LIST = [
   { name: '靜怡', aliases: ['靜怡', '林靜怡', '靜怡課長','靜'] },
   { name: '宏明', aliases: ['宏明','宏'] },
   { name: '威蓁', aliases: ['威蓁','味'] },
-  { name: '瀞萱', aliases: ['瀞萱','Monica','靜'] },
+  { name: '瀞萱', aliases: ['瀞萱','Monica','萱'] },
   { name: '培華', aliases: ['培華','PeiHua','培'] },
   { name: '廷毓', aliases: ['廷毓','Nick Chang廷毓','Nick','廷'] },
   { name: '銀燦', aliases: ['銀燦', 'stanny5', '銀燦-stanny5', 'Stanny5', 'Stanny'] },
