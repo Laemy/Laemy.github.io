@@ -345,7 +345,7 @@ a{color:inherit}
     </div>
   </div>
 
-  <!-- DAY 1 -->
+  <!-- DAY 1 -------------------------------------------------------------------- -->
   <section class="day-panel active" id="day1">
     <div class="day-head">
       <h2><span>9/19(六)</span> - DAY 1｜抵達北海道 → 札幌</h2>
@@ -440,7 +440,7 @@ a{color:inherit}
     </div>
   </section>
 
-  <!-- DAY 2 -->
+  <!-- DAY 2 -------------------------------------------------------------------- -->
   <section class="day-panel" id="day2">
     <div class="day-head">
       <h2><span>9/20(日)</span>-DAY 2｜札幌 → 支笏湖 → 登別</h2>
@@ -605,7 +605,7 @@ a{color:inherit}
     </div>
   </section>
 
-  <!-- DAY 3 -->
+  <!-- DAY 3-------------------------------------------------------------------- -->
   <section class="day-panel" id="day3">
     <div class="day-head">
       <h2><span>9/21(一)</span>DAY 3｜登別 → 洞爺湖 → 有珠山 → 二世谷</h2>
@@ -1209,7 +1209,7 @@ async function loadCommonsImage(button){
 		}
     }
   }catch(e){}
-  if(img.src=='' || img.src.indexOf("laemy")>=0)
+  if(img.src=='')
 	img.src = 'https://dummyimage.com/1200x700/e0e7eb/607d8b&text=' + encodeURIComponent(title);
   button.addEventListener('click', () => openModal(img.src, title));
 }
