@@ -133,6 +133,11 @@ a{color:inherit}
   box-shadow:var(--shadow);
   overflow:hidden;
 }
+.spot.noselect{
+  background: rgb(190 193 197 / 45%);
+  filter: grayscale(1);
+  opacity: 0.7;
+}
 .spot-top{
   display:grid;
   grid-template-columns:180px 1fr;
@@ -353,23 +358,7 @@ a{color:inherit}
         <span class="badge">✈️ 新千歲機場</span><span class="badge">🏨 住札幌</span><span class="badge green">🚶 不租車</span>
       </div>
     </div>
-	
-	<div class="spot">
-      <div class="spot-top">
-        <button class="photo-btn" data-title="小港機場">
-          <img alt="小港機場" src="" loading="lazy">
-        </button>
-        <div class="spot-body">
-          <div class="spot-title"><h3>✈️ 小港機場</h3></div>
-          <p class="spot-desc">5點出發</p>
-          <div class="info-grid">
-            <div class="info-item">🕐 <b>KHH 08:00  → CTS 13:05</b></div>
-            <div class="info-item">🕐：<b>IT 260  2026/09/19 (4 小時 5 分)</b></div>
-          </div>
-          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Odori+Park+Sapporo">📍 Google Maps</a></div>
-        </div>
-      </div>
-    </div>
+
 	
     <div class="spot">
       <div class="spot-top">
@@ -377,7 +366,7 @@ a{color:inherit}
           <img alt="小港機場" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>✈️ 小港機場</h3></div>
+          <div class="spot-title"><h3>✈️ 小港機場</h3><span class="badge">交通</span></div>
           <p class="spot-desc">5點出發</p>
           <div class="info-grid">
             <div class="info-item">🕐 <b>KHH 08:00  → CTS 13:05</b></div>
@@ -388,12 +377,15 @@ a{color:inherit}
       </div>
     </div>
 
-	<div class="route"> <a class="btn map" target="_blank" href="https://maps.app.goo.gl/rL6N4gK95KFU1ysN8">Maps</a> ✈️ 新千歲機場 → JR札幌站：約 40 km／JR 約 37～40 分鐘 |🚈 札幌站 → 中島公園：札幌市營地下鐵 [南北線-普通真駒內] 5站 約 5 分鐘</div>
+	<!--<div class="route" style="text-align:center"> <a class="btn map" target="_blank" href="https://maps.app.goo.gl/rL6N4gK95KFU1ysN8">Maps</a> </div>-->
+	
+	<div class="transfer"><span><a class="btn map" target="_blank" href="https://maps.app.goo.gl/rL6N4gK95KFU1ysN8">Maps</a></span><div class="line"></div><strong>✈️ 新千歲機場 → JR札幌站：約 40 km／JR 約 37～40 分鐘</strong> 
+		<div class="line"></div><strong>🚈 札幌站 → 中島公園：札幌市營地下鐵 [南北線-普通真駒內] 5站 約 5 分鐘</strong><div class="line"></div><span>飯店</span></div>
 	
 	<div class="spot">
       <div class="spot-top">
-        <button class="photo-btn" data-query="null" data-title="札幌宜必思尚品酒店">
-          <img alt="札幌宜必思尚品酒店" loading="lazy">
+        <button class="photo-btn" data-title="札幌宜必思尚品酒店">
+          <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWm5oo-piqY7rLy6qRGIL9frndIwqu24Di2DspNQpbUA1DkFoDPHGGIpHoqEzbc-4CndIhGybDNRbGM8x-aGmGXL2le4x-lmKcnJe7DfPrg8L9A3r_FfXKkt6zKoUr2LVwbvzsk=s680-w680-h510-rw" alt="札幌宜必思尚品酒店" loading="lazy">
         </button>
 		
         <div class="spot-body">
@@ -410,7 +402,7 @@ a{color:inherit}
     </div>
 
 
-    <div class="transfer"><span>步行／地鐵</span><div class="line"></div><strong>約 1～2 km／10～25 分</strong><div class="line"></div><span>依住宿位置</span></div>
+    <div class="transfer"><span>步行</span><div class="line"></div><strong>約 1 km／15～25 分</strong><div class="line"></div><span>依住宿位置</span></div>
 
     <div class="spot">
       <div class="spot-top">
@@ -468,7 +460,7 @@ a{color:inherit}
     </div>
 	
 	
-	<div class="spot">
+	<div class="spot noselect">
       <div class="spot-top">
         <button class="photo-btn" data-query="takinoreien" data-title="摩艾石像墓園">
           <img alt="摩艾石像墓園" loading="lazy">
@@ -1209,7 +1201,7 @@ async function loadCommonsImage(button){
 		}
     }
   }catch(e){}
-  if(img.src=='')
+  if(img.src=='' || img.src.indexOf('20260919-hokkaido.html')>=0)
 	img.src = 'https://dummyimage.com/1200x700/e0e7eb/607d8b&text=' + encodeURIComponent(title);
   button.addEventListener('click', () => openModal(img.src, title));
 }
