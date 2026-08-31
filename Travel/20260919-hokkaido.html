@@ -74,6 +74,7 @@ a{color:inherit}
   max-width:1100px;
   margin:auto;
   display:flex;
+  flex-wrap: wrap;
   gap:7px;
   overflow-x:auto;
   scrollbar-width:none;
@@ -333,14 +334,14 @@ a{color:inherit}
 
   <div class="tabs-wrap">
     <div class="tabs" id="tabs">
-      <button class="tab active" data-day="1">D1 ✈️</button>
-      <button class="tab" data-day="2">D2 🚗</button>
-      <button class="tab" data-day="3">D3 🚗</button>
-      <button class="tab" data-day="4">D4 🚗</button>
-      <button class="tab" data-day="5">D5 🚶</button>
-      <button class="tab" data-day="6">D6 🚇</button>
-      <button class="tab" data-day="7">D7 🚶</button>
-      <button class="tab" data-day="8">D8 ✈️</button>
+      <button class="tab active" data-day="1">9/19㈥-D1 ✈️</button>
+      <button class="tab" data-day="2">9/20㈦-D2 🚗</button>
+      <button class="tab" data-day="3">9/21㈠-D3 🚗</button>
+      <button class="tab" data-day="4">9/22㈡-D4 🚗</button>
+      <button class="tab" data-day="5">9/23㈢-D5 🚶</button>
+      <button class="tab" data-day="6">9/24㈣-D6 🚇</button>
+      <button class="tab" data-day="7">9/25㈤-D7 🚶</button>
+      <button class="tab" data-day="8">9/26㈥-D8 ✈️</button>
     </div>
   </div>
 
@@ -353,10 +354,27 @@ a{color:inherit}
       </div>
     </div>
 	
+	<div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-title="小港機場">
+          <img alt="小港機場" src="" loading="lazy">
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>✈️ 小港機場</h3></div>
+          <p class="spot-desc">5點出發</p>
+          <div class="info-grid">
+            <div class="info-item">🕐 <b>KHH 08:00  → CTS 13:05</b></div>
+            <div class="info-item">🕐：<b>IT 260  2026/09/19 (4 小時 5 分)</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Odori+Park+Sapporo">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
+	
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="KHH" data-title="小港機場">
-          <img alt="小港機場" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="小港機場" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>✈️ 小港機場</h3></div>
@@ -375,7 +393,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="null" data-title="札幌宜必思尚品酒店">
-          <img alt="札幌宜必思尚品酒店" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="札幌宜必思尚品酒店" loading="lazy">
         </button>
 		
         <div class="spot-body">
@@ -397,7 +415,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Tanukikoji Shopping Street Sapporo Hokkaido" data-title="狸小路商店街">
-          <img alt="狸小路商店街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="狸小路商店街" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 狸小路商店街</h3><span class="badge">逛街</span></div>
@@ -437,7 +455,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Toyota Rent A Car" data-title="支笏湖">
-          <img alt="支笏湖" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="支笏湖" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>Toyota Rent A Car</h3><span class="badge green">租車</span></div>
@@ -453,7 +471,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="takinoreien" data-title="摩艾石像墓園">
-          <img alt="摩艾石像墓園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="摩艾石像墓園" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 摩艾石像墓園</h3><span class="badge green"></span></div>
@@ -475,7 +493,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Lake Shikotsu Hokkaido Japan" data-title="支笏湖">
-          <img alt="支笏湖" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="支笏湖" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 支笏湖</h3><span class="badge green">親子推薦 ★★★★★</span></div>
@@ -496,8 +514,8 @@ a{color:inherit}
 	
 	<div class="spot">
       <div class="spot-top">
-        <button class="photo-btn" data-query="Lake Shikotsu Hokkaido Japan" data-title="登別尼克斯海洋公園">
-          <img alt="登別尼克斯海洋公園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+        <button class="photo-btn"  data-title="登別尼克斯海洋公園">
+          <img alt="登別尼克斯海洋公園" src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlhmYE9hTyaBlklDg5u7jbH5A6LQOz0dA-hobgdyRZgwKMYmOeNKBmAPSyi31xBPL8Sq-CLQ58yviWWlrsdzqszcZtL2nrHiANKp5LYnl41SF0q4UNMaXM68S8N3T4oLtcFAWDq=s680-w680-h510-rw" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 登別尼克斯海洋公園</h3><span class="badge green">親子推薦 ★★★★★</span></div>
@@ -519,7 +537,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Noboribetsu Jigokudani Hokkaido Japan" data-title="登別地獄谷">
-          <img alt="登別地獄谷" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="登別地獄谷" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 登別地獄谷</h3><span class="badge green">免費</span></div>
@@ -540,7 +558,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Noboribetsu Onsen Hokkaido Japan" data-title="登別溫泉街">
-          <img alt="登別溫泉街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="登別溫泉街" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 登別溫泉街</h3><span class="badge orange">晚上散步</span></div>
@@ -559,7 +577,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="第一瀧本館" data-title="第一瀧本館">
-          <img alt="第一瀧本館" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="第一瀧本館" loading="lazy">
         </button>
 		
         <div class="spot-body">
@@ -592,7 +610,8 @@ a{color:inherit}
     <div class="day-head">
       <h2><span>9/21(一)</span>DAY 3｜登別 → 洞爺湖 → 有珠山 → 二世谷</h2>
       <div class="day-meta">
-        <span class="badge">🚗 自駕</span><span class="badge">🏨 住二世谷</span><span class="badge green">🌋 湖＋火山</span>
+        <span class="badge">🚗 自駕</span><span class="badge">🏨 住俱知安
+		</span><span class="badge green">🌋 湖＋火山</span>
       </div>
     </div>
 	<div class="transfer"><span>自駕</span><div class="line"></div><strong><a class="btn map" href="https://maps.app.goo.gl/kiTE7MHy1yvcrDtp8" target="_blank">路線</a></strong><div class="line"></div><span>有珠山 → 二世谷</span></div>
@@ -600,7 +619,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Lake Toya Hokkaido Japan" data-title="洞爺湖">
-          <img alt="洞爺湖" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="洞爺湖" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 洞爺湖</h3><span class="badge green">親子推薦 ★★★★★</span></div>
@@ -621,7 +640,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Usuzan Ropeway Showa Shinzan Hokkaido" data-title="有珠山纜車">
-          <img alt="有珠山纜車" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="有珠山纜車" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 有珠山纜車</h3><span class="badge green">親子推薦 ★★★★★</span></div>
@@ -645,7 +664,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Fukidashi Park" data-title="二世谷／羊蹄山景觀">
-          <img alt="羊蹄山名水公園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="羊蹄山名水公園" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 羊蹄山名水公園</h3><span class="badge">放慢腳步</span></div>
@@ -660,10 +679,10 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Niseko View Plaza Roadside Station Hokkaido" data-title="道之站 Niseko View Plaza">
-          <img alt="Niseko View Plaza" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="Niseko View Plaza" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>① 道之站 Niseko View Plaza</h3><span class="badge green">親子小停留</span></div>
+          <div class="spot-title"><h3>① 道之站 Niseko View Plaza</h3><span class="badge green">小停留</span></div>
           <p class="spot-desc">買牛奶、蔬果、甜點與伴手禮；9月中農產選擇通常很豐富。</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>免費</b></div>
@@ -682,7 +701,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Skye Niseko" data-title="Skye Niseko 仁世戶斯凱酒店">
-          <img alt="Skye Niseko 仁世戶斯凱酒店" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="Skye Niseko 仁世戶斯凱酒店" loading="lazy">
         </button>
 		
         <div class="spot-body">
@@ -722,7 +741,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="niseko-takahash" data-title="二世谷／羊蹄山景觀">
-          <img alt="羊蹄山" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="羊蹄山" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 高橋牧場</h3><span class="badge">餐廳</span></div>
@@ -736,7 +755,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Niseko View Plaza Roadside Station Hokkaido" data-title="道之站 Niseko View Plaza">
-          <img alt="Niseko View Plaza" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="Niseko View Plaza" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 神威岬/h3><span class="badge green"></span></div>
@@ -756,7 +775,7 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Niseko View Plaza Roadside Station Hokkaido" data-title="道之站 Niseko View Plaza">
-          <img alt="Niseko View Plaza" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="Niseko View Plaza" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 黃金岬/h3><span class="badge green"></span></div>
@@ -784,7 +803,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Sapporo Japan city Hokkaido" data-title="札幌市區">
-          <img alt="札幌市區" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="札幌市區" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 返回札幌</h3><span class="badge orange">還車優先</span></div>
@@ -823,7 +842,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Shiroi Koibito Park Sapporo Hokkaido" data-title="白色戀人公園">
-          <img alt="白色戀人公園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="白色戀人公園" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 白色戀人公園</h3><span class="badge green">親子推薦 ★★★★★</span></div>
@@ -847,7 +866,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Sapporo Maruyama Zoo Hokkaido Japan" data-title="札幌市円山動物園">
-          <img alt="札幌市円山動物園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="札幌市円山動物園" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 札幌市円山動物園</h3><span class="badge green">親子推薦 ★★★★★</span></div>
@@ -889,7 +908,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Otaru Canal Hokkaido Japan" data-title="小樽運河">
-          <img alt="小樽運河" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="小樽運河" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 小樽運河</h3><span class="badge green">免費</span></div>
@@ -910,7 +929,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Sakaimachi Street Otaru Hokkaido" data-title="堺町通商店街">
-          <img alt="堺町通商店街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="堺町通商店街" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 堺町通商店街</h3><span class="badge">甜點＋伴手禮</span></div>
@@ -931,7 +950,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Otaru Sankaku Market Hokkaido" data-title="三角市場">
-          <img alt="三角市場" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="三角市場" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 三角市場</h3><span class="badge orange">海鮮午餐</span></div>
@@ -950,7 +969,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Sapporo Odori Park Hokkaido" data-title="大通公園">
-          <img alt="大通公園" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="大通公園" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 大通公園</h3><span class="badge green">免費</span></div>
@@ -991,7 +1010,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Hokkaido University Sapporo Campus Japan" data-title="北海道大學">
-          <img alt="北海道大學" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="北海道大學" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① 北海道大學</h3><span class="badge green">免費散步</span></div>
@@ -1012,7 +1031,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Sapporo Beer Museum Hokkaido Japan" data-title="札幌啤酒博物館">
-          <img alt="札幌啤酒博物館" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="札幌啤酒博物館" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 札幌啤酒博物館</h3><span class="badge">大人景點</span></div>
@@ -1036,7 +1055,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Tanukikoji Shopping Street Sapporo Hokkaido" data-title="狸小路最後採買">
-          <img alt="狸小路商店街" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="狸小路商店街" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 狸小路最後採買</h3><span class="badge orange">伴手禮</span></div>
@@ -1075,7 +1094,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Royce Chocolate World New Chitose Airport Hokkaido" data-title="ROYCE' Chocolate World">
-          <img alt="ROYCE' Chocolate World" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="ROYCE' Chocolate World" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>① ROYCE' Chocolate World</h3><span class="badge green">親子推薦</span></div>
@@ -1099,7 +1118,7 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="New Chitose Airport Hokkaido Japan terminal" data-title="新千歲機場">
-          <img alt="新千歲機場" loading="lazy"><span class="photo-label">點圖看大圖</span>
+          <img alt="新千歲機場" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>② 新千歲機場採買＋報到</h3><span class="badge orange">最後採買</span></div>
@@ -1173,19 +1192,21 @@ async function loadCommonsImage(button){
   const title = button.dataset.title;
 
   try{
-    const api = 'https://commons.wikimedia.org/w/api.php'
-      + '?action=query&generator=search&gsrsearch=' + encodeURIComponent(query)
-      + '&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*';
-    const res = await fetch(api);
-    const data = await res.json();
-    const pages = data.query && data.query.pages ? Object.values(data.query.pages) : [];
-    if(pages.length && pages[0].imageinfo && pages[0].imageinfo[0]){
-      const info = pages[0].imageinfo[0];
-      const src = info.thumburl || info.url;
-      img.src = src;
-      img.dataset.full = info.url || src;
-      button.addEventListener('click', () => openModal(img.dataset.full, title));
-      return;
+	if(query !=undefined && query!=""){
+		const api = 'https://commons.wikimedia.org/w/api.php'
+		  + '?action=query&generator=search&gsrsearch=' + encodeURIComponent(query)
+		  + '&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*';
+		const res = await fetch(api);
+		const data = await res.json();
+		const pages = data.query && data.query.pages ? Object.values(data.query.pages) : [];
+		if(pages.length && pages[0].imageinfo && pages[0].imageinfo[0]){
+		  const info = pages[0].imageinfo[0];
+		  const src = info.thumburl || info.url;
+		  img.src = src;
+		  img.dataset.full = info.url || src;
+		  button.addEventListener('click', () => openModal(img.dataset.full, title));
+		  return;
+		}
     }
   }catch(e){}
   img.src = 'https://dummyimage.com/1200x700/e0e7eb/607d8b&text=' + encodeURIComponent(title);
