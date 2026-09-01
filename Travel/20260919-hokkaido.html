@@ -533,13 +533,13 @@ a{color:inherit}
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Noboribetsu Onsen Hokkaido Japan" data-title="登別溫泉街">
-          <img alt="登別溫泉街" loading="lazy">
+          <img alt="登別溫泉街" src="https://i0.wp.com/whokatrina.com/wp-content/uploads/2025/04/32-scaled.jpg?resize=1024%2C768&ssl=1" loading="lazy">
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>③ 登別溫泉街</h3><span class="badge orange">晚上散步</span></div>
           <p class="spot-desc">入住溫泉旅館後可慢慢逛極樂通商店街、閻魔堂，晚上回飯店泡湯。</p>
           <div class="info-grid">
-            <div class="info-item">♨️ 建議：<b>今晚以飯店溫泉為主</b></div>
+            <div class="info-item">♨️<b>飯店溫泉為主</b></div>
           </div>
           <div class="actions"><a class="btn map" target="_blank" href="https://maps.app.goo.gl/EMRQu8p3URXPuJmp7">📍 Google Maps</a></div>
         </div>
@@ -548,8 +548,8 @@ a{color:inherit}
 	
 	<div class="spot">
       <div class="spot-top">
-        <button class="photo-btn" data-query="第一瀧本館" data-title="第一瀧本館">
-          <img alt="第一瀧本館" loading="lazy">
+        <button class="photo-btn" data-queryno="第一瀧本館" data-title="第一瀧本館">
+          <img alt="第一瀧本館" src="https://image.kkday.com/v2/image/get/pot-h_600%2Cc_fill%2Cq_55%2Ct_webp/s1.kkday.com/dyhotel_5598/20250911124343_duWN7/jpg" loading="lazy">
         </button>
 		
         <div class="spot-body">
@@ -1172,13 +1172,135 @@ a{color:inherit}
 <script>
 const tabs = document.querySelectorAll('.tab');
 const panels = document.querySelectorAll('.day-panel');
-
+/*
 function showDay(day){
   tabs.forEach(t => t.classList.toggle('active', t.dataset.day === String(day)));
   panels.forEach(p => p.classList.toggle('active', p.id === 'day' + day));
   window.scrollTo({top:0, behavior:'smooth'});
 }
 tabs.forEach(tab => tab.addEventListener('click', () => showDay(tab.dataset.day)));
+*/
+
+
+/**
+ * 顯示指定 Day
+ * @param {number|string} day
+ * @param {boolean} updateUrl 是否更新網址
+ */
+function showDay(day, updateUrl = true) {
+
+  day = parseInt(day, 10);
+
+  // 防止輸入不存在的 Day
+  if (isNaN(day) || day < 1 || day > 8) {
+    day = 1;
+  }
+
+  // 切換頁籤
+  tabs.forEach(tab => {
+    tab.classList.toggle(
+      'active',
+      tab.dataset.day === String(day)
+    );
+  });
+
+  // 切換內容
+  panels.forEach(panel => {
+    panel.classList.toggle(
+      'active',
+      panel.id === 'day' + day
+    );
+  });
+
+  // 更新網址
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+
+    url.searchParams.set('day', day);
+
+    // 不重新整理頁面，只修改網址
+    window.history.pushState(
+      { day: day },
+      '',
+      url
+    );
+  }
+
+  // 回到頁面上方
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+
+/**
+ * 點選頁籤
+ */
+tabs.forEach(tab => {
+
+  tab.addEventListener('click', () => {
+
+    const day = tab.dataset.day;
+
+    showDay(day, true);
+
+  });
+
+});
+
+
+/**
+ * 第一次載入網頁時
+ * 讀取網址 ?day=xxx
+ *
+ * 例如：
+ * ?day=1
+ * ?day=2
+ * ?day=5
+ * ?day=8
+ */
+function loadDayFromUrl() {
+
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  const day = params.get('day');
+
+  if (day) {
+
+    showDay(day, false);
+
+  } else {
+
+    // 沒有 day 參數，預設 Day 1
+    showDay(1, false);
+
+  }
+
+}
+
+
+/**
+ * 使用瀏覽器上一頁／下一頁時
+ * 重新讀取網址參數
+ */
+window.addEventListener('popstate', function () {
+
+  loadDayFromUrl();
+
+});
+
+
+/**
+ * 初始化
+ */
+loadDayFromUrl();
+
+
+
+
 
 const modal = document.getElementById('photoModal');
 const modalImg = document.getElementById('modalImg');
