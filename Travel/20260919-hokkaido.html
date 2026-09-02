@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#1769aa">
-<title>2026-Hokkaido 北海道</title>
+<title>2026.09-Hokkaido 北海道</title>
 <style>
 :root{
   --primary:#1769aa;
@@ -29,6 +29,19 @@ body{
 }
 button,a{font:inherit}
 a{color:inherit}
+a.link{
+	padding: 0 10px;
+    text-decoration: none;
+    border: 1px solid #ffc8ac;
+    margin: 0 10px;
+    font-size: 90%;
+    background: #fbede6;
+    font-weight: 700;
+    color: #ff691d;
+}
+a:hover{
+	filter: drop-shadow(1px 2px 1px #ccc) hue-rotate(80deg);
+}
 .hero{
   background:linear-gradient(135deg,#1769aa,#42a5f5);
   color:#fff;
@@ -103,7 +116,7 @@ a{color:inherit}
   padding:17px;
 }
 .day-head h2{margin:0 0 7px;font-size:23px;color:var(--primary);display:flex;align-items: center;}
-.day-head h2 span{padding:0 10px;color:var(--card);font-size:18px;background:var(--primary2)}
+.day-head h2 span{padding: 0 10px; color: var(--card); font-size: 13px; background: #f37821; border-radius: 10px; margin-right: 20px;}
 .day-meta{display:flex;flex-wrap:wrap;gap:7px}
 .badge{
   display:inline-flex;
@@ -280,18 +293,23 @@ a{color:inherit}
   margin-top:8px;
 }
 .close{
-  position:absolute;
-  right:-5px;
-  top:-42px;
-  border:0;
-  background:#fff;
-  color:#333;
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  cursor:pointer;
-  font-size:22px;
-  line-height:36px;
+  position: absolute;
+  right: -5px;
+  top: -42px;
+  border: 0;
+  /* background: #ffffff;
+  line-height: 20px; */
+  color: #333;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background:none;
 }
 .footer{
   text-align:center;
@@ -471,7 +489,7 @@ a{color:inherit}
           <img alt="支笏湖" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0145/10145_5_l.jpg" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>② 支笏湖</h3><span class="badge green">景點</span></div>
+          <div class="spot-title"><h3>支笏湖</h3><span class="badge green">景點</span></div>
           <p class="spot-desc">湖畔散步＋支笏湖遊客中心；若天氣穩定，可安排水中遊覽船。</p>
           <div class="info-grid">
             <div class="info-item">🎫 湖畔：<b>免費</b>；水中遊覽船另計</div>
@@ -494,7 +512,7 @@ a{color:inherit}
           <img alt="登別尼克斯海洋公園" src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlhmYE9hTyaBlklDg5u7jbH5A6LQOz0dA-hobgdyRZgwKMYmOeNKBmAPSyi31xBPL8Sq-CLQ58yviWWlrsdzqszcZtL2nrHiANKp5LYnl41SF0q4UNMaXM68S8N3T4oLtcFAWDq=s680-w680-h510-rw" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>② 登別尼克斯海洋公園</h3><span class="badge green">景點</span></div>
+          <div class="spot-title"><h3>登別尼克斯海洋公園</h3><span class="badge green">景點</span></div>
           <p class="spot-desc">企鵝遊行:活動時間：11:00、14:15，活動長度：15分鐘</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>大人 ¥3,000／童 ¥1,500</b></div>
@@ -515,7 +533,7 @@ a{color:inherit}
           <img alt="登別地獄谷" src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWnX-yn7Q3_p-i8gvHl8UrbrtYCTeckow8JAW7c4VcSz2H9y0gpXf_0pqmhc4pqUzN9pqYyId2MV8D7xE-2LCc0MvgVoq6yU7pGsXgODdtW7x-I9pjvuOqZVU4Cd87FGGl7MqD4N=s680-w680-h510-rw" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>③ 登別地獄谷</h3><span class="badge green">免費</span></div>
+          <div class="spot-title"><h3>登別地獄谷</h3><span class="badge green">免費</span></div>
           <p class="spot-desc">木棧道觀察噴氣孔與火山地形；親子步行約 1 小時即可。</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>免費</b></div>
@@ -536,7 +554,7 @@ a{color:inherit}
           <img alt="登別溫泉街" src="https://i0.wp.com/whokatrina.com/wp-content/uploads/2025/04/32-scaled.jpg?resize=1024%2C768&ssl=1" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>③ 登別溫泉街</h3><span class="badge orange">晚上散步</span></div>
+          <div class="spot-title"><h3>登別溫泉街</h3><span class="badge orange">晚上散步</span></div>
           <p class="spot-desc">入住溫泉旅館後可慢慢逛極樂通商店街、閻魔堂，晚上回飯店泡湯。</p>
           <div class="info-grid">
             <div class="info-item">♨️<b>飯店溫泉為主</b></div>
@@ -610,36 +628,16 @@ a{color:inherit}
 		</span><span class="badge green">🌋 湖＋火山</span>
       </div>
     </div>
-	<div class="transfer"><span>自駕</span><div class="line"></div><strong><a class="btn map" href="https://maps.app.goo.gl/kiTE7MHy1yvcrDtp8" target="_blank">路線</a></strong><div class="line"></div><span>有珠山 → 二世谷</span></div>
 
-    <div class="spot">
-      <div class="spot-top">
-        <button class="photo-btn" data-query="Lake Toya Hokkaido Japan" data-title="洞爺湖">
-          <img alt="洞爺湖" loading="lazy">
-        </button>
-        <div class="spot-body">
-          <div class="spot-title"><h3>① 洞爺湖</h3><span class="badge green">親子推薦 ★★★★★</span></div>
-          <p class="spot-desc">湖畔散步、拍照；如果小朋友喜歡搭船，可依當天時間加入洞爺湖遊覽船。</p>
-          <div class="info-grid">
-            <div class="info-item">🎫 湖畔：<b>免費</b></div>
-            <div class="info-item">🎫 遊覽船：<b>另計，依船公司公告</b></div>
-            <div class="info-item">🅿️ 停車：<b>湖畔／溫泉街周邊付費或飯店停車</b></div>
-            <div class="info-item">🕐 時間：<b>戶外湖畔全天</b></div>
-          </div>
-          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Lake+Toya+Toyako+Hokkaido">📍 Google Maps</a></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 15 km／25 分</strong><div class="line"></div><span>洞爺湖 → 昭和新山／有珠山</span></div>
-
-    <div class="spot">
+	<div class="transfer"><span>自駕</span><div class="line"></div><span><a class="btn map" href="https://maps.app.goo.gl/A66YrskJ98GzKjB5A" target="_blank">🗺️ 路線</a></span><div class="line"></div><span>有珠山 → 二世谷</span></div>
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 50.4 km／1 小時</strong><div class="line"></div><span>第一瀧本館 → 有珠山纜車</span></div>
+	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Usuzan Ropeway Showa Shinzan Hokkaido" data-title="有珠山纜車">
-          <img alt="有珠山纜車" loading="lazy">
+          <img alt="有珠山纜車" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0424/10424_1_l.jpg" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>② 有珠山纜車</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <div class="spot-title"><h3>有珠山纜車</h3><span class="badge green">親子推薦 ★★★★★</span></div>
           <p class="spot-desc">搭纜車看洞爺湖與昭和新山，是 Day 3 最值得保留的景點。</p>
           <div class="info-grid">
             <div class="info-item">🎫 往返：<b>大人 ¥2,000／小學生 ¥1,000</b></div>
@@ -654,16 +652,35 @@ a{color:inherit}
         </div>
       </div>
     </div>
+<div class="transfer"><span>自駕</span><div class="line"></div><strong>約 6.5 km／10 分</strong><div class="line"></div><span>有珠山纜車 → 洞爺湖</span></div>
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Lake Toya Hokkaido Japan" data-title="洞爺湖">
+          <img alt="洞爺湖" loading="lazy">
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>洞爺湖</h3><span class="badge green">親子推薦 ★★★★★</span></div>
+          <p class="spot-desc">湖畔散步、拍照；如果喜歡搭船，可依當天時間加入洞爺湖遊覽船。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 湖畔：<b>免費</b></div>
+            <div class="info-item">🎫 遊覽船：<b>另計，依船公司公告</b></div>
+            <div class="info-item">🅿️ 停車：<b>湖畔／溫泉街周邊付費或飯店停車</b></div>
+            <div class="info-item">🕐 時間：<b>戶外湖畔全天</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Lake+Toya+Toyako+Hokkaido">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
 
-    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 55～60 km／1 小時 10 分</strong><div class="line"></div><span>有珠山 → 二世谷</span></div>
+    <div class="transfer"><span>自駕</span><div class="line"></div><strong>約 43.9 km／1 小時</strong><div class="line"></div><span>洞爺湖 → 羊蹄山名水公園</span></div>
 
     <div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Fukidashi Park" data-title="二世谷／羊蹄山景觀">
-          <img alt="羊蹄山名水公園" loading="lazy">
+          <img alt="羊蹄山名水公園" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDHt6GIw6arbSaaiC7DdGb2jFfpkjGoqLXwuCuPkT_QA&s=10" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>③ 羊蹄山名水公園</h3><span class="badge">放慢腳步</span></div>
+          <div class="spot-title"><h3>羊蹄山名水公園</h3><span class="badge">放慢腳步</span></div>
           <p class="spot-desc">落在羊蹄山上的雨和雪，經年累月之後成為名水，這樣自然的恩賜就從出水公園湧出。水中含有豐富的礦物質，在園內各個地方都可以免費汲取。</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>免費</b></div>
@@ -675,11 +692,11 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Niseko View Plaza Roadside Station Hokkaido" data-title="道之站 Niseko View Plaza">
-          <img alt="Niseko View Plaza" loading="lazy">
+          <img alt="Niseko View Plaza" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS125g9p0ZG2ojoCLZLf9wcItrdCJuqEcNj6_HjhQE_JQ&s=10" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>① 道之站 Niseko View Plaza</h3><span class="badge green">小停留</span></div>
-          <p class="spot-desc">買牛奶、蔬果、甜點與伴手禮；9月中農產選擇通常很豐富。</p>
+          <div class="spot-title"><h3>道之站 Niseko View Plaza</h3><span class="badge green">小停留</span></div>
+          <p class="spot-desc">買牛奶、蔬果、甜點與伴手禮；9月中農產選擇通常很豐富。旁邊有高橋牧場冰淇淋。</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>免費</b></div>
             <div class="info-item">🅿️ 停車：<b>免費</b></div>
@@ -697,9 +714,8 @@ a{color:inherit}
 	<div class="spot">
       <div class="spot-top">
         <button class="photo-btn" data-query="Skye Niseko" data-title="Skye Niseko 仁世戶斯凱酒店">
-          <img alt="Skye Niseko 仁世戶斯凱酒店" loading="lazy">
+          <img alt="Skye Niseko 仁世戶斯凱酒店" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/172725540.jpg?k=8ef3c59e2160a41250382388925142cd08c35c1797b2ef7340203fcd8d338c66" loading="lazy">
         </button>
-		
         <div class="spot-body">
           <div class="spot-title"><h3>🏨 Skye Niseko 仁世戶斯凱酒店</h3><span class="badge">住宿</span></div>
           <p class="spot-desc">15:00 check in; 11:00 check out;</p>
@@ -707,7 +723,7 @@ a{color:inherit}
             <div class="info-item">💴：<b>已付</b></div>
 			<div class="info-item">🍽️：<b>【含早餐】</b></div>
 			<div class="info-item">📍：<b>北海道, 俱知安, 11-4 Niseko Hirafu 1-jo 3-chome, Kutchan-cho, Abuta-gun, 日本</b></div>
-			<div class="info-item">🅿️：<b>附近有停車場</b></div>
+			<div class="info-item">🅿️：<b>附近有停車場</b><a class="link" target="_blank" href="https://maps.app.goo.gl/Fv9WsmH3cYegc5fF8">導航</a></div>
           </div>
           <div class="actions"><a class="btn map" target="_blank" href="https://maps.app.goo.gl/uLYRVNTn2F7zqF1KA">📍 Google Maps</a></div>
         </div>
@@ -736,12 +752,12 @@ a{color:inherit}
 	
 	<div class="spot">
       <div class="spot-top">
-        <button class="photo-btn" data-query="niseko-takahash" data-title="二世谷／羊蹄山景觀">
-          <img alt="羊蹄山" loading="lazy">
+        <button class="photo-btn" data-query="niseko-takahash" data-title="高橋牧場">
+          <img alt="高橋牧場" src="https://i0.wp.com/sekainomys.com/wp-content/uploads/2026/04/%E9%AB%98%E6%A9%8B%E7%89%A7%E5%A0%B41.jpg?resize=768%2C512&ssl=1" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>③ 高橋牧場</h3><span class="badge">餐廳</span></div>
-          <p class="spot-desc">吃點甜點，買點東西，約一小時內離開。</p>
+          <div class="spot-title"><h3>③ 高橋牧場</h3><span class="badge">餐廳/小停留</span></div>
+          <p class="spot-desc">吃點甜點，買點東西，不用待太久，約一小時內離開。</p>
           <div class="info-grid">
           </div>
           <div class="actions"><a class="btn map" target="_blank" href="https://maps.app.goo.gl/rgy7bCCkahCTvRfN9">📍 Google Maps</a></div>
@@ -754,7 +770,7 @@ a{color:inherit}
           <img alt="Niseko View Plaza" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>① 神威岬</h3><span class="badge green"></span></div>
+          <div class="spot-title"><h3>① 神威岬</h3><span class="badge green">景點</span></div>
           <p class="spot-desc">日本海的360度無敵海景。</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>免費</b></div>
@@ -773,7 +789,7 @@ a{color:inherit}
           <img alt="Niseko View Plaza" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>① 黃金岬</h3><span class="badge green"></span></div>
+          <div class="spot-title"><h3>① 黃金岬</h3><span class="badge green">備案</span></div>
           <p class="spot-desc">展望台上的積丹藍</p>
           <div class="info-grid">
             <div class="info-item">🎫 門票：<b>免費</b></div>
@@ -792,7 +808,7 @@ a{color:inherit}
         </button>
         <div class="spot-body">
           <div class="spot-title"><h3>🚠 小樽天狗山纜車</h3><span class="badge green">景點</span></div>
-          <p class="spot-desc">小樽的「天狗山」與札幌「藻岩山」與函館的「函館山」列為北海道三大夜景</p>
+          <p class="spot-desc">小樽的「天狗山」與札幌「藻岩山」與函館的「函館山」列為北海道三大夜景，因為要還車無法看夜景。</p>
           <div class="info-grid">
             <div class="info-item">🎫 往返：<b>成人:¥1,800 / 孩童(國中以下)：¥900</b></div>
             <div class="info-item">🅿️ 停車：<b>免費</b></div>
@@ -830,6 +846,39 @@ a{color:inherit}
         </div>
       </div>
     </div>
+	
+	<div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Toyota Rent A Car" data-title="Toyota Rent A Car">
+          <img alt="Toyota Rent A Car" src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWncmdvkwMhojeSnSYCRFmmWC2iXX64o7C7yuMkWgfLQgMsOZI9eHwGZEWDvcMNB5Ff8h_oVRJoE6fa5wMhbPdg7JyETtmwOkXKTqmMoC6lk5dUsuTnyaP4vnIufjegg6e30AaY=w408-h272-k-no" loading="lazy">
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>Toyota Rent A Car</h3><span class="badge green">租車</span></div>
+          <p class="spot-desc">地鐵薄野站前</p>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://maps.app.goo.gl/fQABYSsZ6tYbEK6z7">📍 Google Maps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	<div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-queryno="" data-title="FAV LUX 札幌薄野">
+          <img alt="FAV LUX 札幌薄野" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/172725540.jpg?k=8ef3c59e2160a41250382388925142cd08c35c1797b2ef7340203fcd8d338c66" loading="lazy">
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>🏨 FAV LUX 札幌薄野</h3><span class="badge">住宿</span></div>
+          <p class="spot-desc">15:00 check in; 10:00 check out;</p>
+          <div class="info-grid">
+            <div class="info-item">💴：<b>已付</b></div>
+			<div class="info-item">❌：<b>【無早餐】</b></div>
+			<div class="info-item">📍：<b>7 Chome-2‐2 Minami 6 Jonishi, Chuo Ward, Sapporo, Hokkaido 064-0807日本</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://maps.app.goo.gl/Zi9cqtjWb6oEKSscA">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
 
     <div class="food">
       <h3>🍜 今日附近美食</h3>
@@ -843,12 +892,29 @@ a{color:inherit}
   <!-- DAY 5 -->
   <section class="day-panel" id="day5">
 	<div class="day-head">
-      <h2><span>9/24(四)</span>DAY 6｜札幌親子日</h2>
+      <h2><span>9/23(三)</span>DAY 6｜札幌</h2>
       <div class="day-meta">
-        <span class="badge green">👨‍👩‍👧 親子主日</span><span class="badge">🚇 地鐵／巴士</span><span class="badge">🏨 住札幌</span>
+        <span class="badge green">有預約大黑屋3號店餐聽(13:00)</span><span class="badge">🚇 地鐵／巴士</span><span class="badge">🏨 住札幌</span>
       </div>
     </div>
-
+    <div class="spot">
+      <div class="spot-top">
+        <button class="photo-btn" data-query="Sapporo Odori Park Hokkaido" data-title="大通公園">
+          <img alt="大通公園" loading="lazy">
+        </button>
+        <div class="spot-body">
+          <div class="spot-title"><h3>① 大通公園</h3><span class="badge green">免費</span></div>
+          <p class="spot-desc">抵達後以散步、放鬆為主，不建議第一天安排太多行程。</p>
+          <div class="info-grid">
+            <div class="info-item">🎫 門票：<b>免費</b></div>
+            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
+            <div class="info-item">🕐 時間：<b>戶外公園全天</b></div>
+            <div class="info-item">👶 親子：<b>散步、草地、拍照</b></div>
+          </div>
+          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Odori+Park+Sapporo">📍 Google Maps</a></div>
+        </div>
+      </div>
+    </div>
     <div class="route">建議白色戀人公園＋圓山動物園二選一當主力也可以；若孩子體力好再兩個都去。</div>
 
     <div class="spot">
@@ -909,7 +975,7 @@ a{color:inherit}
   <!-- DAY 6 -->
   <section class="day-panel" id="day6">
       <div class="day-head">
-      <h2><span>9/23(三)</span>DAY 5｜小樽一日遊</h2>
+      <h2><span>9/24(四)</span>DAY 5｜小樽一日遊</h2>
       <div class="day-meta">
         <span class="badge">🚆 JR 約 35～45 分</span><span class="badge">🏨 住札幌</span><span class="badge green">🚶 以步行為主</span>
       </div>
@@ -978,24 +1044,28 @@ a{color:inherit}
       </div>
     </div>
 
-    <div class="spot">
+	<div class="spot">
       <div class="spot-top">
-        <button class="photo-btn" data-query="Sapporo Odori Park Hokkaido" data-title="大通公園">
-          <img alt="大通公園" loading="lazy">
+        <button class="photo-btn" data-query="Niseko View Plaza Roadside Station Hokkaido" data-title="小樽天狗山纜車">
+          <img alt="Niseko View Plaza" loading="lazy">
         </button>
         <div class="spot-body">
-          <div class="spot-title"><h3>① 大通公園</h3><span class="badge green">免費</span></div>
-          <p class="spot-desc">抵達後以散步、放鬆為主，不建議第一天安排太多行程。</p>
+          <div class="spot-title"><h3>🚠 小樽天狗山纜車</h3><span class="badge green">景點/備案</span></div>
+          <p class="spot-desc">小樽的「天狗山」與札幌「藻岩山」與函館的「函館山」列為北海道三大夜景，因為要還車無法看夜景。可搭公車前往約20分鐘</p>
           <div class="info-grid">
-            <div class="info-item">🎫 門票：<b>免費</b></div>
-            <div class="info-item">🅿️ 停車：<b>周邊付費停車場</b></div>
-            <div class="info-item">🕐 時間：<b>戶外公園全天</b></div>
-            <div class="info-item">👶 親子：<b>散步、草地、拍照</b></div>
+            <div class="info-item">🎫 往返：<b>成人:¥1,800 / 孩童(國中以下)：¥900</b></div>
+            <div class="info-item">🅿️ 停車：<b>免費</b></div>
+			<div class="info-item">🕐 營業時間：<b>【4/25～11/3】9:00-21:00</b></div>
           </div>
-          <div class="actions"><a class="btn map" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Odori+Park+Sapporo">📍 Google Maps</a></div>
+          <div class="actions">
+            <a class="btn map" target="_blank" href="https://maps.app.goo.gl/as3ztaVe7PvKZBgS7">📍 Google Maps(Parking)</a>
+			<a class="btn map" target="_blank" href="https://tenguyama.ckk.chuo-bus.co.jp/">🔎 官網</a>
+          </div>
         </div>
       </div>
     </div>
+	
+	
     <div class="food">
       <h3>🍜 今日附近美食</h3>
       <div class="food-list">
