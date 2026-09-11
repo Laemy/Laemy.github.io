@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我要點餐 @Edda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;
+    --green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--red-light:#FEF0EF;
+    --orange:#E67E22;--bg:#F7F9FC;--surface:#FFFFFF;--border:#D9E4F0;
+    --text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
+    --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:20px;padding-bottom:90px}
+
+  header{background:var(--navy);color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
+  .logo{width:30px;height:30px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:106.25%;flex-shrink:0}
+  header h1{font-size:93.75%;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hdr-back{margin-left:auto;font-size:68.75%;color:var(--blue-mid);text-decoration:none;flex-shrink:0}
+
+  main{flex:1;padding:20px;max-width:560px;width:100%;margin:0 auto}
+
+  .hero{background:var(--surface);border-radius:12px;border:1.5px solid var(--border);box-shadow:var(--shadow);padding:16px 18px;margin-bottom:18px}
+  .hero-name{font-size:112.5%;font-weight:700;color:var(--navy);margin-bottom:6px}
+  .hero-meta{font-size:75%;color:var(--text-2);display:flex;flex-direction:column;gap:3px}
+
+  .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+  .form-group label{font-size:81.25%;font-weight:700;color:var(--text-2)}
+  .form-control{padding:11px 13px;border-radius:8px;border:1.5px solid var(--border);font-size:87.5%;color:var(--text);background:var(--surface);font-family:inherit;width:100%}
+  .form-control:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,125,210,.12)}
+
+  .section-title{font-size:87.5%;font-weight:700;color:var(--navy);margin:18px 0 10px;display:flex;align-items:center;gap:6px}
+
+  .menu-item{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .menu-item.active{border-color:var(--green);background:var(--green-light)}
+  .mi-info{flex:1;min-width:0}
+  .mi-name{font-size:87.5%;font-weight:700;color:var(--navy)}
+  .mi-flavor{font-size:70%;color:var(--text-3);margin-top:2px}
+  .mi-price{font-size:75%;color:var(--text-2);margin-top:2px}
+  .qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .qty-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--blue-mid);background:var(--surface);color:var(--blue);font-size:100%;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .qty-btn:active{transform:scale(.92)}
+  .qty-val{font-size:93.75%;font-weight:700;color:var(--navy);min-width:22px;text-align:center}
+
+  .manual-box{background:var(--surface);border-radius:10px;border:1.5px solid var(--border);padding:14px 16px}
+
+  .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--border);padding:12px 20px;box-shadow:0 -4px 16px rgba(0,0,0,.08);display:flex;align-items:center;gap:14px;z-index:60}
+  .sf-total{flex:1}
+  .sf-total-lbl{font-size:62.5%;color:var(--text-3);text-transform:uppercase;letter-spacing:.4px}
+  .sf-total-val{font-size:118.75%;font-weight:700;color:var(--navy)}
+  .btn-submit{padding:12px 26px;border-radius:9px;border:none;background:var(--green);color:#fff;font-size:87.5%;font-weight:700;cursor:pointer;white-space:nowrap}
+  .btn-submit:active{transform:scale(.97)}
+  .btn-submit:disabled{background:var(--text-3);cursor:not-allowed}
+
+  .recent-list{margin-top:26px}
+  .recent-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:75%;flex-wrap:wrap}
+  .recent-row.editing{border-color:var(--blue);background:var(--blue-light)}
+  .recent-row .rr-name{font-weight:700;color:var(--navy);flex-shrink:0}
+  .recent-row .rr-items{flex:1;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:60px}
+  .recent-row .rr-amt{font-weight:700;color:var(--navy);flex-shrink:0}
+  .rr-actions{display:flex;gap:4px;flex-shrink:0}
+  .rr-btn{border:none;background:none;cursor:pointer;font-size:100%;padding:3px 5px;border-radius:5px;line-height:1}
+  .rr-btn:hover{background:rgba(0,0,0,.06)}
+  .rr-paid-badge{font-size:87.5%;color:var(--green);font-weight:600;flex-shrink:0}
+
+  .edit-banner{background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:75%;color:var(--navy)}
+  .edit-banner strong{color:var(--blue)}
+  .edit-banner button{margin-left:auto;border:none;background:var(--surface);color:var(--text-2);border-radius:6px;padding:5px 12px;font-size:87.5%;cursor:pointer;border:1px solid var(--border)}
+
+  .locked-banner{background:var(--red-light);border:1.5px solid #f5b7b1;border-radius:10px;padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px;font-size:81.25%;color:var(--red);font-weight:700}
+  .locked-banner .lb-icon{font-size:150%;flex-shrink:0}
+  .locked-fade{opacity:.5;pointer-events:none;user-select:none}
+
+  .empty-state{text-align:center;padding:60px 20px;color:var(--text-3)}
+  #not-found{display:none;text-align:center;padding:80px 20px}
+
+  .toast{position:fixed;bottom:100px;right:20px;left:20px;max-width:520px;margin:0 auto;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none;text-align:center}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast.success{border-left:4px solid var(--green)}
+  .toast.error  {border-left:4px solid var(--red)}
+  .loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.7);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  .loading-overlay.show{display:flex}
+  .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .view-hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🛒</div>
+  <h1 id="hdr-title">我要點餐</h1>
+</header>
+
+<main>
+  <div id="not-found">
+    <div style="font-size:275%;margin-bottom:16px">🔍</div>
+    <h2 style="color:var(--navy);margin-bottom:8px">找不到此開團</h2>
+    <p style="color:var(--text-2);font-size:87.5%">連結中的餐廳 ID 不存在，請確認連結是否正確。</p>
+  </div>
+
+  <div id="content" class="view-hidden">
+    <div class="hero">
+      <div class="hero-name" id="hero-name">—</div>
+      <div class="hero-meta" id="hero-meta"></div>
+    </div>
+
+    <div id="locked-banner" class="locked-banner view-hidden">
+      <span class="lb-icon">🔒</span>
+      <span>此開團已結單，無法再新增、修改或刪除訂單，如有問題請聯繫主購。</span>
+    </div>
+
+    <div id="edit-banner" class="edit-banner view-hidden">
+      ✏️ 正在修改 <strong id="edit-banner-name">—</strong> 的訂單
+      <button onclick="cancelEdit()">取消修改</button>
+    </div>
+
+    <div id="order-form-area">
+      <div class="form-group">
+        <label>👤 訂購人 *</label>
+        <select class="form-control" id="orderer-select">
+          <option value="">— 請選擇你的名字 —</option>
+        </select>
+      </div>
+
+      <!-- 有菜單時顯示 -->
+      <div id="menu-mode" class="view-hidden">
+        <div class="section-title">🍽 請選擇餐點</div>
+        <div id="menu-items-list"></div>
+      </div>
+
+      <!-- 無菜單時顯示（手動輸入） -->
+      <div id="manual-mode" class="view-hidden manual-box">
+        <div class="form-group" style="margin-bottom:12px">
+          <label>訂購品項</label>
+          <input class="form-control" id="manual-items" placeholder="例：烏龍麵×1、天婦羅×2">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>金額 (元)</label>
+          <input class="form-control" id="manual-amount" type="number" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:16px">
+        <label>備註（可選）</label>
+        <input class="form-control" id="order-note" placeholder="外帶、加辣、不要香菜...">
+      </div>
+    </div>
+
+    <div class="recent-list" id="recent-list"></div>
+  </div>
+</main>
+
+<div class="sticky-footer" id="sticky-footer" style="display:none">
+  <div class="sf-total">
+    <div class="sf-total-lbl">目前總金額</div>
+    <div class="sf-total-val" id="sf-total-val">NT$ 0</div>
+  </div>
+  <button class="btn-submit" id="btn-submit" onclick="submitOrder()">✔ 送出訂單</button>
+</div>
+
+<div class="loading-overlay" id="loading"><div class="spinner"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="db.js"></script>
+<script>
+let rest = null;
+let menuItems = [];
+let qtyMap = {};      // itemId -> qty
+let orders = [];
+let editingOrderId = null;   // 目前正在修改的訂單 id（未付款訂單才可修改）
+
+function getRestId(){
+  const p = new URLSearchParams(window.location.search);
+  return p.get('id');
+}
+const restId = getRestId();
+
+function showLoading(){ document.getElementById('loading').classList.add('show'); }
+function hideLoading(){ document.getElementById('loading').classList.remove('show'); }
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+async function init(){
+  showLoading();
+  try{
+    const allRests = await RestaurantsAPI.getAll();
+    rest = allRests.find(r=>r.id===restId);
+    if(!rest){ document.getElementById('not-found').style.display='block'; hideLoading(); return; }
+
+    document.title = rest.name+' — 我要點餐';
+    document.getElementById('hdr-title').textContent = rest.name;
+    document.getElementById('hero-name').textContent = '🍽 '+rest.name;
+    const mi=[];
+    if(rest.receiver) mi.push('👤 主購：'+esc(rest.receiver));
+    if(rest.serviceFee) mi.push('🧾 服務費：NT$ '+Number(rest.serviceFee).toLocaleString()+' ／筆（結帳時會另加）');
+    if(rest.note) mi.push('💬 '+esc(rest.note));
+    document.getElementById('hero-meta').innerHTML = mi.map(m=>`<div>${m}</div>`).join('');
+
+    const ordSel=document.getElementById('orderer-select');
+    ordSel.innerHTML='<option value="">— 請選擇你的名字 —</option>'+MEMBER_LIST.map(m=>{
+      const name = typeof m==='object'?m.name:m;
+      return `<option value="${esc(name)}">${esc(name)}</option>`;
+    }).join('');
+
+    if(rest.menuId){
+      menuItems = await MenuItemsAPI.getByMenu(rest.menuId);
+    }
+    if(rest.menuId && menuItems.length){
+      document.getElementById('menu-mode').classList.remove('view-hidden');
+      renderMenuItems();
+    } else {
+      document.getElementById('manual-mode').classList.remove('view-hidden');
+    }
+
+    document.getElementById('content').classList.remove('view-hidden');
+
+    if(rest.locked){
+      document.getElementById('locked-banner').classList.remove('view-hidden');
+      document.getElementById('order-form-area').classList.add('locked-fade');
+      document.getElementById('sticky-footer').style.display='none';
+    } else {
+      document.getElementById('sticky-footer').style.display='flex';
+    }
+
+    orders = await OrdersAPI.getByRestaurant(restId);
+    renderRecent();
+    updateTotal();
+  }catch(e){ showToast('載入失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+function renderMenuItems(){
+  document.getElementById('menu-items-list').innerHTML = menuItems.map(it=>{
+    const qty = qtyMap[it.id]||0;
+    return `<div class="menu-item ${qty>0?'active':''}" id="mi-${it.id}">
+      <div class="mi-info">
+        <div class="mi-name">${esc(it.dishName)}</div>
+        ${it.flavor?`<div class="mi-flavor">口味：${esc(it.flavor)}</div>`:''}
+        <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
+      </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty('${it.id}',-1)">－</button>
+        <span class="qty-val" id="qtyval-${it.id}">${qty}</span>
+        <button class="qty-btn" onclick="changeQty('${it.id}',1)">＋</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function changeQty(itemId, delta){
+  const cur = qtyMap[itemId]||0;
+  const next = Math.max(0, cur+delta);
+  qtyMap[itemId]=next;
+  document.getElementById('qtyval-'+itemId).textContent = next;
+  document.getElementById('mi-'+itemId).classList.toggle('active', next>0);
+  updateTotal();
+}
+
+function updateTotal(){
+  let total=0;
+  if(rest && rest.menuId && menuItems.length){
+    menuItems.forEach(it=>{ total += (qtyMap[it.id]||0)*Number(it.price); });
+  } else {
+    total = Number(document.getElementById('manual-amount')?.value)||0;
+  }
+  document.getElementById('sf-total-val').textContent = 'NT$ '+total.toLocaleString();
+  return total;
+}
+document.addEventListener('input', (e)=>{ if(e.target && e.target.id==='manual-amount') updateTotal(); });
+
+function renderRecent(){
+  const list=document.getElementById('recent-list');
+  if(!orders.length){ list.innerHTML=''; return; }
+  const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).slice(0,10);
+  list.innerHTML = `<div class="section-title">📋 目前已送出的訂單（${orders.length} 筆）</div>` +
+    sorted.map(o=>{
+      const isPaid = o.paidStatus==='已付款';
+      let actions;
+      if(rest.locked){
+        actions = `<span class="rr-paid-badge" style="color:${isPaid?'var(--green)':'var(--text-3)'}">${isPaid?'✔ 已付款':'🔒 已結單'}</span>`;
+      } else if(isPaid){
+        actions = `<span class="rr-paid-badge">✔ 已付款</span>`;
+      } else {
+        actions = `<div class="rr-actions">
+             <button class="rr-btn" title="修改" onclick="editOrder('${o.id}')">✏️</button>
+             <button class="rr-btn" title="刪除" onclick="deleteOrderRow('${o.id}')">🗑</button>
+           </div>`;
+      }
+      return `<div class="recent-row ${o.id===editingOrderId?'editing':''}" id="rr-${o.id}">
+        <span class="rr-name">${esc(o.orderer)}</span>
+        <span class="rr-items">${esc(o.items)||'(無品項)'}</span>
+        <span class="rr-amt">NT$ ${Number(o.amount||0).toLocaleString()}</span>
+        ${actions}
+      </div>`;
+    }).join('');
+}
+
+function resetForm(){
+  qtyMap={};
+  if(rest.menuId && menuItems.length) renderMenuItems();
+  document.getElementById('manual-items').value='';
+  document.getElementById('manual-amount').value='';
+  document.getElementById('order-note').value='';
+  updateTotal();
+}
+
+function editOrder(id){
+  if(rest.locked){ showToast('已結單，無法修改訂單','error'); return; }
+  const o = orders.find(x=>x.id===id);
+  if(!o) return;
+  if(o.paidStatus==='已付款'){ showToast('已付款的訂單無法修改','error'); return; }
+  editingOrderId = id;
+
+  document.getElementById('orderer-select').value = o.orderer||'';
+  document.getElementById('order-note').value = o.note||'';
+
+  qtyMap = {};
+  if(rest.menuId && menuItems.length){
+    if(Array.isArray(o.itemsDetail)){
+      o.itemsDetail.forEach(d=>{
+        const match = menuItems.find(it=>it.dishName===d.dishName && (it.flavor||'')===(d.flavor||''));
+        if(match) qtyMap[match.id] = d.qty;
+      });
+    }
+    renderMenuItems();
+  } else {
+    document.getElementById('manual-items').value = o.items||'';
+    document.getElementById('manual-amount').value = o.amount||0;
+  }
+
+  document.getElementById('edit-banner-name').textContent = o.orderer||'(未填姓名)';
+  document.getElementById('edit-banner').classList.remove('view-hidden');
+  document.getElementById('btn-submit').textContent='✔ 更新訂單';
+  renderRecent();
+  updateTotal();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function cancelEdit(){
+  editingOrderId = null;
+  document.getElementById('edit-banner').classList.add('view-hidden');
+  document.getElementById('btn-submit').textContent='✔ 送出訂單';
+  document.getElementById('orderer-select').value='';
+  resetForm();
+  renderRecent();
+}
+
+async function deleteOrderRow(id){
+  if(rest.locked){ showToast('已結單，無法刪除訂單','error'); return; }
+  const o = orders.find(x=>x.id===id);
+  if(!o) return;
+  if(o.paidStatus==='已付款'){ showToast('已付款的訂單無法刪除','error'); return; }
+  if(!confirm(`確定刪除 ${o.orderer} 的這筆訂單？`)) return;
+  showLoading();
+  try{
+    await OrdersAPI.delete(id);
+    if(editingOrderId===id) cancelEdit();
+    orders = await OrdersAPI.getByRestaurant(restId);
+    renderRecent();
+    showToast('訂單已刪除','error');
+  }catch(e){ showToast('刪除失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+async function submitOrder(){
+  if(rest.locked){ showToast('已結單，無法送出訂單','error'); return; }
+  const orderer = document.getElementById('orderer-select').value;
+  if(!orderer){ showToast('請先選擇你的名字','error'); return; }
+
+  let items='', amount=0, itemsDetail=null;
+  if(rest.menuId && menuItems.length){
+    const selected = menuItems.filter(it=>(qtyMap[it.id]||0)>0);
+    if(!selected.length){ showToast('請至少選擇一項餐點','error'); return; }
+    items = selected.map(it=>`${it.dishName}${it.flavor?'('+it.flavor+')':''}×${qtyMap[it.id]}`).join('、');
+    amount = selected.reduce((s,it)=>s+it.price*qtyMap[it.id],0);
+    itemsDetail = selected.map(it=>({dishName:it.dishName, flavor:it.flavor||'', price:it.price, qty:qtyMap[it.id]}));
+  } else {
+    items = document.getElementById('manual-items').value.trim();
+    amount = Number(document.getElementById('manual-amount').value)||0;
+    if(!items && amount<=0){ showToast('請填寫品項或金額','error'); return; }
+  }
+
+  const note = document.getElementById('order-note').value.trim();
+  showLoading();
+  try{
+    if(editingOrderId){
+      const orig = orders.find(x=>x.id===editingOrderId);
+      await OrdersAPI.update(editingOrderId, {
+        restaurantId: restId,
+        orderer,
+        orderDate: orig ? orig.orderDate : todayStr(),
+        items, amount,
+        paidStatus: '未付款',
+        note,
+        itemsDetail
+      });
+      showToast('訂單已更新 ✓');
+      editingOrderId = null;
+      document.getElementById('edit-banner').classList.add('view-hidden');
+      document.getElementById('btn-submit').textContent='✔ 送出訂單';
+    } else {
+      await OrdersAPI.insert({
+        id: genId('o'),
+        restaurantId: restId,
+        orderer,
+        orderDate: todayStr(),
+        items,
+        amount,
+        paidStatus: '未付款',
+        note,
+        itemsDetail
+      });
+      showToast('訂單已送出，謝謝訂購 🎉');
+    }
+    resetForm();
+    orders = await OrdersAPI.getByRestaurant(restId);
+    renderRecent();
+    updateTotal();
+  }catch(e){ showToast('送出失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+init();
+</script>
+</body>
+</html>
