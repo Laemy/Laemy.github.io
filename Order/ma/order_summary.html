@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>點餐整合統計 @Edda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;
+    --green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--red-light:#FEF0EF;
+    --orange:#E67E22;--bg:#F7F9FC;--surface:#FFFFFF;--border:#D9E4F0;
+    --text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
+    --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:20px}
+
+  header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
+  .logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%;flex-shrink:0}
+  header h1{font-size:100%;font-weight:700}
+  .hdr-back{margin-left:auto;font-size:75%;color:var(--blue-mid);text-decoration:none;background:var(--orange);color:#fff!important;padding:7px 16px;border-radius:8px;font-weight:700;white-space:nowrap}
+
+  main{flex:1;padding:26px 28px;max-width:1000px;width:100%;margin:0 auto}
+
+  .hero{background:var(--navy);border-radius:14px;padding:20px 24px;color:#fff;margin-bottom:22px;display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+  .hero-name{font-size:125%;font-weight:700;flex:1;min-width:200px}
+  .hero-meta{font-size:75%;color:var(--blue-mid);margin-top:6px;display:flex;flex-direction:column;gap:2px}
+  .hero-stats{display:flex;gap:10px;flex-wrap:wrap}
+  .hero-stat{background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;text-align:center;min-width:90px}
+  .hero-stat .hs-label{font-size:60%;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+  .hero-stat .hs-value{font-size:112.5%;font-weight:700}
+
+  .link-box{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:22px}
+  .link-box input{flex:1;border:none;background:transparent;font-size:75%;color:var(--navy);font-family:monospace;min-width:0}
+  .btn{padding:8px 16px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}
+
+  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .section-header h2{font-size:100%;font-weight:700;color:var(--navy)}
+  .count-badge{background:var(--blue-light);color:var(--blue);font-size:70%;font-weight:600;padding:3px 10px;border-radius:20px}
+
+  .table-wrap{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1.5px solid var(--border);overflow:hidden;margin-bottom:28px}
+  table{width:100%;border-collapse:collapse;font-size:81.25%}
+  thead th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:75%;font-weight:600}
+  tbody tr{border-bottom:1px solid var(--border)}
+  tbody tr:last-child{border-bottom:none}
+  tbody tr:hover{background:var(--blue-light)}
+  tbody td{padding:10px 14px;vertical-align:middle}
+  .amt{font-weight:700;color:var(--navy)}
+  .status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:68.75%;font-weight:600}
+  .status-paid{background:#d5f5e3;color:#1a7a4a}
+  .status-unpaid{background:#fde8e6;color:#c0392b}
+  tfoot td{padding:10px 14px;font-weight:700;background:var(--bg);border-top:2px solid var(--border)}
+
+  .empty-note{font-size:75%;color:var(--text-3);padding:16px;text-align:center}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast.success{border-left:4px solid var(--green)}
+  .toast.error{border-left:4px solid var(--red)}
+  .loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.7);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  .loading-overlay.show{display:flex}
+  .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .view-hidden{display:none!important}
+
+  @media (max-width:768px){
+    main{padding:14px}
+    header{padding:0 14px}
+    .table-wrap{overflow-x:auto}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📊</div>
+  <h1>點餐整合統計</h1>
+  <a class="hdr-back" href="index.html">← 返回管理系統</a>
+</header>
+
+<main>
+  <div id="not-found" class="view-hidden" style="text-align:center;padding:80px 20px">
+    <div style="font-size:275%;margin-bottom:16px">🔍</div>
+    <h2 style="color:var(--navy);margin-bottom:8px">找不到此開團</h2>
+  </div>
+
+  <div id="content">
+    <div class="hero">
+      <div style="flex:1;min-width:200px">
+        <div class="hero-name" id="hero-name">—</div>
+        <div class="hero-meta" id="hero-meta"></div>
+      </div>
+      <div class="hero-stats" id="hero-stats"></div>
+    </div>
+
+    <div class="link-box">
+      <span style="font-size:75%;color:var(--text-2);white-space:nowrap">🔗 點餐連結</span>
+      <input id="order-link" readonly onclick="this.select()">
+      <button class="btn btn-primary" onclick="copyLink()">複製</button>
+      <a id="open-order-link" href="#" target="_blank" class="btn btn-ghost">開啟</a>
+      <button class="btn" id="lock-toggle-btn" onclick="toggleLock()" style="margin-left:auto"></button>
+    </div>
+
+    <div class="section-header">
+      <h2>🍽 品項加總（可用於致電下單）</h2>
+      <span class="count-badge" id="agg-count">0 項</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>品項</th><th>口味</th><th style="width:80px">數量</th><th style="width:110px">小計</th></tr></thead>
+        <tbody id="agg-tbody"></tbody>
+        <tfoot><tr><td colspan="2"></td><td>合計</td><td id="agg-total">NT$ 0</td></tr></tfoot>
+      </table>
+      <div id="agg-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生品項加總（可能為手動輸入或批量匯入的訂單）。</div>
+    </div>
+
+    <div class="section-header">
+      <h2>👤 依人明細</h2>
+      <span class="count-badge" id="person-order-count">0 筆</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>訂購日期</th><th>訂購人</th><th>品項</th><th style="width:100px">金額</th><th style="width:90px">狀態</th><th>備註</th></tr></thead>
+        <tbody id="person-tbody"></tbody>
+      </table>
+      <div id="person-empty" class="empty-note view-hidden">尚無任何訂單</div>
+    </div>
+  </div>
+</main>
+
+<div class="loading-overlay" id="loading"><div class="spinner"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="../db.js"></script>
+<script>
+function getRestId(){ return new URLSearchParams(window.location.search).get('id'); }
+const restId = getRestId();
+
+function showLoading(){ document.getElementById('loading').classList.add('show'); }
+function hideLoading(){ document.getElementById('loading').classList.remove('show'); }
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+let currentRest = null;
+
+async function init(){
+  showLoading();
+  try{
+    const allRests = await RestaurantsAPI.getAll();
+    const rest = allRests.find(r=>r.id===restId);
+    if(!rest){ document.getElementById('content').classList.add('view-hidden'); document.getElementById('not-found').classList.remove('view-hidden'); return; }
+    currentRest = rest;
+
+    document.title = rest.name+' — 點餐整合統計';
+    document.getElementById('hero-name').textContent = '🍽 '+rest.name;
+    const mi=[];
+    if(rest.receiver) mi.push('👤 主購：'+esc(rest.receiver));
+    if(rest.serviceFee) mi.push('🧾 服務費：NT$ '+Number(rest.serviceFee).toLocaleString()+' ／筆');
+    document.getElementById('hero-meta').innerHTML = mi.map(m=>`<div>${m}</div>`).join('');
+    renderLockBtn();
+
+    const base = window.location.href.replace(/[^/]*$/,'');
+    const orderUrl = base+'../order.html?id='+encodeURIComponent(restId);
+    document.getElementById('order-link').value = orderUrl;
+    document.getElementById('open-order-link').href = orderUrl;
+
+    const orders = await OrdersAPI.getByRestaurant(restId);
+    const fee = calcFee(rest.serviceFee);
+
+    // Hero stats
+    const totalAmt = orders.reduce((s,o)=>s+Number(o.amount||0)+fee,0);
+    const unpaidAmt= orders.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0)+fee,0);
+    document.getElementById('hero-stats').innerHTML = `
+      <div class="hero-stat"><div class="hs-label">訂單數</div><div class="hs-value">${orders.length}</div></div>
+      <div class="hero-stat"><div class="hs-label">總金額</div><div class="hs-value" style="font-size:93.75%">NT$ ${totalAmt.toLocaleString()}</div></div>
+      <div class="hero-stat" style="${unpaidAmt>0?'background:rgba(231,76,60,.3)':''}"><div class="hs-label">未結清</div><div class="hs-value" style="font-size:93.75%">NT$ ${unpaidAmt.toLocaleString()}</div></div>`;
+
+    // 品項加總（僅統計 itemsDetail 存在的訂單）
+    const aggMap = {};
+    let hasDetail = false;
+    orders.forEach(o=>{
+      if(Array.isArray(o.itemsDetail) && o.itemsDetail.length){
+        hasDetail = true;
+        o.itemsDetail.forEach(d=>{
+          const key = d.dishName+'||'+(d.flavor||'');
+          if(!aggMap[key]) aggMap[key] = {dishName:d.dishName, flavor:d.flavor||'', qty:0, subtotal:0};
+          aggMap[key].qty += Number(d.qty)||0;
+          aggMap[key].subtotal += (Number(d.qty)||0)*Number(d.price||0);
+        });
+      }
+    });
+    const aggRows = Object.values(aggMap).sort((a,b)=>b.subtotal-a.subtotal);
+    document.getElementById('agg-count').textContent = aggRows.length+' 項';
+    const aggTotal = aggRows.reduce((s,r)=>s+r.subtotal,0);
+    document.getElementById('agg-total').textContent = 'NT$ '+aggTotal.toLocaleString();
+    if(!hasDetail || !aggRows.length){
+      document.getElementById('agg-tbody').innerHTML='';
+      document.getElementById('agg-empty').classList.remove('view-hidden');
+    } else {
+      document.getElementById('agg-empty').classList.add('view-hidden');
+      document.getElementById('agg-tbody').innerHTML = aggRows.map(r=>`
+        <tr>
+          <td style="font-weight:600">${esc(r.dishName)}</td>
+          <td style="color:var(--text-2);font-size:75%">${esc(r.flavor)||'—'}</td>
+          <td>${r.qty}</td>
+          <td class="amt">NT$ ${r.subtotal.toLocaleString()}</td>
+        </tr>`).join('');
+    }
+
+    // 依人明細
+    document.getElementById('person-order-count').textContent = orders.length+' 筆';
+    if(!orders.length){
+      document.getElementById('person-tbody').innerHTML='';
+      document.getElementById('person-empty').classList.remove('view-hidden');
+    } else {
+      document.getElementById('person-empty').classList.add('view-hidden');
+      const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate));
+      document.getElementById('person-tbody').innerHTML = sorted.map(o=>`
+        <tr>
+          <td>${o.orderDate}</td>
+          <td style="font-weight:600">${esc(o.orderer)}</td>
+          <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</td>
+          <td class="amt">NT$ ${Number(o.amount||0).toLocaleString()}</td>
+          <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
+          <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
+        </tr>`).join('');
+    }
+  }catch(e){ showToast('載入失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+function renderLockBtn(){
+  const btn = document.getElementById('lock-toggle-btn');
+  if(!currentRest) return;
+  if(currentRest.locked){
+    btn.textContent = '🔓 重新開放點餐';
+    btn.style.background = 'var(--green-light)';
+    btn.style.color = 'var(--green)';
+    btn.style.border = '1.5px solid #a9dfbf';
+  } else {
+    btn.textContent = '🔒 結單（停止點餐）';
+    btn.style.background = 'var(--red-light)';
+    btn.style.color = 'var(--red)';
+    btn.style.border = '1.5px solid #f5b7b1';
+  }
+}
+
+async function toggleLock(){
+  if(!currentRest) return;
+  const nextLocked = !currentRest.locked;
+  if(nextLocked && !confirm('確定要「結單」嗎？結單後點餐頁將無法再新增／修改／刪除訂單，但仍可繼續標記付款狀態進行對帳。')) return;
+  showLoading();
+  try{
+    await RestaurantsAPI.update(restId, { ...currentRest, locked: nextLocked });
+    currentRest.locked = nextLocked;
+    renderLockBtn();
+    showToast(nextLocked?'已結單 🔒':'已重新開放，可繼續點餐 🔓');
+  }catch(e){ showToast('操作失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+function copyLink(){
+  const val = document.getElementById('order-link').value;
+  navigator.clipboard?.writeText(val).catch(()=>{});
+  showToast('已複製點餐連結 🔗');
+}
+
+init();
+</script>
+</body>
+</html>

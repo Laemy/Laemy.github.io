@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>菜單管理 @Edda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;
+    --green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--red-light:#FEF0EF;
+    --orange:#E67E22;--purple:#7D3C98;--purple-light:#F5EEF8;
+    --bg:#F7F9FC;--surface:#FFFFFF;--border:#D9E4F0;
+    --text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;
+    --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:20px}
+
+  header{background:var(--navy);color:#fff;padding:0 28px;height:60px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .logo{width:32px;height:32px;background:var(--purple);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%;flex-shrink:0}
+  header h1{font-size:100%;font-weight:700}
+  .hdr-back{margin-left:auto;font-size:75%;color:var(--blue-mid);text-decoration:none;display:flex;align-items:center;gap:6px;background:var(--orange);color:#fff!important;padding:7px 16px;border-radius:8px;font-weight:700;white-space:nowrap}
+
+  main{flex:1;padding:24px 28px;max-width:1200px;width:100%;margin:0 auto;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+
+  .btn{padding:9px 18px;border-radius:8px;border:none;font-size:81.25%;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:filter .15s,transform .1s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{filter:brightness(1.1)}
+  .btn-success{background:var(--green);color:#fff}.btn-success:hover{filter:brightness(1.1)}
+  .btn-ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid)}.btn-ghost:hover{background:var(--blue-light)}
+  .btn-danger{background:transparent;color:var(--red);border:1.5px solid #f9c4bf}.btn-danger:hover{background:#fdf0ef}
+  .btn-bulk{background:transparent;color:var(--purple);border:1.5px solid #d6b9e8}.btn-bulk:hover{background:var(--purple-light)}
+  .btn-sm{padding:5px 11px;font-size:75%}
+
+  /* ── Left: 菜單列表 ── */
+  .menu-list-col{width:300px;flex-shrink:0}
+  .col-title{font-size:87.5%;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+  .menu-card{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:all .15s}
+  .menu-card:hover{border-color:var(--blue-mid);box-shadow:var(--shadow)}
+  .menu-card.active{border-color:var(--purple);background:var(--purple-light)}
+  .menu-card-name{font-size:87.5%;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .menu-card-meta{font-size:68.75%;color:var(--text-3)}
+  .empty-hint{font-size:75%;color:var(--text-3);text-align:center;padding:30px 10px}
+
+  /* ── Right: 品項管理 ── */
+  .menu-detail-col{flex:1;min-width:340px}
+  .detail-empty{background:var(--surface);border:1.5px dashed var(--border);border-radius:12px;padding:60px 20px;text-align:center;color:var(--text-3)}
+  .detail-empty .ei{font-size:225%;margin-bottom:12px}
+
+  .detail-card{background:var(--surface);border-radius:12px;border:1.5px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+  .detail-header{background:var(--navy);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .detail-header input{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;padding:7px 11px;font-size:87.5%;font-weight:700;font-family:inherit}
+  .detail-header input::placeholder{color:rgba(255,255,255,.5)}
+  .detail-header .dh-note{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;padding:7px 11px;font-size:75%;font-family:inherit;flex:1;min-width:150px}
+  .detail-header .dh-note::placeholder{color:rgba(255,255,255,.5)}
+  .detail-actions{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .item-count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:600;padding:3px 10px;border-radius:20px}
+
+  table{width:100%;border-collapse:collapse;font-size:81.25%}
+  thead th{background:var(--bg);color:var(--text-2);padding:9px 14px;text-align:left;font-size:70%;font-weight:700;letter-spacing:.4px;border-bottom:1.5px solid var(--border)}
+  tbody td{padding:6px 10px;vertical-align:middle;border-bottom:1px solid var(--border)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--blue-light)}
+  .cell-input{width:100%;padding:6px 9px;border-radius:6px;border:1.5px solid transparent;font-size:87.5%;font-family:inherit;background:transparent;color:var(--text)}
+  .cell-input:hover{border-color:var(--border)}
+  .cell-input:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 2px rgba(45,125,210,.12)}
+  .cell-price{width:100px}
+  .cell-flavor{width:110px}
+
+  .table-empty{padding:30px;text-align:center;color:var(--text-3);font-size:81.25%}
+
+  /* ── Modal ── */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.45);backdrop-filter:blur(2px);z-index:100;align-items:center;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--surface);border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.2);width:100%;max-width:640px;max-height:90vh;overflow-y:auto;animation:slideUp .2s ease}
+  @keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .modal-header{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .modal-header h3{font-size:100%;font-weight:700;color:var(--navy)}
+  .modal-close{background:none;border:none;font-size:125%;cursor:pointer;color:var(--text-3)}
+  .modal-body{padding:18px 24px;display:flex;flex-direction:column;gap:12px}
+  .modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+  .form-group{display:flex;flex-direction:column;gap:5px}
+  .form-group label{font-size:75%;font-weight:600;color:var(--text-2)}
+  .form-control{padding:9px 12px;border-radius:7px;border:1.5px solid var(--border);font-size:81.25%;color:var(--text);background:var(--bg);font-family:inherit;width:100%}
+  .form-control:focus{outline:none;border-color:var(--blue);background:#fff}
+  textarea.form-control{font-family:monospace;font-size:81.25%}
+  .hint{font-size:70%;color:var(--text-3);line-height:1.7}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast.success{border-left:4px solid var(--green)}
+  .toast.error  {border-left:4px solid var(--red)}
+  .loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.7);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  .loading-overlay.show{display:flex}
+  .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .view-hidden{display:none!important}
+
+  @media (max-width:768px){
+    main{padding:14px;flex-direction:column}
+    .menu-list-col{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🍜</div>
+  <h1>菜單管理</h1>
+  <a class="hdr-back" href="index.html">← 返回管理系統</a>
+</header>
+
+<main>
+  <div class="menu-list-col">
+    <div class="col-title">所有菜單<button class="btn btn-primary btn-sm" onclick="openNewMenu()">＋ 新增菜單</button></div>
+    <div id="menu-list"></div>
+    <div id="menu-list-empty" class="empty-hint view-hidden">尚無菜單，點擊上方新增</div>
+  </div>
+
+  <div class="menu-detail-col">
+    <div id="detail-empty" class="detail-empty">
+      <div class="ei">🍜</div>
+      <p>請從左側選擇一份菜單，或新增一份菜單開始編輯品項</p>
+    </div>
+
+    <div id="detail-card" class="detail-card view-hidden">
+      <div class="detail-header">
+        <input id="menu-name-input" placeholder="菜單總名" onchange="updateMenuField('name', this.value)">
+        <input class="dh-note" id="menu-note-input" placeholder="備註（可選）" onchange="updateMenuField('note', this.value)">
+        <button class="btn btn-danger btn-sm" onclick="deleteCurrentMenu()">🗑 刪除菜單</button>
+      </div>
+      <div class="detail-actions">
+        <span class="item-count-badge" id="item-count">0 項</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-bulk btn-sm" onclick="openBulkImport()">📋 整批匯入</button>
+          <button class="btn btn-success btn-sm" onclick="addBlankItem()">＋ 新增品項</button>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>菜名</th><th style="width:110px">口味</th><th style="width:100px">金額</th><th style="width:50px"></th></tr></thead>
+        <tbody id="items-tbody"></tbody>
+      </table>
+      <div id="items-empty" class="table-empty view-hidden">尚無品項，點擊「＋ 新增品項」或「整批匯入」</div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal: 整批匯入 -->
+<div class="modal-overlay" id="modal-bulk">
+  <div class="modal">
+    <div class="modal-header"><h3>📋 整批匯入菜單品項</h3><button class="modal-close" onclick="closeModal('modal-bulk')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>貼上菜單文字</label>
+        <textarea class="form-control" id="bulk-menu-text" rows="10" placeholder="支援格式，可混合貼上：&#10;&#10;紫米飯糰 $70&#10;鹽酥雞(大辣) $90&#10;烏龍麵,原味,120&#10;親子丼,加蛋,135"></textarea>
+      </div>
+      <div class="hint">
+        💡 每行一項，支援：<br>
+        • 「菜名 $金額」或「菜名(口味) $金額」<br>
+        • 「菜名,口味,金額」（口味可省略：「菜名,金額」）
+      </div>
+      <div id="bulk-menu-preview" class="view-hidden">
+        <div style="font-size:81.25%;color:var(--text-2);margin:6px 0">解析出 <strong id="bulk-menu-count" style="color:var(--navy)">0</strong> 項：</div>
+        <table>
+          <thead><tr><th>菜名</th><th style="width:110px">口味</th><th style="width:100px">金額</th><th style="width:50px"></th></tr></thead>
+          <tbody id="bulk-menu-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-bulk')">取消</button>
+      <button class="btn btn-primary" id="bulk-menu-parse-btn" onclick="bulkMenuParse()">解析預覽 →</button>
+      <button class="btn btn-success view-hidden" id="bulk-menu-submit-btn" onclick="bulkMenuSubmit()">✔ 確認匯入</button>
+    </div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loading"><div class="spinner"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="../db.js"></script>
+<script>
+let menus = [];
+let currentMenuId = null;
+let currentItems = [];
+let bulkMenuRows = [];
+
+function showLoading(){ document.getElementById('loading').classList.add('show'); }
+function hideLoading(){ document.getElementById('loading').classList.remove('show'); }
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+async function init(){
+  showLoading();
+  try{ menus = await MenusAPI.getAll(); renderMenuList(); }
+  catch(e){ showToast('載入失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+function renderMenuList(){
+  const list=document.getElementById('menu-list'), empty=document.getElementById('menu-list-empty');
+  if(!menus.length){ list.innerHTML=''; empty.classList.remove('view-hidden'); return; }
+  empty.classList.add('view-hidden');
+  list.innerHTML = menus.map(m=>`
+    <div class="menu-card ${m.id===currentMenuId?'active':''}" onclick="selectMenu('${m.id}')">
+      <div class="menu-card-name">🍜 ${esc(m.name)||'(未命名菜單)'}</div>
+      <div class="menu-card-meta">${esc(m.note)||'&nbsp;'}</div>
+    </div>`).join('');
+}
+
+async function openNewMenu(){
+  showLoading();
+  try{
+    const m = await MenusAPI.insert({ id:genId('menu'), name:'新菜單', note:'' });
+    menus.push(m);
+    renderMenuList();
+    await selectMenu(m.id);
+  }catch(e){ showToast('新增失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+async function selectMenu(id){
+  currentMenuId = id;
+  renderMenuList();
+  showLoading();
+  try{
+    const m = menus.find(x=>x.id===id);
+    document.getElementById('menu-name-input').value = m.name||'';
+    document.getElementById('menu-note-input').value = m.note||'';
+    currentItems = await MenuItemsAPI.getByMenu(id);
+    document.getElementById('detail-empty').classList.add('view-hidden');
+    document.getElementById('detail-card').classList.remove('view-hidden');
+    renderItems();
+  }catch(e){ showToast('載入品項失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+async function updateMenuField(field, value){
+  const m = menus.find(x=>x.id===currentMenuId);
+  if(!m) return;
+  m[field]=value;
+  try{ await MenusAPI.update(currentMenuId, m); renderMenuList(); showToast('已儲存 ✓'); }
+  catch(e){ showToast('儲存失敗：'+e.message,'error'); }
+}
+
+async function deleteCurrentMenu(){
+  if(!currentMenuId) return;
+  if(!confirm('確定刪除此菜單？所有品項將一併刪除。')) return;
+  showLoading();
+  try{
+    await MenusAPI.delete(currentMenuId);
+    menus = menus.filter(m=>m.id!==currentMenuId);
+    currentMenuId=null; currentItems=[];
+    document.getElementById('detail-card').classList.add('view-hidden');
+    document.getElementById('detail-empty').classList.remove('view-hidden');
+    renderMenuList();
+    showToast('菜單已刪除','error');
+  }catch(e){ showToast('刪除失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+function renderItems(){
+  const tbody=document.getElementById('items-tbody');
+  const empty=document.getElementById('items-empty');
+  document.getElementById('item-count').textContent = currentItems.length+' 項';
+  if(!currentItems.length){ tbody.innerHTML=''; empty.classList.remove('view-hidden'); return; }
+  empty.classList.add('view-hidden');
+  tbody.innerHTML = currentItems.map((it,i)=>`
+    <tr>
+      <td><input class="cell-input" value="${esc(it.dishName)}" placeholder="菜名" onchange="updateItem(${i},'dishName',this.value)"></td>
+      <td><input class="cell-input cell-flavor" value="${esc(it.flavor)}" placeholder="口味" onchange="updateItem(${i},'flavor',this.value)"></td>
+      <td><input class="cell-input cell-price" type="number" min="0" value="${it.price}" onchange="updateItem(${i},'price',this.value)"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="removeItem(${i})">🗑</button></td>
+    </tr>`).join('');
+}
+
+async function addBlankItem(){
+  if(!currentMenuId) return;
+  showLoading();
+  try{
+    const item = await MenuItemsAPI.insert({ id:genId('mi'), menuId:currentMenuId, dishName:'新品項', flavor:'', price:0, sortOrder:currentItems.length });
+    currentItems.push(item);
+    renderItems();
+  }catch(e){ showToast('新增失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+async function updateItem(i, field, value){
+  const it = currentItems[i];
+  it[field] = field==='price' ? (Number(value)||0) : value;
+  try{ await MenuItemsAPI.update(it.id, it); }
+  catch(e){ showToast('儲存失敗：'+e.message,'error'); }
+}
+
+async function removeItem(i){
+  const it = currentItems[i];
+  if(!confirm('確定刪除「'+(it.dishName||'此品項')+'」？')) return;
+  showLoading();
+  try{
+    await MenuItemsAPI.delete(it.id);
+    currentItems.splice(i,1);
+    renderItems();
+  }catch(e){ showToast('刪除失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+// ── 整批匯入 ──────────────────────────────────
+function openBulkImport(){
+  if(!currentMenuId){ showToast('請先選擇或新增菜單','error'); return; }
+  document.getElementById('bulk-menu-text').value='';
+  document.getElementById('bulk-menu-preview').classList.add('view-hidden');
+  document.getElementById('bulk-menu-parse-btn').classList.remove('view-hidden');
+  document.getElementById('bulk-menu-submit-btn').classList.add('view-hidden');
+  bulkMenuRows=[];
+  document.getElementById('modal-bulk').classList.add('open');
+}
+
+function parseMenuBulkText(text){
+  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const rows=[];
+  for(const line of lines){
+    // 格式一：菜名,口味,金額 或 菜名,金額
+    if(/[,，]/.test(line)){
+      const parts = line.split(/[,，]/).map(s=>s.trim()).filter(Boolean);
+      if(parts.length>=2){
+        const price = Number(parts[parts.length-1].replace(/[^\d.]/g,''))||0;
+        const dish  = parts[0];
+        const flavor= parts.length>=3 ? parts.slice(1,-1).join(' ') : '';
+        if(dish && price>0){ rows.push({dishName:dish, flavor, price}); continue; }
+      }
+    }
+    // 格式二：菜名(口味) $金額
+    const m = line.match(/^(.+?)\$\s*([0-9,]+)/);
+    if(m){
+      let namePart = m[1].trim();
+      const price = Number(m[2].replace(/,/g,''))||0;
+      let flavor='';
+      const paren = namePart.match(/^(.+?)[\(（]([^)）]*)[\)）]\s*$/);
+      if(paren){ namePart=paren[1].trim(); flavor=paren[2].trim(); }
+      if(namePart && price>0) rows.push({dishName:namePart, flavor, price});
+    }
+  }
+  return rows;
+}
+
+function bulkMenuParse(){
+  const text = document.getElementById('bulk-menu-text').value;
+  if(!text.trim()){ showToast('請貼上菜單文字','error'); return; }
+  bulkMenuRows = parseMenuBulkText(text);
+  if(!bulkMenuRows.length){ showToast('沒有解析出任何品項，請確認格式','error'); return; }
+  renderBulkMenuPreview();
+  document.getElementById('bulk-menu-preview').classList.remove('view-hidden');
+  document.getElementById('bulk-menu-parse-btn').classList.add('view-hidden');
+  document.getElementById('bulk-menu-submit-btn').classList.remove('view-hidden');
+}
+
+function renderBulkMenuPreview(){
+  document.getElementById('bulk-menu-count').textContent = bulkMenuRows.length;
+  document.getElementById('bulk-menu-tbody').innerHTML = bulkMenuRows.map((r,i)=>`
+    <tr>
+      <td><input class="cell-input" value="${esc(r.dishName)}" onchange="bulkMenuUpdate(${i},'dishName',this.value)"></td>
+      <td><input class="cell-input cell-flavor" value="${esc(r.flavor)}" onchange="bulkMenuUpdate(${i},'flavor',this.value)"></td>
+      <td><input class="cell-input cell-price" type="number" value="${r.price}" onchange="bulkMenuUpdate(${i},'price',this.value)"></td>
+      <td><button class="btn btn-danger btn-sm" onclick="bulkMenuRemove(${i})">🗑</button></td>
+    </tr>`).join('');
+}
+function bulkMenuUpdate(i,field,value){ bulkMenuRows[i][field] = field==='price'?(Number(value)||0):value; }
+function bulkMenuRemove(i){ bulkMenuRows.splice(i,1); renderBulkMenuPreview(); }
+
+async function bulkMenuSubmit(){
+  if(!bulkMenuRows.length){ showToast('沒有可匯入的品項','error'); return; }
+  showLoading();
+  try{
+    const startOrder = currentItems.length;
+    const payload = bulkMenuRows.map((r,i)=>({
+      id: genId('mi'), menuId: currentMenuId,
+      dishName: r.dishName.trim(), flavor: (r.flavor||'').trim(), price: Number(r.price)||0,
+      sortOrder: startOrder+i
+    }));
+    const inserted = await MenuItemsAPI.insertMany(payload);
+    currentItems = currentItems.concat(inserted);
+    renderItems();
+    showToast(`成功匯入 ${inserted.length} 項品項 ✓`);
+    closeModal('modal-bulk');
+  }catch(e){ showToast('匯入失敗：'+e.message,'error'); }
+  finally{ hideLoading(); }
+}
+
+init();
+</script>
+</body>
+</html>
