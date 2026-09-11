@@ -197,7 +197,7 @@ async function init(){
 
     document.title = rest.name+' — 我要點餐';
     document.getElementById('hdr-title').textContent = rest.name;
-    document.getElementById('hero-name').textContent = '🍽 '+rest.name;
+    document.getElementById('hero-name').textContent = '🍽 '+ '['+rest.createdAt+'] '+ rest.name ;
     const mi=[];
     if(rest.receiver) mi.push('👤 主購：'+esc(rest.receiver));
     if(rest.serviceFee) mi.push('🧾 服務費：NT$ '+Number(rest.serviceFee).toLocaleString()+' ／筆（結帳時會另加）');
