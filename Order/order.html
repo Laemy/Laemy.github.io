@@ -144,8 +144,15 @@
   .btn-submit:active{transform:scale(.97)}
   .btn-submit:disabled{background:var(--text-3);cursor:not-allowed}
 
-  .recent-list{margin-top:26px}
-  .recent-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:75%;flex-wrap:wrap}
+  .recent-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+  .recent-panel-header{width:100%;background:none;border:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;gap:10px;font-family:inherit;text-align:left}
+  .rp-title{font-size:87.5%;font-weight:700;color:var(--navy);flex:1}
+  .rp-count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0}
+  .rp-chevron{font-size:81.25%;color:var(--text-3);transition:transform .2s;flex-shrink:0}
+  .rp-chevron.open{transform:rotate(180deg)}
+  .recent-panel-body{border-top:1.5px solid var(--border);padding:12px 14px 14px}
+  .recent-list{}
+  .recent-row{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:75%;flex-wrap:wrap}
   .recent-row.editing{border-color:var(--blue);background:var(--blue-light)}
   .recent-row .rr-name{font-weight:700;color:var(--navy);flex-shrink:0}
   .recent-row .rr-items{flex:1;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:60px}
@@ -182,7 +189,7 @@
 <header>
   <div class="logo">🛒</div>
   <h1 id="hdr-title">我要點餐</h1>
-
+  <a class="hdr-back" href="ma/index.html">管理系統</a>
 </header>
 
 <main>
@@ -198,6 +205,17 @@
       <div class="hero-meta" id="hero-meta"></div>
     </div>
 
+    <div class="recent-panel" id="recent-panel">
+      <button class="recent-panel-header" onclick="toggleRecentPanel()">
+        <span class="rp-title">📋 目前已送出的訂單</span>
+        <span class="rp-count-badge" id="recent-count-badge">0 筆</span>
+        <span class="rp-chevron" id="recent-chevron">▾</span>
+      </button>
+      <div class="recent-panel-body view-hidden" id="recent-panel-body">
+        <div id="recent-list"></div>
+      </div>
+    </div>
+
     <div id="locked-banner" class="locked-banner view-hidden">
       <span class="lb-icon">🔒</span>
       <span>此開團已結單，無法再新增、修改或刪除訂單，如有問題請聯繫主購。</span>
@@ -207,9 +225,6 @@
       ✏️ 正在修改 <strong id="edit-banner-name">—</strong> 的訂單
       <button onclick="cancelEdit()">取消修改</button>
     </div>
-	
-	<div class="recent-list" id="recent-list"></div>
-	<hr style="margin: 20px 0;">
 
     <div id="order-form-area">
       <div class="form-group">
@@ -265,8 +280,6 @@
         <input class="form-control" id="order-note" placeholder="外帶、加辣、不要香菜...">
       </div>
     </div>
-
-
   </div>
 </main>
 
@@ -471,12 +484,20 @@ function updateTotal(){
 }
 document.addEventListener('input', (e)=>{ if(e.target && e.target.id==='manual-amount') updateTotal(); });
 
+function toggleRecentPanel(){
+  const body = document.getElementById('recent-panel-body');
+  const chev = document.getElementById('recent-chevron');
+  const open = body.classList.contains('view-hidden');
+  body.classList.toggle('view-hidden', !open);
+  chev.classList.toggle('open', open);
+}
+
 function renderRecent(){
   const list=document.getElementById('recent-list');
-  if(!orders.length){ list.innerHTML=''; return; }
+  document.getElementById('recent-count-badge').textContent = orders.length+' 筆';
+  if(!orders.length){ list.innerHTML='<div style="font-size:75%;color:var(--text-3);text-align:center;padding:10px">目前尚無訂單</div>'; return; }
   const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).slice(0,50);
-  list.innerHTML = `<div class="section-title">📋 目前已送出的訂單（${orders.length} 筆）</div>` +
-    sorted.map(o=>{
+  list.innerHTML = sorted.map(o=>{
       const isPaid = o.paidStatus==='已付款';
       let actions;
       if(rest.locked){
