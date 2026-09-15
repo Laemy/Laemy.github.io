@@ -144,9 +144,9 @@
   .btn-submit:active{transform:scale(.97)}
   .btn-submit:disabled{background:var(--text-3);cursor:not-allowed}
 
-  .recent-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
-  .recent-panel-header{width:100%;background:none;border:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;gap:10px;font-family:inherit;text-align:left}
-  .rp-title{font-size:87.5%;font-weight:700;color:var(--navy);flex:1}
+  .recent-panel{background: #678fb2;border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+  .recent-panel-header{width:100%;background:none;border:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;gap:10px;font-family:inherit;text-align:left;font-size: 20px;}
+  .rp-title{font-size:87.5%;font-weight:700;color:var(--navy);flex:1;color: #fefefe;}
   .rp-count-badge{background:var(--blue-light);color:var(--blue);font-size:75%;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0}
   .rp-chevron{font-size:81.25%;color:var(--text-3);transition:transform .2s;flex-shrink:0}
   .rp-chevron.open{transform:rotate(180deg)}
@@ -206,7 +206,7 @@
 
     <div class="recent-panel" id="recent-panel">
       <button class="recent-panel-header" onclick="toggleRecentPanel()">
-        <span class="rp-title">📋 目前已送出的訂單</span>
+        <span class="rp-title">📋 目前訂單</span>
         <span class="rp-count-badge" id="recent-count-badge">0 筆</span>
         <span class="rp-chevron" id="recent-chevron">▾</span>
       </button>
@@ -276,7 +276,7 @@
 
       <div class="form-group" style="margin-top:16px">
         <label>備註（可選）</label>
-        <input class="form-control" id="order-note" placeholder="外帶、加辣、不要香菜...">
+        <input class="form-control" id="order-note" placeholder="">
       </div>
     </div>
   </div>
