@@ -23,6 +23,7 @@
   .hdr-back{margin-left:auto;font-size:68.75%;color:var(--blue-mid);text-decoration:none;flex-shrink:0}
 
   main{flex:1;padding:20px;max-width:560px;width:100%;margin:0 auto}
+  @media (min-width:860px){ main{max-width:980px} }
 
   .hero{background:var(--surface);border-radius:12px;border:1.5px solid var(--border);box-shadow:var(--shadow);padding:16px 18px;margin-bottom:18px}
   .hero-name{font-size:112.5%;font-weight:700;color:var(--navy);margin-bottom:6px}
@@ -45,6 +46,93 @@
   .qty-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--blue-mid);background:var(--surface);color:var(--blue);font-size:100%;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .qty-btn:active{transform:scale(.92)}
   .qty-val{font-size:93.75%;font-weight:700;color:var(--navy);min-width:22px;text-align:center}
+
+  /* ── 訂購明細（左）／ 菜單（右）RWD 佈局 ── */
+  .order-layout{display:flex;flex-direction:column;gap:22px}
+  .detail-col{order:1}
+  .menu-col{order:2;min-width:0}
+
+  .cart-fab{display:none}
+  .cart-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .cart-panel-head .section-title{margin:0}
+  .cart-panel-close{display:none}
+
+  /* 桌面版：左右並排，訂購明細為固定寬度側欄 */
+  @media (min-width:860px){
+    .order-layout{flex-direction:row;align-items:flex-start}
+    .detail-col{flex:0 0 300px;position:sticky;top:72px}
+    .menu-col{flex:1}
+    .cart-panel{display:block}
+  }
+
+  /* 手機版：訂購明細改為左側可縮放的浮動小視窗 */
+  @media (max-width:859px){
+    .detail-col{
+      position:fixed;
+      left:12px;
+      top:68px;
+      z-index:85;
+      width:auto;
+    }
+
+    .cart-fab{
+      display:flex;align-items:center;justify-content:center;
+      width:50px;height:50px;border-radius:50%;
+      background:var(--green);color:#fff;font-size:137.5%;
+      border:none;cursor:pointer;box-shadow:var(--shadow-md);
+      position:relative;
+    }
+    .cart-fab:active{transform:scale(.94)}
+    .cart-fab-badge{
+      position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;
+      font-size:56.25%;font-weight:700;min-width:18px;height:18px;border-radius:9px;
+      display:none;align-items:center;justify-content:center;padding:0 4px;
+      border:2px solid var(--bg);
+    }
+
+    .cart-panel{
+      display:none;
+      position:absolute;top:0;left:0;
+      width:min(82vw,320px);
+      max-height:min(65vh,460px);
+      overflow-y:auto;
+      background:var(--surface);
+      border-radius:14px;border:1.5px solid var(--border);
+      box-shadow:var(--shadow-md);
+      padding:12px 14px 14px;
+    }
+    .detail-col.expanded .cart-fab{box-shadow:0 0 0 3px rgba(26,158,92,.25),var(--shadow-md)}
+    .detail-col.expanded .cart-panel{display:block}
+
+    .cart-panel-close{border:none;background:var(--bg);color:var(--text-2);width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:87.5%;flex-shrink:0}
+    .cart-panel-close:hover{background:var(--red-light);color:var(--red)}
+  }
+
+  .cart-backdrop{display:none}
+  @media (max-width:859px){
+    .cart-backdrop{position:fixed;inset:0;background:rgba(15,30,55,.35);z-index:82}
+    .cart-backdrop:not(.show){display:none}
+  }
+
+  .search-wrap{position:relative;margin-bottom:12px}
+  .search-wrap input{padding-left:38px}
+  .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:87.5%;color:var(--text-3);pointer-events:none}
+  .search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;color:var(--text-3);font-size:100%;cursor:pointer;padding:4px 6px}
+  .search-clear:hover{color:var(--red)}
+
+  .menu-empty-note{font-size:75%;color:var(--text-3);text-align:center;padding:24px 10px;background:var(--surface);border:1.5px dashed var(--border);border-radius:10px}
+
+  .cart-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 11px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .cart-row-info{flex:1;min-width:0}
+  .cart-row-name{font-size:81.25%;font-weight:700;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cart-row-name .cart-row-flavor{font-size:87.5%;font-weight:400;color:var(--text-3)}
+  .cart-row-sub{font-size:68.75%;color:var(--text-3);margin-top:2px}
+  .cart-row-amt{font-size:81.25%;font-weight:700;color:var(--navy);flex-shrink:0;white-space:nowrap}
+  .cart-row-remove{border:none;background:none;color:var(--text-3);cursor:pointer;font-size:93.75%;padding:3px 5px;flex-shrink:0;border-radius:5px}
+  .cart-row-remove:hover{color:var(--red);background:var(--red-light)}
+  .cart-empty{font-size:75%;color:var(--text-3);text-align:center;padding:22px 12px;background:var(--surface);border:1.5px dashed var(--border);border-radius:10px}
+  .cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:10px 2px 2px;font-size:81.25%;font-weight:700;color:var(--navy);border-top:1px dashed var(--border);margin-top:6px}
+
 
   .manual-box{background:var(--surface);border-radius:10px;border:1.5px solid var(--border);padding:14px 16px}
 
@@ -94,6 +182,7 @@
 <header>
   <div class="logo">🛒</div>
   <h1 id="hdr-title">我要點餐</h1>
+
 </header>
 
 <main>
@@ -119,7 +208,8 @@
       <button onclick="cancelEdit()">取消修改</button>
     </div>
 	
-	    <div class="recent-list" id="recent-list"></div>
+	<div class="recent-list" id="recent-list"></div>
+	<hr style="margin: 20px 0;">
 
     <div id="order-form-area">
       <div class="form-group">
@@ -131,8 +221,31 @@
 
       <!-- 有菜單時顯示 -->
       <div id="menu-mode" class="view-hidden">
-        <div class="section-title">🍽 請選擇餐點</div>
-        <div id="menu-items-list"></div>
+        <div class="order-layout">
+          <div class="detail-col" id="detail-col">
+            <button class="cart-fab" id="cart-fab" onclick="toggleCartPanel()" title="訂購明細">
+              🧺<span class="cart-fab-badge" id="cart-fab-badge">0</span>
+            </button>
+            <div class="cart-panel" id="cart-panel">
+              <div class="cart-panel-head">
+                <div class="section-title">🧺 訂購明細</div>
+                <button class="cart-panel-close" onclick="toggleCartPanel()">✕</button>
+              </div>
+              <div id="cart-list"></div>
+              <div id="cart-empty" class="cart-empty">尚未選擇餐點</div>
+            </div>
+          </div>
+          <div class="menu-col">
+            <div class="section-title">🍽 請選擇餐點</div>
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input class="form-control" id="menu-search" placeholder="搜尋菜名或口味..." oninput="onMenuSearch(this.value)">
+              <button class="search-clear view-hidden" id="search-clear-btn" onclick="clearMenuSearch()">✕</button>
+            </div>
+            <div id="menu-items-list"></div>
+            <div id="menu-items-empty" class="menu-empty-note view-hidden">😕 找不到符合的餐點</div>
+          </div>
+        </div>
       </div>
 
       <!-- 無菜單時顯示（手動輸入） -->
@@ -157,6 +270,8 @@
   </div>
 </main>
 
+<div class="cart-backdrop" id="cart-backdrop" onclick="toggleCartPanel()"></div>
+
 <div class="sticky-footer" id="sticky-footer" style="display:none">
   <div class="sf-total">
     <div class="sf-total-lbl">目前總金額</div>
@@ -175,6 +290,7 @@ let menuItems = [];
 let qtyMap = {};      // itemId -> qty
 let orders = [];
 let editingOrderId = null;   // 目前正在修改的訂單 id（未付款訂單才可修改）
+let menuSearchTerm = '';     // 菜單模糊搜尋關鍵字
 
 function getRestId(){
   const p = new URLSearchParams(window.location.search);
@@ -199,7 +315,7 @@ async function init(){
 
     document.title = rest.name+' — 我要點餐';
     document.getElementById('hdr-title').textContent = rest.name;
-    document.getElementById('hero-name').textContent = '🍽 '+ '['+rest.createdAt+'] '+ rest.name ;
+    document.getElementById('hero-name').textContent = '🍽 '+rest.name;
     const mi=[];
     if(rest.receiver) mi.push('👤 主購：'+esc(rest.receiver));
     if(rest.serviceFee) mi.push('🧾 服務費：NT$ '+Number(rest.serviceFee).toLocaleString()+' ／筆（結帳時會另加）');
@@ -239,20 +355,94 @@ async function init(){
   finally{ hideLoading(); }
 }
 
+function filterMenuItemsForDisplay(){
+  const term = menuSearchTerm.trim().toLowerCase();
+  if(!term) return menuItems;
+  // 模糊搜尋：以空白分詞，需同時包含每個詞（對菜名＋口味做子字串比對）
+  const terms = term.split(/\s+/).filter(Boolean);
+  return menuItems.filter(it=>{
+    const hay = (it.dishName+' '+(it.flavor||'')).toLowerCase();
+    return terms.every(t=>hay.includes(t));
+  });
+}
+
+function onMenuSearch(val){
+  menuSearchTerm = val;
+  document.getElementById('search-clear-btn').classList.toggle('view-hidden', !val);
+  renderMenuItems();
+}
+
+function clearMenuSearch(){
+  menuSearchTerm = '';
+  document.getElementById('menu-search').value = '';
+  document.getElementById('search-clear-btn').classList.add('view-hidden');
+  renderMenuItems();
+}
+
 function renderMenuItems(){
-  document.getElementById('menu-items-list').innerHTML = menuItems.map(it=>{
-    const qty = qtyMap[it.id]||0;
-    return `<div class="menu-item ${qty>0?'active':''}" id="mi-${it.id}">
-      <div class="mi-info">
-        <div class="mi-name">${esc(it.dishName)}</div>
-        ${it.flavor?`<div class="mi-flavor">口味：${esc(it.flavor)}</div>`:''}
-        <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
+  const list = filterMenuItemsForDisplay();
+  const container = document.getElementById('menu-items-list');
+  const empty = document.getElementById('menu-items-empty');
+  if(!list.length){
+    container.innerHTML='';
+    empty.classList.remove('view-hidden');
+  } else {
+    empty.classList.add('view-hidden');
+    container.innerHTML = list.map(it=>{
+      const qty = qtyMap[it.id]||0;
+      return `<div class="menu-item ${qty>0?'active':''}" id="mi-${it.id}">
+        <div class="mi-info">
+          <div class="mi-name">${esc(it.dishName)}</div>
+          ${it.flavor?`<div class="mi-flavor">口味：${esc(it.flavor)}</div>`:''}
+          <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
+        </div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty('${it.id}',-1)">－</button>
+          <span class="qty-val" id="qtyval-${it.id}">${qty}</span>
+          <button class="qty-btn" onclick="changeQty('${it.id}',1)">＋</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  renderCart();
+}
+
+function toggleCartPanel(){
+  const dc = document.getElementById('detail-col');
+  const bd = document.getElementById('cart-backdrop');
+  const expand = !dc.classList.contains('expanded');
+  dc.classList.toggle('expanded', expand);
+  bd.classList.toggle('show', expand);
+}
+
+function renderCart(){
+  const container = document.getElementById('cart-list');
+  const empty = document.getElementById('cart-empty');
+  if(!container) return;
+  const selected = menuItems.filter(it=>(qtyMap[it.id]||0)>0);
+
+  const badge = document.getElementById('cart-fab-badge');
+  if(badge){
+    const totalQty = selected.reduce((s,it)=>s+(qtyMap[it.id]||0),0);
+    if(totalQty>0){ badge.textContent = totalQty>99?'99+':totalQty; badge.style.display='flex'; }
+    else { badge.style.display='none'; }
+  }
+
+  if(!selected.length){
+    container.innerHTML='';
+    empty.classList.remove('view-hidden');
+    return;
+  }
+  empty.classList.add('view-hidden');
+  container.innerHTML = selected.map(it=>{
+    const qty = qtyMap[it.id];
+    return `<div class="cart-row">
+      <div class="cart-row-info">
+        <div class="cart-row-name">${esc(it.dishName)}${it.flavor?`<span class="cart-row-flavor">（${esc(it.flavor)}）</span>`:''}</div>
+        <div class="cart-row-sub">NT$ ${Number(it.price).toLocaleString()} × ${qty}</div>
       </div>
-      <div class="qty-ctrl">
-        <button class="qty-btn" onclick="changeQty('${it.id}',-1)">－</button>
-        <span class="qty-val" id="qtyval-${it.id}">${qty}</span>
-        <button class="qty-btn" onclick="changeQty('${it.id}',1)">＋</button>
-      </div>
+      <div class="cart-row-amt">NT$ ${(it.price*qty).toLocaleString()}</div>
+      <button class="cart-row-remove" title="移除" onclick="changeQty('${it.id}',${-qty})">✕</button>
     </div>`;
   }).join('');
 }
@@ -261,8 +451,11 @@ function changeQty(itemId, delta){
   const cur = qtyMap[itemId]||0;
   const next = Math.max(0, cur+delta);
   qtyMap[itemId]=next;
-  document.getElementById('qtyval-'+itemId).textContent = next;
-  document.getElementById('mi-'+itemId).classList.toggle('active', next>0);
+  const qtyEl = document.getElementById('qtyval-'+itemId);
+  if(qtyEl) qtyEl.textContent = next;
+  const itemEl = document.getElementById('mi-'+itemId);
+  if(itemEl) itemEl.classList.toggle('active', next>0);
+  renderCart();
   updateTotal();
 }
 
@@ -281,7 +474,7 @@ document.addEventListener('input', (e)=>{ if(e.target && e.target.id==='manual-a
 function renderRecent(){
   const list=document.getElementById('recent-list');
   if(!orders.length){ list.innerHTML=''; return; }
-  const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).slice(0,100);
+  const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).slice(0,50);
   list.innerHTML = `<div class="section-title">📋 目前已送出的訂單（${orders.length} 筆）</div>` +
     sorted.map(o=>{
       const isPaid = o.paidStatus==='已付款';
@@ -311,6 +504,8 @@ function resetForm(){
   document.getElementById('manual-items').value='';
   document.getElementById('manual-amount').value='';
   document.getElementById('order-note').value='';
+  document.getElementById('detail-col')?.classList.remove('expanded');
+  document.getElementById('cart-backdrop')?.classList.remove('show');
   updateTotal();
 }
 
@@ -341,6 +536,10 @@ function editOrder(id){
   document.getElementById('edit-banner-name').textContent = o.orderer||'(未填姓名)';
   document.getElementById('edit-banner').classList.remove('view-hidden');
   document.getElementById('btn-submit').textContent='✔ 更新訂單';
+  if(rest.menuId && menuItems.length){
+    document.getElementById('detail-col')?.classList.add('expanded');
+    document.getElementById('cart-backdrop')?.classList.add('show');
+  }
   renderRecent();
   updateTotal();
   window.scrollTo({top:0, behavior:'smooth'});
