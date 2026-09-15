@@ -118,6 +118,8 @@
       ✏️ 正在修改 <strong id="edit-banner-name">—</strong> 的訂單
       <button onclick="cancelEdit()">取消修改</button>
     </div>
+	
+	    <div class="recent-list" id="recent-list"></div>
 
     <div id="order-form-area">
       <div class="form-group">
@@ -151,7 +153,7 @@
       </div>
     </div>
 
-    <div class="recent-list" id="recent-list"></div>
+
   </div>
 </main>
 
@@ -279,7 +281,7 @@ document.addEventListener('input', (e)=>{ if(e.target && e.target.id==='manual-a
 function renderRecent(){
   const list=document.getElementById('recent-list');
   if(!orders.length){ list.innerHTML=''; return; }
-  const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).slice(0,10);
+  const sorted=[...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate)).slice(0,100);
   list.innerHTML = `<div class="section-title">📋 目前已送出的訂單（${orders.length} 筆）</div>` +
     sorted.map(o=>{
       const isPaid = o.paidStatus==='已付款';
