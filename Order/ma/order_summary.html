@@ -57,6 +57,12 @@
 
   .empty-note{font-size:75%;color:var(--text-3);padding:16px;text-align:center}
 
+  .copy-box{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:28px}
+  .copy-textarea{width:100%;resize:vertical;min-height:160px;padding:12px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:'Menlo','Consolas',monospace;font-size:81.25%;line-height:1.9}
+  .copy-textarea:focus{outline:none;border-color:var(--blue)}
+  .copy-actions{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .copy-hint{font-size:68.75%;color:var(--text-3)}
+
   .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
   .toast.show{transform:translateY(0);opacity:1}
   .toast.success{border-left:4px solid var(--green)}
@@ -116,6 +122,19 @@
         <tfoot><tr><td colspan="2"></td><td>合計</td><td id="agg-total">NT$ 0</td></tr></tfoot>
       </table>
       <div id="agg-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生品項加總（可能為手動輸入或批量匯入的訂單）。</div>
+    </div>
+
+    <div class="section-header">
+      <h2>📋 複製給賣家（純文字明細）</h2>
+      <span class="count-badge" id="plain-count">0 項</span>
+    </div>
+    <div class="copy-box">
+      <textarea class="copy-textarea" id="plain-text-summary" readonly onclick="this.select()"></textarea>
+      <div class="copy-actions">
+        <button class="btn btn-primary" onclick="copyPlainSummary()">📋 複製明細</button>
+        <span class="copy-hint">格式：品名(口味)*數量，每項一行，方便直接貼給店家</span>
+      </div>
+      <div id="plain-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生純文字明細。</div>
     </div>
 
     <div class="section-header">
@@ -214,6 +233,21 @@ async function init(){
         </tr>`).join('');
     }
 
+    // 純文字明細（複製給賣家）：品名(口味)*數量
+    document.getElementById('plain-count').textContent = aggRows.length+' 項';
+    if(!hasDetail || !aggRows.length){
+      document.getElementById('plain-text-summary').value = '';
+      document.getElementById('plain-empty').classList.remove('view-hidden');
+    } else {
+      document.getElementById('plain-empty').classList.add('view-hidden');
+      const plainText = aggRows
+        .slice()
+        .sort((a,b)=>a.dishName.localeCompare(b.dishName,'zh'))
+        .map(r=>`${r.dishName}${r.flavor?'('+r.flavor+')':''}*${r.qty}`)
+        .join('\n');
+      document.getElementById('plain-text-summary').value = plainText;
+    }
+
     // 依人明細
     document.getElementById('person-order-count').textContent = orders.length+' 筆';
     if(!orders.length){
@@ -270,6 +304,13 @@ function copyLink(){
   const val = document.getElementById('order-link').value;
   navigator.clipboard?.writeText(val).catch(()=>{});
   showToast('已複製點餐連結 🔗');
+}
+
+function copyPlainSummary(){
+  const val = document.getElementById('plain-text-summary').value;
+  if(!val){ showToast('目前沒有可複製的明細','error'); return; }
+  navigator.clipboard?.writeText(val).catch(()=>{});
+  showToast('已複製純文字明細 📋');
 }
 
 init();
