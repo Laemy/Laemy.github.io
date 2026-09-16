@@ -117,9 +117,9 @@
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>品項</th><th>口味</th><th style="width:80px">數量</th><th style="width:110px">小計</th></tr></thead>
+        <thead><tr><th>品項</th><th>口味</th><th>備註</th><th style="width:80px">數量</th><th style="width:110px">小計</th></tr></thead>
         <tbody id="agg-tbody"></tbody>
-        <tfoot><tr><td colspan="2"></td><td>合計</td><td id="agg-total">NT$ 0</td></tr></tfoot>
+        <tfoot><tr><td colspan="3"></td><td>合計</td><td id="agg-total">NT$ 0</td></tr></tfoot>
       </table>
       <div id="agg-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生品項加總（可能為手動輸入或批量匯入的訂單）。</div>
     </div>
@@ -132,7 +132,7 @@
       <textarea class="copy-textarea" id="plain-text-summary" readonly onclick="this.select()"></textarea>
       <div class="copy-actions">
         <button class="btn btn-primary" onclick="copyPlainSummary()">📋 複製明細</button>
-        <span class="copy-hint">格式：品名(口味)*數量，每項一行，方便直接貼給店家</span>
+        <span class="copy-hint">格式：品名(口味、備註)*數量，每項一行，方便直接貼給店家</span>
       </div>
       <div id="plain-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生純文字明細。</div>
     </div>
@@ -208,8 +208,8 @@ async function init(){
       if(Array.isArray(o.itemsDetail) && o.itemsDetail.length){
         hasDetail = true;
         o.itemsDetail.forEach(d=>{
-          const key = d.dishName+'||'+(d.flavor||'');
-          if(!aggMap[key]) aggMap[key] = {dishName:d.dishName, flavor:d.flavor||'', qty:0, subtotal:0};
+          const key = d.dishName+'||'+(d.flavor||'')+'||'+(d.note||'');
+          if(!aggMap[key]) aggMap[key] = {dishName:d.dishName, flavor:d.flavor||'', note:d.note||'', qty:0, subtotal:0};
           aggMap[key].qty += Number(d.qty)||0;
           aggMap[key].subtotal += (Number(d.qty)||0)*Number(d.price||0);
         });
@@ -228,6 +228,7 @@ async function init(){
         <tr>
           <td style="font-weight:600">${esc(r.dishName)}</td>
           <td style="color:var(--text-2);font-size:75%">${esc(r.flavor)||'—'}</td>
+          <td style="color:var(--text-2);font-size:75%">${esc(r.note)||'—'}</td>
           <td>${r.qty}</td>
           <td class="amt">NT$ ${r.subtotal.toLocaleString()}</td>
         </tr>`).join('');
@@ -243,7 +244,10 @@ async function init(){
       const plainText = aggRows
         .slice()
         .sort((a,b)=>a.dishName.localeCompare(b.dishName,'zh'))
-        .map(r=>`${r.dishName}${r.flavor?'('+r.flavor+')':''}*${r.qty}`)
+        .map(r=>{
+          const label = [r.flavor, r.note].filter(Boolean).join('、');
+          return `${r.dishName}${label?'('+label+')':''}*${r.qty}`;
+        })
         .join('\n');
       document.getElementById('plain-text-summary').value = plainText;
     }
