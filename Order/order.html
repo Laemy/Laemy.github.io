@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我要點餐 @Ed</title>
+<title>我要點餐 @Edda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -36,13 +36,18 @@
 
   .section-title{font-size:87.5%;font-weight:700;color:var(--navy);margin:18px 0 10px;display:flex;align-items:center;gap:6px}
 
-  .menu-item{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .menu-item{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;flex-direction:column;gap:0;align-items:stretch}
   .menu-item.active{border-color:var(--green);background:var(--green-light)}
+  .mi-top-row{display:flex;align-items:center;gap:10px}
   .mi-info{flex:1;min-width:0}
   .mi-name{font-size:87.5%;font-weight:700;color:var(--navy)}
   .mi-flavor{font-size:70%;color:var(--text-3);margin-top:2px}
   .mi-price{font-size:75%;color:var(--text-2);margin-top:2px}
   .qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .mi-note-row{margin-top:9px}
+  .mi-note-input{width:100%;padding:7px 10px;border-radius:7px;border:1.5px solid var(--border);font-size:75%;font-family:inherit;background:var(--surface);color:var(--text)}
+  .mi-note-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px rgba(26,158,92,.12)}
+  .mi-note-input::placeholder{color:var(--text-3)}
   .qty-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--blue-mid);background:var(--surface);color:var(--blue);font-size:100%;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .qty-btn:active{transform:scale(.92)}
   .qty-val{font-size:93.75%;font-weight:700;color:var(--navy);min-width:22px;text-align:center}
@@ -127,6 +132,7 @@
   .cart-row-name{font-size:81.25%;font-weight:700;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .cart-row-name .cart-row-flavor{font-size:87.5%;font-weight:400;color:var(--text-3)}
   .cart-row-sub{font-size:68.75%;color:var(--text-3);margin-top:2px}
+  .cart-row-note{font-size:68.75%;color:var(--orange);margin-top:2px}
   .cart-row-amt{font-size:81.25%;font-weight:700;color:var(--navy);flex-shrink:0;white-space:nowrap}
   .cart-row-remove{border:none;background:none;color:var(--text-3);cursor:pointer;font-size:93.75%;padding:3px 5px;flex-shrink:0;border-radius:5px}
   .cart-row-remove:hover{color:var(--red);background:var(--red-light)}
@@ -300,6 +306,7 @@
 let rest = null;
 let menuItems = [];
 let qtyMap = {};      // itemId -> qty
+let noteMap = {};     // itemId -> 該餐點備註（例：少辣、去香菜）
 let orders = [];
 let editingOrderId = null;   // 目前正在修改的訂單 id（未付款訂單才可修改）
 let menuSearchTerm = '';     // 菜單模糊搜尋關鍵字
@@ -403,15 +410,21 @@ function renderMenuItems(){
     container.innerHTML = list.map(it=>{
       const qty = qtyMap[it.id]||0;
       return `<div class="menu-item ${qty>0?'active':''}" id="mi-${it.id}">
-        <div class="mi-info">
-          <div class="mi-name">${esc(it.dishName)}</div>
-          ${it.flavor?`<div class="mi-flavor">口味：${esc(it.flavor)}</div>`:''}
-          <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
+        <div class="mi-top-row">
+          <div class="mi-info">
+            <div class="mi-name">${esc(it.dishName)}</div>
+            ${it.flavor?`<div class="mi-flavor">口味：${esc(it.flavor)}</div>`:''}
+            <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
+          </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty('${it.id}',-1)">－</button>
+            <span class="qty-val" id="qtyval-${it.id}">${qty}</span>
+            <button class="qty-btn" onclick="changeQty('${it.id}',1)">＋</button>
+          </div>
         </div>
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="changeQty('${it.id}',-1)">－</button>
-          <span class="qty-val" id="qtyval-${it.id}">${qty}</span>
-          <button class="qty-btn" onclick="changeQty('${it.id}',1)">＋</button>
+        <div class="mi-note-row ${qty>0?'':'view-hidden'}" id="mi-note-row-${it.id}">
+          <input class="mi-note-input" id="note-${it.id}" placeholder="這項的備註（例：少辣、去香菜）"
+            value="${esc(noteMap[it.id]||'')}" oninput="updateNote('${it.id}',this.value)">
         </div>
       </div>`;
     }).join('');
@@ -448,10 +461,12 @@ function renderCart(){
   empty.classList.add('view-hidden');
   container.innerHTML = selected.map(it=>{
     const qty = qtyMap[it.id];
+    const noteTxt = noteMap[it.id];
     return `<div class="cart-row">
       <div class="cart-row-info">
         <div class="cart-row-name">${esc(it.dishName)}${it.flavor?`<span class="cart-row-flavor">（${esc(it.flavor)}）</span>`:''}</div>
         <div class="cart-row-sub">NT$ ${Number(it.price).toLocaleString()} × ${qty}</div>
+        ${noteTxt?`<div class="cart-row-note">📝 ${esc(noteTxt)}</div>`:''}
       </div>
       <div class="cart-row-amt">NT$ ${(it.price*qty).toLocaleString()}</div>
       <button class="cart-row-remove" title="移除" onclick="changeQty('${it.id}',${-qty})">✕</button>
@@ -463,12 +478,24 @@ function changeQty(itemId, delta){
   const cur = qtyMap[itemId]||0;
   const next = Math.max(0, cur+delta);
   qtyMap[itemId]=next;
+  if(next===0){
+    delete noteMap[itemId];
+    const noteInput = document.getElementById('note-'+itemId);
+    if(noteInput) noteInput.value='';
+  }
   const qtyEl = document.getElementById('qtyval-'+itemId);
   if(qtyEl) qtyEl.textContent = next;
   const itemEl = document.getElementById('mi-'+itemId);
   if(itemEl) itemEl.classList.toggle('active', next>0);
+  const noteRowEl = document.getElementById('mi-note-row-'+itemId);
+  if(noteRowEl) noteRowEl.classList.toggle('view-hidden', next<=0);
   renderCart();
   updateTotal();
+}
+
+function updateNote(itemId, val){
+  noteMap[itemId] = val;
+  renderCart();
 }
 
 function updateTotal(){
@@ -520,6 +547,7 @@ function renderRecent(){
 
 function resetForm(){
   qtyMap={};
+  noteMap={};
   if(rest.menuId && menuItems.length) renderMenuItems();
   document.getElementById('manual-items').value='';
   document.getElementById('manual-amount').value='';
@@ -540,11 +568,15 @@ function editOrder(id){
   document.getElementById('order-note').value = o.note||'';
 
   qtyMap = {};
+  noteMap = {};
   if(rest.menuId && menuItems.length){
     if(Array.isArray(o.itemsDetail)){
       o.itemsDetail.forEach(d=>{
         const match = menuItems.find(it=>it.dishName===d.dishName && (it.flavor||'')===(d.flavor||''));
-        if(match) qtyMap[match.id] = d.qty;
+        if(match){
+          qtyMap[match.id] = d.qty;
+          if(d.note) noteMap[match.id] = d.note;
+        }
       });
     }
     renderMenuItems();
@@ -600,9 +632,12 @@ async function submitOrder(){
   if(rest.menuId && menuItems.length){
     const selected = menuItems.filter(it=>(qtyMap[it.id]||0)>0);
     if(!selected.length){ showToast('請至少選擇一項餐點','error'); return; }
-    items = selected.map(it=>`${it.dishName}${it.flavor?'('+it.flavor+')':''}×${qtyMap[it.id]}`).join('、');
+    items = selected.map(it=>{
+      const label = [it.flavor, noteMap[it.id]].filter(Boolean).join('、');
+      return `${it.dishName}${label?'('+label+')':''}×${qtyMap[it.id]}`;
+    }).join('、');
     amount = selected.reduce((s,it)=>s+it.price*qtyMap[it.id],0);
-    itemsDetail = selected.map(it=>({dishName:it.dishName, flavor:it.flavor||'', price:it.price, qty:qtyMap[it.id]}));
+    itemsDetail = selected.map(it=>({dishName:it.dishName, flavor:it.flavor||'', price:it.price, qty:qtyMap[it.id], note:noteMap[it.id]||''}));
   } else {
     items = document.getElementById('manual-items').value.trim();
     amount = Number(document.getElementById('manual-amount').value)||0;
