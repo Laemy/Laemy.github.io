@@ -264,7 +264,7 @@ async function init(){
         <tr>
           <td>${o.orderDate}</td>
           <td style="font-weight:600">${esc(o.orderer)}</td>
-          <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</td>
+          <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;" title="${esc(o.items)}">${esc(o.items)||'(無品項)'}</td>
           <td class="amt">NT$ ${Number(o.amount||0).toLocaleString()}</td>
           <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
           <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
