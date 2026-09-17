@@ -56,7 +56,7 @@
   .card-accent-paid  {height:4px;background:linear-gradient(90deg,var(--green),#52BE80)}
   .card-body{padding:16px 18px 14px;flex:1;display:flex;flex-direction:column;}
   .card-name{font-size:93.75%;font-weight:700;color:var(--navy);margin-bottom:6px}
-  .date-pill{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+  .date-pill{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:#fff;font-size:68.75%;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px;min-width:fit-content;}
   .card-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;flex:1}
   .card-meta-row{font-size:75%;color:var(--text-2);display:flex;align-items:center;gap:6px}
   .card-note{font-size:68.75%;color:var(--text-3);font-style:italic;margin-bottom:12px}
@@ -688,15 +688,16 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
 		<div class="card-actions">
 			<button class="btn btn-success btn-sm" onclick="openOrderModal('${r.id}')" ${r.locked?'disabled title="已結單，無法新增訂單"':''}>＋ 訂單</button>
 			<button class="btn btn-bulk btn-sm" onclick="openBulkModal('${r.id}')" ${r.locked?'disabled title="已結單，無法匯入訂單"':''}>📋 匯入</button>
-			<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗</button>
-			<a class="btn btn-share btn-sm" href="${url}" target="_blank">↗️</a>
+			<a class="btn btn-ghost btn-sm" href="order_summary.html?id=${encodeURIComponent(r.id)}" target="_blank">📊 總表</a>
+			<!--<button class="btn btn-share btn-sm" onclick="showShareModal('${r.id}','${esc(r.name)}')">🔗</button>
+			<a class="btn btn-share btn-sm" href="${url}" target="_blank">↗️</a>-->
 		</div>
 		<div class="card-actions">
-			<a class="btn btn-ghost btn-sm" href="../order.html?id=${encodeURIComponent(r.id)}" target="_blank">${r.locked?'🔒 點餐頁（已結單）':'🛒 點餐頁'}</a>
-			<a class="btn btn-ghost btn-sm" href="order_summary.html?id=${encodeURIComponent(r.id)}" target="_blank">📊 總表</a>
-			<button class="btn btn-sm" style="background:${r.locked?'var(--green-light)':'var(--red-light)'};color:${r.locked?'var(--green)':'var(--red)'};border:1.5px solid ${r.locked?'#a9dfbf':'#f9c4bf'}" onclick="toggleLock('${r.id}')">${r.locked?'🔓 重新開放':'🔒 結單'}</button>
+			<a class="btn btn-ghost btn-sm" href="../order.html?id=${encodeURIComponent(r.id)}" target="_blank">${r.locked?'🔒 點餐-已結單':'🛒 點餐'}</a>
+			<!--<button class="btn btn-sm" style="background:${r.locked?'var(--green-light)':'var(--red-light)'};color:${r.locked?'var(--green)':'var(--red)'};border:1.5px solid ${r.locked?'#a9dfbf':'#f9c4bf'}" onclick="toggleLock('${r.id}')">${r.locked?'🔓 重新開放':'🔒 結單'}</button>-->
 		</div>
         <div class="card-actions" style="justify-content: flex-end;">
+		  <button class="btn btn-sm" style="background:${r.locked?'var(--green-light)':'var(--red-light)'};color:${r.locked?'var(--green)':'var(--red)'};border:1.5px solid ${r.locked?'#a9dfbf':'#f9c4bf'}" onclick="toggleLock('${r.id}')">${r.locked?'🔓 重新開放':'🔒 結單'}</button>
           <button class="btn btn-ghost btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="openRestaurantModal('${r.id}')">✏️</button>
           <button class="btn btn-danger btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="deleteRestaurant('${r.id}')">🗑</button>
         </div>
