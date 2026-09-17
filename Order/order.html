@@ -39,9 +39,10 @@
   .menu-item{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;flex-direction:column;gap:0;align-items:stretch}
   .menu-item.active{border-color:var(--green);background:var(--green-light)}
   .mi-top-row{display:flex;align-items:center;gap:10px}
-  .mi-info{flex:1;min-width:0}
+  .mi-info{flex:1;min-width:0;display:flex;align-items: center;}
+  .mi-info div{margin-left:5px;}
   .mi-name{font-size:87.5%;font-weight:700;color:var(--navy)}
-  .mi-flavor{font-size:70%;color:var(--text-3);margin-top:2px}
+  .mi-flavor{font-size: 70%;color: #ffffff;margin-top: 2px;border: 1px solid #ccc;border-radius: 5px;padding: 0 5px;background: var(--text-3);}
   .mi-price{font-size:75%;color:var(--text-2);margin-top:2px}
   .qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .mi-note-row{margin-top:9px}
@@ -413,7 +414,7 @@ function renderMenuItems(){
         <div class="mi-top-row">
           <div class="mi-info">
             <div class="mi-name">${esc(it.dishName)}</div>
-            ${it.flavor?`<div class="mi-flavor">口味：${esc(it.flavor)}</div>`:''}
+            ${it.flavor?`<div class="mi-flavor">${esc(it.flavor)}</div>`:''}
             <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
           </div>
           <div class="qty-ctrl">
