@@ -201,6 +201,20 @@
   }
   .back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
   .back-to-top:active{transform:scale(.92)}
+
+  /* ── 首次進入：選擇身份 Modal ── */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,30,55,.5);backdrop-filter:blur(2px);z-index:400;align-items:center;justify-content:center;padding:16px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--surface);border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.22);width:100%;max-width:400px;max-height:90vh;overflow-y:auto;animation:nameSlideUp .22s ease}
+  @keyframes nameSlideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .modal-header{padding:26px 24px 6px;text-align:center}
+  .modal-header .mh-icon{font-size:225%;margin-bottom:8px}
+  .modal-header h3{font-size:106.25%;font-weight:700;color:var(--navy);line-height:1.5}
+  .modal-header p{font-size:75%;color:var(--text-2);margin-top:6px}
+  .modal-body{padding:16px 24px 4px}
+  .modal-footer{padding:16px 24px 26px;display:flex;justify-content:center}
+  .modal-footer .btn-submit{width:100%;padding:13px;font-size:93.75%}
+  .change-identity-link{margin-left:8px;font-size:68.75%;font-weight:500;border:none;background:none;color:var(--blue);cursor:pointer;text-decoration:underline;padding:0}
 </style>
 </head>
 <body>
@@ -246,8 +260,8 @@
 
     <div id="order-form-area">
       <div class="form-group">
-        <label>👤 訂購人 *</label>
-        <select class="form-control" id="orderer-select">
+        <label>👤 訂購人 *<button type="button" class="change-identity-link" onclick="changeIdentity()">切換身份</button></label>
+        <select class="form-control" id="orderer-select" disabled="disabled">
           <option value="">— 請選擇你的名字 —</option>
         </select>
       </div>
@@ -298,6 +312,10 @@
         </div>
       </div>
 
+      <div class="form-group" style="margin-top:16px">
+        <label>備註（可選）</label>
+        <input class="form-control" id="order-note" placeholder="">
+      </div>
     </div>
   </div>
 </main>
@@ -313,6 +331,25 @@
 </div>
 
 <button class="back-to-top" id="back-to-top" onclick="scrollToTop()" title="回到頂部">↑</button>
+
+<!-- Modal: 首次進入選擇身份 -->
+<div class="modal-overlay" id="modal-name-select">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="mh-icon">👋</div>
+      <h3>歡迎點餐！請先選擇你的名字</h3>
+      <p>選擇後即可開始點餐，之後可點「切換身份」重選</p>
+    </div>
+    <div class="modal-body">
+      <select class="form-control" id="name-select-input">
+        <option value="">— 請選擇你的名字 —</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-submit" onclick="confirmNameSelect()">✔ 確認，開始點餐</button>
+    </div>
+  </div>
+</div>
 
 <div class="loading-overlay" id="loading"><div class="spinner"></div></div>
 <div class="toast" id="toast"></div>
@@ -341,6 +378,40 @@ function showToast(msg,type='success'){
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
+// ── 身份記憶：第一次進入需選擇人名，之後自動帶入 ──────────
+const ORDERER_STORAGE_KEY = 'edda_orderer_name';
+
+function getSavedOrdererName(){
+  try{ return localStorage.getItem(ORDERER_STORAGE_KEY) || ''; }
+  catch(e){ return ''; }
+}
+function saveOrdererName(name){
+  try{ localStorage.setItem(ORDERER_STORAGE_KEY, name); }catch(e){}
+}
+
+function openNameSelectModal(){
+  const sel = document.getElementById('name-select-input');
+  sel.innerHTML = '<option value="">— 請選擇你的名字 —</option>' + MEMBER_LIST.map(m=>{
+    const name = typeof m==='object' ? m.name : m;
+    return `<option value="${esc(name)}">${esc(name)}</option>`;
+  }).join('');
+  sel.value = getSavedOrdererName();
+  document.getElementById('modal-name-select').classList.add('open');
+}
+
+function confirmNameSelect(){
+  const name = document.getElementById('name-select-input').value;
+  if(!name){ showToast('請先選擇你的名字','error'); return; }
+  saveOrdererName(name);
+  const ordSel = document.getElementById('orderer-select');
+  if(ordSel) ordSel.value = name;
+  document.getElementById('modal-name-select').classList.remove('open');
+}
+
+function changeIdentity(){
+  openNameSelectModal();
+}
+
 async function init(){
   showLoading();
   try{
@@ -362,6 +433,8 @@ async function init(){
       const name = typeof m==='object'?m.name:m;
       return `<option value="${esc(name)}">${esc(name)}</option>`;
     }).join('');
+    const savedOrdererName = getSavedOrdererName();
+    if(savedOrdererName) ordSel.value = savedOrdererName;
 
     if(rest.menuId){
       menuItems = await MenuItemsAPI.getByMenu(rest.menuId);
@@ -381,6 +454,7 @@ async function init(){
       document.getElementById('sticky-footer').style.display='none';
     } else {
       document.getElementById('sticky-footer').style.display='flex';
+      if(!savedOrdererName) openNameSelectModal();
     }
 
     orders = await OrdersAPI.getByRestaurant(restId);
@@ -617,7 +691,7 @@ function cancelEdit(){
   editingOrderId = null;
   document.getElementById('edit-banner').classList.add('view-hidden');
   document.getElementById('btn-submit').textContent='✔ 送出訂單';
-  document.getElementById('orderer-select').value='';
+  document.getElementById('orderer-select').value=getSavedOrdererName();
   resetForm();
   renderRecent();
 }
@@ -643,6 +717,7 @@ async function submitOrder(){
   if(rest.locked){ showToast('已結單，無法送出訂單','error'); return; }
   const orderer = document.getElementById('orderer-select').value;
   if(!orderer){ showToast('請先選擇你的名字','error'); return; }
+  saveOrdererName(orderer);
 
   let items='', amount=0, itemsDetail=null;
   if(rest.menuId && menuItems.length){
