@@ -189,6 +189,18 @@
   .spinner{width:36px;height:36px;border:4px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .view-hidden{display:none!important}
+
+  .back-to-top{
+    position:fixed;right:16px;bottom:96px;z-index:55;
+    width:46px;height:46px;border-radius:50%;border:none;
+    background:var(--navy);color:#fff;font-size:125%;font-weight:700;
+    cursor:pointer;box-shadow:var(--shadow-md);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transform:translateY(10px);
+    transition:opacity .25s,transform .25s,visibility .25s;
+  }
+  .back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+  .back-to-top:active{transform:scale(.92)}
 </style>
 </head>
 <body>
@@ -238,6 +250,11 @@
         <select class="form-control" id="orderer-select">
           <option value="">— 請選擇你的名字 —</option>
         </select>
+      </div>
+	  
+	  <div class="form-group" style="margin-top:16px">
+        <label>備註（可選）</label>
+        <input class="form-control" id="order-note" placeholder="">
       </div>
 
       <!-- 有菜單時顯示 -->
@@ -298,6 +315,8 @@
   </div>
   <button class="btn-submit" id="btn-submit" onclick="submitOrder()">✔ 送出訂單</button>
 </div>
+
+<button class="back-to-top" id="back-to-top" onclick="scrollToTop()" title="回到頂部">↑</button>
 
 <div class="loading-overlay" id="loading"><div class="spinner"></div></div>
 <div class="toast" id="toast"></div>
@@ -681,9 +700,26 @@ async function submitOrder(){
     orders = await OrdersAPI.getByRestaurant(restId);
     renderRecent();
     updateTotal();
+	scrollToTop();
+	//document.querySelector('#recent-chevron').classList.toggle("open");
+	//document.querySelector('#recent-panel-body').classList.toggle("view-hidden");
+	document.querySelector('#recent-chevron').classList.add('open');
+	document.querySelector('#recent-panel-body').classList.remove("view-hidden");
   }catch(e){ showToast('送出失敗：'+e.message,'error'); }
   finally{ hideLoading(); }
 }
+
+// ── 回到頂部 ────────────────────────────────────────────
+function scrollToTop(){
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+(function initBackToTop(){
+  const btn = document.getElementById('back-to-top');
+  if(!btn) return;
+  const toggle = () => btn.classList.toggle('show', (window.scrollY||document.documentElement.scrollTop) > 280);
+  window.addEventListener('scroll', toggle, {passive:true});
+  toggle();
+})();
 
 init();
 </script>
