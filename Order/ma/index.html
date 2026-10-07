@@ -137,6 +137,9 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .loading-text{font-size:81.25%;color:var(--text-2);font-weight:500}
 
+  .more-wrap{text-align:center;margin:18px 0 8px}
+  .btn-more{background:var(--surface);color:var(--blue);border:1.5px solid var(--blue-mid);padding:10px 28px;font-size:87.5%}
+  .btn-more:hover{background:var(--blue-light)}
   .view-hidden{display:none}
   
   ::-webkit-input-placeholder { color: #d6dce6; }
@@ -369,6 +372,7 @@
       </div>
       <div class="restaurant-grid" id="grid-paid"></div>
       <div id="empty-paid" class="empty-state view-hidden" style="padding:20px 0 0"><p>尚無全數付款的餐廳</p></div>
+      <div id="more-paid-wrap" class="more-wrap view-hidden"><button class="btn btn-more" onclick="showMore('paid')">⬇ 顯示更多（再 5 間）</button></div>
     </div>
     <div id="rest-empty" class="empty-state view-hidden">
       <div class="empty-icon">🏪</div><p>尚無餐廳資料，請點擊右上角新增</p>
@@ -399,6 +403,7 @@
     <div id="orders-empty" class="empty-state view-hidden">
       <div class="empty-icon">📋</div><p>尚無訂單資料</p>
     </div>
+    <div id="more-orders-wrap" class="more-wrap view-hidden"><button class="btn btn-more" onclick="showMore('orders')">⬇ 顯示更多（再 5 間餐廳的訂單）</button></div>
   </div>
 
   <!-- ══ TAB: 依餐廳查看 ══ -->
@@ -408,6 +413,7 @@
     <div id="byrest-empty" class="empty-state view-hidden">
       <div class="empty-icon">📊</div><p>尚無資料</p>
     </div>
+    <div id="more-byrest-wrap" class="more-wrap view-hidden"><button class="btn btn-more" onclick="showMore('byrest')">⬇ 顯示更多（再 10 間）</button></div>
   </div>
 </main>
 
@@ -560,7 +566,7 @@
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
           <button class="btn btn-ghost btn-sm" onclick="addBulkRow()">＋ 新增一行</button>
-          <div style="font-size:81.25%;color:var(--text-2)">總金額：<strong id="bulk-preview-total" style="color:var(--navy)">NT$ 0</strong></div>
+          <div style="font-size:81.25%;color:var(--text-2)">總金額：<strong id="bulk-preview-total" style="color:var(--navy)">$ 0</strong></div>
         </div>
       </div>
     </div>
@@ -609,7 +615,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     ['restaurants','all-orders','by-restaurant'].forEach(t=>{
       document.getElementById('tab-'+t).classList.toggle('view-hidden', t!==tab);
     });
-    await loadData();
+    resetShown();
+    showLoading();
+    try { await loadData(); } finally { hideLoading(); }
     if (tab==='restaurants')   renderRestaurants();
     if (tab==='all-orders')    renderAllOrders();
     if (tab==='by-restaurant') renderByRestaurant();
@@ -618,45 +626,114 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 // ═══════════════════ LOAD DATA ═══════════════════
 async function loadData() {
-  [restaurants, orders, menus] = await Promise.all([
-    RestaurantsAPI.getAll(),
-    OrdersAPI.getAll(),
-    MenusAPI.getAll()
-  ]);
+  orderCache = {}; orders = [];
+  await loadBase();
+  await loadTabData();
 }
+
+// ── 分頁設定 ──
+const PAGE_STEP = { paid:5, orders:5, byrest:10 };   // 預設顯示數量 & 每次「顯示更多」增加量
+const shown     = { paid:5, orders:5, byrest:10 };
+let orderCache    = {};          // restaurantId -> orders[]（只存已載入的餐廳）
+let unpaidRestIds = new Set();   // 有未付款訂單的餐廳 ID（輕量查詢）
+let zone = { unpaid:[], paid:[], paidHasMore:false };
+
+function resetShown() { Object.assign(shown, PAGE_STEP); }
+function rebuildOrders() { orders = Object.values(orderCache).flat(); }
+
+// 只抓「尚未快取」餐廳的訂單
+async function fetchOrdersFor(restIds) {
+  const need = restIds.filter(id => !(id in orderCache));
+  for (let i = 0; i < need.length; i += 30) {
+    const chunk = need.slice(i, i + 30);
+    const rows = await sbFetch(`orders?restaurant_id=in.(${chunk.join(',')})&select=*&order=order_date.desc`);
+    chunk.forEach(id => orderCache[id] = []);
+    (rows || []).forEach(row => { const o = dbToOrder(row); (orderCache[o.restaurantId] = orderCache[o.restaurantId] || []).push(o); });
+  }
+  rebuildOrders();
+}
+
+// 基本資料：餐廳（新→舊）、菜單、未付款餐廳 ID
+async function loadBase() {
+  const [rs, ms, unpaidRows] = await Promise.all([
+    RestaurantsAPI.getAll(),
+    MenusAPI.getAll(),
+    sbFetch('orders?paid_status=eq.' + encodeURIComponent('未付款') + '&select=restaurant_id')
+  ]);
+  restaurants = rs.reverse();     // getAll 為 created_at 升冪 → 反轉成最新在前
+  menus = ms;
+  unpaidRestIds = new Set((unpaidRows || []).map(r => r.restaurant_id));
+}
+
+// 依目前所在分頁，載入該分頁需要的訂單
+async function loadTabData() {
+  const tab = document.querySelector('.tab-btn.active').dataset.tab;
+  if (tab === 'restaurants')      await loadRestaurantsTab();
+  else if (tab === 'all-orders')  await fetchOrdersFor(restaurants.slice(0, shown.orders).map(r => r.id));
+  else                            await fetchOrdersFor(restaurants.slice(0, shown.byrest).map(r => r.id));
+}
+
+async function loadRestaurantsTab() {
+  // 未付款區：全部顯示
+  const unpaid = restaurants.filter(r => unpaidRestIds.has(r.id));
+  await fetchOrdersFor(unpaid.map(r => r.id));
+  // 已付款區：由新到舊，只載入需要的數量
+  const candidates = restaurants.filter(r => !unpaidRestIds.has(r.id));
+  const paid = [], empty = [];
+  let idx = 0;
+  while (idx < candidates.length && paid.length < shown.paid) {
+    const chunk = candidates.slice(idx, idx + (shown.paid - paid.length));
+    idx += chunk.length;
+    await fetchOrdersFor(chunk.map(r => r.id));
+    chunk.forEach(r => (orderCache[r.id] || []).length ? paid.push(r) : empty.push(r));  // 無訂單者歸入未付款區
+  }
+  const rank = new Map(restaurants.map((r, i) => [r.id, i]));
+  zone = {
+    unpaid: [...unpaid, ...empty].sort((a, b) => rank.get(a.id) - rank.get(b.id)),
+    paid,
+    paidHasMore: idx < candidates.length
+  };
+}
+
+// 「顯示更多」
+async function showMore(kind) {
+  shown[kind] += PAGE_STEP[kind];
+  showLoading('載入更多...');
+  try {
+    await loadTabData();
+    if (kind === 'paid')    renderRestaurants();
+    if (kind === 'orders')  renderAllOrders();
+    if (kind === 'byrest')  renderByRestaurant();
+  } catch (e) { showToast('載入失敗：' + e.message, 'error'); }
+  finally { hideLoading(); }
+}
+
+// 【全部訂單】範圍：最新 N 間餐廳的訂單，新→舊
+function scopedOrders() {
+  return restaurants.slice(0, shown.orders)
+    .flatMap(r => orderCache[r.id] || [])
+    .sort((a, b) => b.orderDate.localeCompare(a.orderDate));
+}
+function updateMoreBtn(kind) {
+  const map = { orders:'more-orders-wrap', byrest:'more-byrest-wrap' };
+  document.getElementById(map[kind]).classList.toggle('view-hidden', shown[kind] >= restaurants.length);
+}
+
 
 // ═══════════════════ RENDER: RESTAURANTS ═══════════════════
-function hasUnpaid(restId) {
-  return orders.some(o => o.restaurantId===restId && o.paidStatus==='未付款');
-}
-
 function renderRestaurants() {
-  const sorted = [...restaurants].sort((a,b) => {
-    const la = orders.filter(o=>o.restaurantId===a.id).map(o=>o.orderDate).sort().pop() || a.createdAt || '';
-    const lb = orders.filter(o=>o.restaurantId===b.id).map(o=>o.orderDate).sort().pop() || b.createdAt || '';
-    return lb.localeCompare(la);
-  });
-  const unpaidRests = sorted.filter(r => hasUnpaid(r.id) || orders.filter(o=>o.restaurantId===r.id).length===0);
-  const paidRests   = sorted.filter(r => !hasUnpaid(r.id) && orders.filter(o=>o.restaurantId===r.id).length>0);
-
   document.getElementById('rest-count').textContent = restaurants.length+' 家';
-  document.getElementById('zone-unpaid-count').textContent = unpaidRests.length+' 家';
-  document.getElementById('zone-paid-count').textContent   = paidRests.length+' 家';
-  renderCardGrid('grid-unpaid','empty-unpaid', unpaidRests,'unpaid');
-  renderCardGrid('grid-paid',  'empty-paid',   paidRests,  'paid');
+  document.getElementById('zone-unpaid-count').textContent = zone.unpaid.length+' 家';
+  document.getElementById('zone-paid-count').textContent   = zone.paid.length + (zone.paidHasMore ? '+' : '') + ' 家';
+  renderCardGrid('grid-unpaid','empty-unpaid', zone.unpaid,'unpaid');
+  renderCardGrid('grid-paid',  'empty-paid',   zone.paid,  'paid');
+  document.getElementById('more-paid-wrap').classList.toggle('view-hidden', !zone.paidHasMore);
   document.getElementById('rest-empty').classList.toggle('view-hidden', restaurants.length>0);
 }
 
 function renderCardGrid(gridId, emptyId, rests, zone) {
   const grid=document.getElementById(gridId), empty=document.getElementById(emptyId);
-  // 按最新訂單日期排序，最新的在前
-  const sorted = [...rests].sort((a,b)=>{
-    const datesA = orders.filter(o=>o.restaurantId===a.id).map(o=>o.orderDate).sort();
-    const datesB = orders.filter(o=>o.restaurantId===b.id).map(o=>o.orderDate).sort();
-    const latestA = datesA.length ? datesA[datesA.length-1] : a.createdAt || '';
-    const latestB = datesB.length ? datesB[datesB.length-1] : b.createdAt || '';
-    return latestB.localeCompare(latestA);
-  });
+  const sorted = rests;   // 已依建立時間新→舊排序
   if (!sorted.length) { grid.innerHTML=''; empty.classList.remove('view-hidden'); return; }
   empty.classList.add('view-hidden');
   grid.innerHTML = sorted.map(r => {
@@ -681,8 +758,8 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
           ${r.contact  ? `<div class="card-meta-row"><span>📞</span>${esc(r.contact)}</div>` : ''}
           ${r.address  ? `<div class="card-meta-row"><span>📍</span>${esc(r.address)}</div>` : ''}
           ${r.receiver ? `<div class="card-meta-row"><span>👤</span>收款人：<strong style="color:var(--navy)">${esc(r.receiver)}</strong></div>` : ''}
-          ${r.serviceFee ? `<div class="card-meta-row"><span>🧾</span>服務費：NT$ ${feePerOrder.toLocaleString()}／筆（共 NT$ ${feeTotal.toLocaleString()}）</div>` : ''}
-		  ${r.serviceFee ? `<div class="card-meta-row"><span>💵</span>總金額：NT$ ${totalAmt} 元</div>` : ''}
+          ${r.serviceFee ? `<div class="card-meta-row"><span>🧾</span>服務費：$ ${feePerOrder.toLocaleString()}／筆（共 $ ${feeTotal.toLocaleString()}）</div>` : ''}
+		  ${r.serviceFee ? `<div class="card-meta-row"><span>💵</span>總金額：$ ${totalAmt} 元</div>` : ''}
         </div>
         ${r.note ? `<div class="card-note">💬 ${esc(r.note)}</div>` : ''}
 		<div class="card-actions">
@@ -697,7 +774,7 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
 			<!--<button class="btn btn-sm" style="background:${r.locked?'var(--green-light)':'var(--red-light)'};color:${r.locked?'var(--green)':'var(--red)'};border:1.5px solid ${r.locked?'#a9dfbf':'#f9c4bf'}" onclick="toggleLock('${r.id}')">${r.locked?'🔓 重新開放':'🔒 結單'}</button>-->
 		</div>
         <div class="card-actions" style="justify-content: flex-end;">
-		  <button class="btn btn-sm" style="background:${r.locked?'var(--green-light)':'var(--red-light)'};color:${r.locked?'var(--green)':'var(--red)'};border:1.5px solid ${r.locked?'#a9dfbf':'#f9c4bf'}" onclick="toggleLock('${r.id}')">${r.locked?'🔓 重新開放':'🔒 結單'}</button>
+		  <button class="btn btn-sm" style="background:${r.locked?'var(--green-light)':'var(--red-light)'};color:${r.locked?'var(--green)':'var(--red)'};border:1.5px solid ${r.locked?'#a9dfbf':'#f9c4bf'}" onclick="toggleLock('${r.id}')">${r.locked?'🔓 開放':'🔒 結單'}</button>
           <button class="btn btn-ghost btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="openRestaurantModal('${r.id}')">✏️</button>
           <button class="btn btn-danger btn-sm" style="width: 36px;justify-content: center;padding: 5px 0;" onclick="deleteRestaurant('${r.id}')">🗑</button>
         </div>
@@ -705,7 +782,7 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
       </div>
       <div class="card-footer">
         <div class="order-summary">共 <strong>${ords.length}</strong> 筆</div>
-        <div class="order-summary">NT$ <strong>${totalAmt.toLocaleString()}</strong></div>
+        <div class="order-summary">$ <strong>${totalAmt.toLocaleString()}</strong></div>
         ${unpaidN ? `<span class="status-badge status-unpaid">未付 ${unpaidN} 筆</span>`
                   : ords.length ? `<span class="status-badge status-paid">全數已付</span>`
                                 : `<span class="status-badge" style="background:var(--bg);color:var(--text-3)">無訂單</span>`}
@@ -716,7 +793,8 @@ function renderCardGrid(gridId, emptyId, rests, zone) {
 
 // ═══════════════════ RENDER: ALL ORDERS ═══════════════════
 function renderAllOrders() {
-  const sorted = [...orders].sort((a,b)=>b.orderDate.localeCompare(a.orderDate));
+  const sorted = scopedOrders();
+  updateMoreBtn('orders');
   document.getElementById('order-count').textContent = sorted.length+' 筆';
   renderSummaryBar();
   const tbody=document.getElementById('all-orders-tbody');
@@ -732,9 +810,9 @@ function renderAllOrders() {
       <td><span class="restaurant-label"><span class="restaurant-dot"></span>${rest?esc(rest.name):'(已刪除)'}</span></td>
       <td>${esc(o.orderer)}</td>
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)}</td>
-      <td class="amount-cell">NT$ ${Number(o.amount||0).toLocaleString()}</td>
-      <td style="font-size:75%;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
-      <td class="amount-cell">NT$ ${total.toLocaleString()}</td>
+      <td class="amount-cell">$ ${Number(o.amount||0).toLocaleString()}</td>
+      <td style="font-size:75%;color:var(--text-2)">${fee>0?'$ '+fee.toLocaleString():'—'}</td>
+      <td class="amount-cell">$ ${total.toLocaleString()}</td>
       <td style="font-size:75%;color:var(--text-2)">${rest&&rest.receiver?esc(rest.receiver):'—'}</td>
       <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
       <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
@@ -747,19 +825,21 @@ function renderAllOrders() {
 }
 
 function renderSummaryBar() {
-  const total  = orders.reduce((s,o)=>s+Number(o.amount||0),0);
-  const paid   = orders.filter(o=>o.paidStatus==='已付款').reduce((s,o)=>s+Number(o.amount||0),0);
-  const totalFee = orders.reduce((s,o)=>{
+  const scoped = scopedOrders();
+  const total  = scoped.reduce((s,o)=>s+Number(o.amount||0),0);
+  const paid   = scoped.filter(o=>o.paidStatus==='已付款').reduce((s,o)=>s+Number(o.amount||0),0);
+  const totalFee = scoped.reduce((s,o)=>{
     const r=restaurants.find(x=>x.id===o.restaurantId);
     return s+(r?calcFee(r.serviceFee):0);
   },0);
+  const n = Math.min(shown.orders, restaurants.length);
   document.getElementById('summary-bar').innerHTML = `
-    <div class="summary-card"><div class="s-label">餐廳數</div><div class="s-value">${restaurants.length}</div></div>
-    <div class="summary-card"><div class="s-label">訂單筆數</div><div class="s-value">${orders.length}</div></div>
-    <div class="summary-card"><div class="s-label">總金額</div><div class="s-value" style="font-size:106.25%">NT$ ${total.toLocaleString()}</div></div>
-    <div class="summary-card"><div class="s-label">已付款</div><div class="s-value" style="color:var(--green);font-size:106.25%">NT$ ${paid.toLocaleString()}</div></div>
-    <div class="summary-card"><div class="s-label">未付款</div><div class="s-value" style="color:var(--red);font-size:106.25%">NT$ ${(total-paid).toLocaleString()}</div></div>
-    <div class="summary-card"><div class="s-label">總服務費</div><div class="s-value" style="font-size:106.25%">NT$ ${totalFee.toLocaleString()}</div></div>`;
+    <div class="summary-card"><div class="s-label">統計範圍</div><div class="s-value" style="font-size:106.25%">最新 ${n} 間</div></div>
+    <div class="summary-card"><div class="s-label">訂單筆數</div><div class="s-value">${scoped.length}</div></div>
+    <div class="summary-card"><div class="s-label">總金額</div><div class="s-value" style="font-size:106.25%">$ ${total.toLocaleString()}</div></div>
+    <div class="summary-card"><div class="s-label">已付款</div><div class="s-value" style="color:var(--green);font-size:106.25%">$ ${paid.toLocaleString()}</div></div>
+    <div class="summary-card"><div class="s-label">未付款</div><div class="s-value" style="color:var(--red);font-size:106.25%">$ ${(total-paid).toLocaleString()}</div></div>
+    <div class="summary-card"><div class="s-label">總服務費</div><div class="s-value" style="font-size:106.25%">$ ${totalFee.toLocaleString()}</div></div>`;
 }
 
 // ═══════════════════ RENDER: BY RESTAURANT ═══════════════════
@@ -767,7 +847,8 @@ function renderByRestaurant() {
   const list=document.getElementById('by-restaurant-list'), empty=document.getElementById('byrest-empty');
   if (!restaurants.length) { list.innerHTML=''; empty.classList.remove('view-hidden'); return; }
   empty.classList.add('view-hidden');
-  list.innerHTML = restaurants.map(r => {
+  const openIds = [...document.querySelectorAll('.accordion-body.open')].map(e=>e.id.replace('acc-body-',''));
+  list.innerHTML = restaurants.slice(0, shown.byrest).map(r => {
     const ords   = [...orders.filter(o=>o.restaurantId===r.id)].sort((a,b)=>b.orderDate.localeCompare(a.orderDate));
     const total  = ords.reduce((s,o)=>s+Number(o.amount||0),0);
     const unpaid = ords.filter(o=>o.paidStatus==='未付款').length;
@@ -777,7 +858,7 @@ function renderByRestaurant() {
           <span class="accordion-name">🍽 ${esc(r.name)}</span>
           <div class="accordion-stats">
             <span class="acc-stat">訂單 <span>${ords.length}</span> 筆</span>
-            <span class="acc-stat">合計 <span>NT$ ${total.toLocaleString()}</span></span>
+            <span class="acc-stat">合計 <span>$ ${total.toLocaleString()}</span></span>
             ${r.receiver?`<span class="acc-stat">收款人 <span>${esc(r.receiver)}</span></span>`:''}
             ${unpaid?`<span class="acc-stat" style="color:var(--red)">未付 <span style="color:var(--red)">${unpaid}</span> 筆</span>`
                     :ords.length?`<span class="acc-stat" style="color:var(--green)">✔ 全數已付</span>`:''}
@@ -795,8 +876,8 @@ function renderByRestaurant() {
               <td><span class="date-cell">📅 ${o.orderDate}</span></td>
               <td>${esc(o.orderer)}</td>
               <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(o.items)}</td>
-              <td class="amount-cell">NT$ ${Number(o.amount||0).toLocaleString()}</td>
-              <td style="font-size:75%;color:var(--text-2)">${fee>0?'NT$ '+fee.toLocaleString():'—'}</td>
+              <td class="amount-cell">$ ${Number(o.amount||0).toLocaleString()}</td>
+              <td style="font-size:75%;color:var(--text-2)">${fee>0?'$ '+fee.toLocaleString():'—'}</td>
               <td style="font-size:75%;color:var(--text-2)">${esc(r.receiver)||'—'}</td>
               <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
               <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
@@ -812,6 +893,8 @@ function renderByRestaurant() {
       </div>
     </div>`;
   }).join('');
+  openIds.forEach(id=>{ document.getElementById('acc-body-'+id)?.classList.add('open'); document.getElementById('acc-chev-'+id)?.classList.add('open'); });
+  updateMoreBtn('byrest');
 }
 
 function toggleAcc(id) {
@@ -1199,7 +1282,7 @@ function bulkParse() {
 function renderBulkPreview() {
   document.getElementById('bulk-preview-count').textContent = bulkPreviewRows.length;
   const total = bulkPreviewRows.reduce((s,r)=>s+(Number(r.amount)||0),0);
-  document.getElementById('bulk-preview-total').textContent = 'NT$ '+total.toLocaleString();
+  document.getElementById('bulk-preview-total').textContent = '$ '+total.toLocaleString();
   document.getElementById('bulk-preview-tbody').innerHTML = bulkPreviewRows.map((r,i)=>`
     <tr>
       <td><input class="form-control" style="padding:6px 8px;font-size:75%" value="${esc(r.orderer)}"
