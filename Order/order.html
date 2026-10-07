@@ -215,6 +215,10 @@
   .modal-footer{padding:16px 24px 26px;display:flex;justify-content:center}
   .modal-footer .btn-submit{width:100%;padding:13px;font-size:93.75%}
   .change-identity-link{margin-left:8px;font-size:68.75%;font-weight:500;border:none;background:none;color:var(--blue);cursor:pointer;text-decoration:underline;padding:0}
+  ::-webkit-input-placeholder { color: #d6dce6; }
+  input::-moz-placeholder { color: #d6dce6; }
+  input::-moz-placeholder{color:#d6dce6;}
+  :-ms-input-placeholder{color: #d6dce6;}
 </style>
 </head>
 <body>
@@ -312,10 +316,7 @@
         </div>
       </div>
 
-      <div class="form-group" style="margin-top:16px">
-        <label>備註（可選）</label>
-        <input class="form-control" id="order-note" placeholder="">
-      </div>
+
     </div>
   </div>
 </main>
