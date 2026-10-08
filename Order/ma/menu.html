@@ -69,6 +69,17 @@
   .cell-price{width:100px}
   .cell-flavor{width:110px}
 
+  .sort-cell{white-space:nowrap;width:96px}
+  .drag-handle{cursor:grab;color:var(--text-3);font-size:112%;padding:4px 6px;user-select:none;display:inline-block;vertical-align:middle}
+  .drag-handle:active{cursor:grabbing}
+  .mv-btn{border:1.5px solid var(--border);background:var(--surface);color:var(--blue);border-radius:6px;width:24px;height:24px;font-size:70%;cursor:pointer;vertical-align:middle;line-height:1;padding:0}
+  .mv-btn:hover:not(:disabled){background:var(--blue-light);border-color:var(--blue-mid)}
+  .mv-btn:disabled{opacity:.3;cursor:not-allowed}
+  tr.dragging{opacity:.4}
+  tr.drag-over-top td{border-top:3px solid var(--blue)}
+  tr.drag-over-bottom td{border-bottom:3px solid var(--blue)}
+  .sort-hint{font-size:68.75%;color:var(--text-3)}
+
   .table-empty{padding:30px;text-align:center;color:var(--text-3);font-size:81.25%}
 
   /* ── Modal ── */
@@ -136,14 +147,17 @@
         <button class="btn btn-danger btn-sm" onclick="deleteCurrentMenu()">🗑 刪除菜單</button>
       </div>
       <div class="detail-actions">
-        <span class="item-count-badge" id="item-count">0 項</span>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span class="item-count-badge" id="item-count">0 項</span>
+          <span class="sort-hint">☰ 拖曳或按 ▲▼ 調整順序（點餐頁會依此順序顯示）</span>
+        </div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-bulk btn-sm" onclick="openBulkImport()">📋 整批匯入</button>
           <button class="btn btn-success btn-sm" onclick="addBlankItem()">＋ 新增品項</button>
         </div>
       </div>
       <table>
-        <thead><tr><th>菜名</th><th style="width:110px">口味</th><th style="width:100px">金額</th><th style="width:50px"></th></tr></thead>
+        <thead><tr><th class="sort-cell">排序</th><th>菜名</th><th style="width:110px">口味</th><th style="width:100px">金額</th><th style="width:50px"></th></tr></thead>
         <tbody id="items-tbody"></tbody>
       </table>
       <div id="items-empty" class="table-empty view-hidden">尚無品項，點擊「＋ 新增品項」或「整批匯入」</div>
@@ -276,7 +290,12 @@ function renderItems(){
   if(!currentItems.length){ tbody.innerHTML=''; empty.classList.remove('view-hidden'); return; }
   empty.classList.add('view-hidden');
   tbody.innerHTML = currentItems.map((it,i)=>`
-    <tr>
+    <tr data-i="${i}" ondragover="dragOver(event,${i})" ondragleave="dragLeave(event)" ondrop="dragDrop(event,${i})">
+      <td class="sort-cell">
+        <span class="drag-handle" draggable="true" title="拖曳排序" ondragstart="dragStart(event,${i})" ondragend="dragEnd()">☰</span>
+        <button class="mv-btn" title="上移" onclick="moveItem(${i},-1)" ${i===0?'disabled':''}>▲</button>
+        <button class="mv-btn" title="下移" onclick="moveItem(${i},1)" ${i===currentItems.length-1?'disabled':''}>▼</button>
+      </td>
       <td><input class="cell-input" value="${esc(it.dishName)}" placeholder="菜名" onchange="updateItem(${i},'dishName',this.value)"></td>
       <td><input class="cell-input cell-flavor" value="${esc(it.flavor)}" placeholder="口味" onchange="updateItem(${i},'flavor',this.value)"></td>
       <td><input class="cell-input cell-price" type="number" min="0" value="${it.price}" onchange="updateItem(${i},'price',this.value)"></td>
@@ -313,6 +332,74 @@ async function removeItem(i){
   }catch(e){ showToast('刪除失敗：'+e.message,'error'); }
   finally{ hideLoading(); }
 }
+
+// ── 排序 ──────────────────────────────────────
+let dragIndex = null;
+
+// 依目前陣列順序重新編號，只更新有變動的品項
+async function persistOrder(){
+  const changed = [];
+  currentItems.forEach((it,i)=>{ if(it.sortOrder!==i){ it.sortOrder=i; changed.push(it); } });
+  if(!changed.length) return;
+  try{
+    await Promise.all(changed.map(it=>MenuItemsAPI.update(it.id,it)));
+    showToast('順序已儲存 ✓');
+  }catch(e){
+    showToast('儲存順序失敗：'+e.message,'error');
+    try{ currentItems = await MenuItemsAPI.getByMenu(currentMenuId); renderItems(); }catch(_){}
+  }
+}
+
+function moveItem(i, dir){
+  const j = i + dir;
+  if(j<0 || j>=currentItems.length) return;
+  const [it] = currentItems.splice(i,1);
+  currentItems.splice(j,0,it);
+  renderItems();
+  persistOrder();
+}
+
+function dragStart(e,i){
+  dragIndex = i;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', String(i));
+  const tr = e.target.closest('tr');
+  if(tr){ e.dataTransfer.setDragImage(tr,20,20); setTimeout(()=>tr.classList.add('dragging'),0); }
+}
+function clearDragMarks(){
+  document.querySelectorAll('#items-tbody tr').forEach(r=>r.classList.remove('drag-over-top','drag-over-bottom','dragging'));
+}
+function dragOver(e,i){
+  if(dragIndex===null) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const tr = e.currentTarget;
+  const rect = tr.getBoundingClientRect();
+  const before = (e.clientY - rect.top) < rect.height/2;
+  tr.classList.toggle('drag-over-top', before);
+  tr.classList.toggle('drag-over-bottom', !before);
+}
+function dragLeave(e){
+  e.currentTarget.classList.remove('drag-over-top','drag-over-bottom');
+}
+function dragDrop(e,i){
+  if(dragIndex===null) return;
+  e.preventDefault();
+  const tr = e.currentTarget;
+  const rect = tr.getBoundingClientRect();
+  const before = (e.clientY - rect.top) < rect.height/2;
+  let target = before ? i : i+1;
+  const from = dragIndex;
+  dragIndex = null;
+  clearDragMarks();
+  if(target>from) target--;          // 移除原位置後索引會往前
+  if(target===from) return;
+  const [it] = currentItems.splice(from,1);
+  currentItems.splice(target,0,it);
+  renderItems();
+  persistOrder();
+}
+function dragEnd(){ dragIndex = null; clearDragMarks(); }
 
 // ── 整批匯入 ──────────────────────────────────
 function openBulkImport(){
