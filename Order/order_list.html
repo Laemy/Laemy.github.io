@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訂餐列表 @Edda</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;--green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--bg:#F7F9FC;--surface:#fff;--border:#D9E4F0;--text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;--shadow:0 2px 12px rgba(30,58,95,.08)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-size:22px;font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  header{background:var(--navy);color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:10}
+  .logo{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  header h1{font-size:100%;font-weight:700}
+  main{max-width:800px;margin:0 auto;padding:20px}
+  .zone-label{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+  .zone-title{font-size:75%;font-weight:700;padding:5px 14px;border-radius:20px;white-space:nowrap}
+  .open .zone-title{background:var(--green-light);color:var(--green)}
+  .closed .zone-title{background:#eee;color:#888}
+  .zone-line{flex:1;height:1.5px;background:var(--border)}
+  .zone-wrap{margin-bottom:28px}
+  .card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;text-decoration:none;color:inherit;transition:transform .15s,border-color .15s}
+  .card:hover{transform:translateY(-2px);border-color:var(--blue-mid)}
+  .card.closed-card{opacity:.65;background:#FAFBFC}
+  .info{flex:1;min-width:0}
+  .name{font-size:93.75%;font-weight:700;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .meta{font-size:68.75%;color:var(--text-3);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
+  .go{flex-shrink:0;padding:8px 16px;border-radius:8px;font-size:75%;font-weight:700;background:var(--green);color:#fff;white-space:nowrap}
+  .closed-card .go{background:#fff;color:var(--text-2);border:1.5px solid var(--border)}
+  .empty{text-align:center;font-size:75%;color:var(--text-3);padding:24px;background:var(--surface);border:1.5px dashed var(--border);border-radius:10px}
+  .loading{text-align:center;padding:60px;color:var(--text-3);font-size:81%}
+</style>
+</head>
+<body>
+<header><div class="logo">🍱</div><h1>訂餐列表</h1></header>
+<main>
+  <div id="loading" class="loading">載入中...</div>
+  <div id="content" style="display:none">
+    <div class="zone-wrap open">
+      <div class="zone-label"><span class="zone-title">🛒 可訂餐</span><div class="zone-line"></div></div>
+      <div id="list-open"></div>
+    </div>
+    <div class="zone-wrap closed">
+      <div class="zone-label"><span class="zone-title">🔒 已結單（最新 2 間）</span><div class="zone-line"></div></div>
+      <div id="list-closed"></div>
+    </div>
+  </div>
+</main>
+
+<!-- 若本頁放在 /ma/ 子資料夾，請改為 ../db.js 與 ../order.html -->
+<script src="db.js"></script>
+<script>
+const ORDER_PAGE = 'order.html';
+
+function cardHtml(r, closed){
+  const url = ORDER_PAGE + '?id=' + encodeURIComponent(r.id);
+  return `<a class="card ${closed?'closed-card':''}" href="${url}">
+    <div class="info">
+      <div class="name">🍽 ${esc(r.name)}</div>
+      <div class="meta">
+        <span>📅 ${r.createdAt || '—'}</span>
+        ${r.receiver ? `<span>👤 主購：${esc(r.receiver)}</span>` : ''}
+        ${r.note ? `<span>💬 ${esc(r.note)}</span>` : ''}
+      </div>
+    </div>
+    <span class="go">${closed ? '查看' : '點餐 →'}</span>
+  </a>`;
+}
+
+(async () => {
+  try {
+    const all = await RestaurantsAPI.getAll();   // 已依 created_at 由舊到新
+    const byDate = (a, b) => (a.createdAt || '').localeCompare(b.createdAt || '');  // 穩定排序，同日維持原建立順序
+
+    const open = all.filter(r => !r.locked).sort(byDate);
+    // 已結單：取建立日期最新的 2 間，顯示時仍由舊到新
+    const closed = all.filter(r => r.locked).sort(byDate).slice(-2);
+
+    document.getElementById('list-open').innerHTML =
+      open.length ? open.map(r => cardHtml(r, false)).join('')
+                  : '<div class="empty">目前沒有可訂餐的項目</div>';
+    document.getElementById('list-closed').innerHTML =
+      closed.length ? closed.map(r => cardHtml(r, true)).join('')
+                    : '<div class="empty">尚無已結單項目</div>';
+
+    document.getElementById('content').style.display = '';
+  } catch (e) {
+    document.getElementById('loading').textContent = '載入失敗：' + e.message;
+    return;
+  }
+  document.getElementById('loading').style.display = 'none';
+})();
+</script>
+</body>
+</html>
