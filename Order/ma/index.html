@@ -20,6 +20,7 @@
   header{background:var(--navy);color:#fff;padding:0 32px;height:60px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
   .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%}
   header h1{font-size:106.25%;font-weight:700}
+  header .headLink{color:#fff;padding:7px 16px 7px 7px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap}
   .tab-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:0 32px;display:flex}
   .tab-btn{padding:14px 22px;font-size:87.5%;font-weight:500;color:var(--text-2);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .18s,border-color .18s;white-space:nowrap}
   .tab-btn:hover{color:var(--blue)}.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:700}
@@ -338,8 +339,10 @@
 <header>
   <div class="logo-icon">🍱</div>
   <h1>訂餐對帳系統</h1>
-  <a href="menu.html" style="margin-left:auto;background:#7D3C98;color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">🍜 菜單管理</a>
-  <a href="reconcile.html" style="background:var(--orange);color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">🧾 跨餐廳對帳</a>
+
+  <a class="headLink" href="../order_list.html" style="margin-left:auto;background:#3c9856;"> 🔖 點餐列表</a>
+  <a class="headLink" href="menu.html" style="background:#7D3C98;">🍜 菜單管理</a>
+  <a class="headLink" href="reconcile.html" style="background:var(--orange);">🧾 對帳</a>
 </header>
 
 <div class="tab-bar">
@@ -394,8 +397,8 @@
     <div class="table-wrap" id="all-orders-table-wrap">
       <table>
         <thead><tr>
-          <th>訂購日期</th><th>餐廳</th><th>訂購人</th><th>品項</th>
-          <th>金額</th><th>服務費</th><th>總金額</th><th>收款人</th><th>付款狀態</th><th>備註</th><th style="width:96px">操作</th>
+          <th>訂購日期</th><th>餐廳</th><th>訂購人</th><th>品項/備註</th>
+          <th>金額/服務費</th><!--<th>服務費</th>--><th>總金額</th><th>收款人</th><th>付款狀態</th><!--<th>備註</th>--><th style="width:96px">操作</th>
         </tr></thead>
         <tbody id="all-orders-tbody"></tbody>
       </table>
@@ -809,13 +812,15 @@ function renderAllOrders() {
       <td><span class="date-cell">📅 ${o.orderDate}</span></td>
       <td><span class="restaurant-label"><span class="restaurant-dot"></span>${rest?esc(rest.name):'(已刪除)'}</span></td>
       <td>${esc(o.orderer)}</td>
-      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)}</td>
-      <td class="amount-cell">$ ${Number(o.amount||0).toLocaleString()}</td>
-      <td style="font-size:75%;color:var(--text-2)">${fee>0?'$ '+fee.toLocaleString():'—'}</td>
-      <td class="amount-cell">$ ${total.toLocaleString()}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(o.items)}">${esc(o.items)}
+	  ${o.note?"<div style=\"font-size:75%;color:var(--text-3)\">"+esc(o.note)+"</div>":""}</td>
+      <td class="amount-cell" style="font-size:90%;text-align:right;">$ ${Number(o.amount||0).toLocaleString()}
+	  <div style="font-size:75%;color:var(--text-3)">${fee>0?'$ '+fee.toLocaleString():'-'}</div></td>
+      <!--<td style="font-size:75%;color:var(--text-2)">${fee>0?'$ '+fee.toLocaleString():'—'}</td>-->
+      <td class="amount-cell" style="color: var(--red);">$ ${total.toLocaleString()}</td>
       <td style="font-size:75%;color:var(--text-2)">${rest&&rest.receiver?esc(rest.receiver):'—'}</td>
       <td><span class="status-badge ${o.paidStatus==='已付款'?'status-paid':'status-unpaid'}">${o.paidStatus}</span></td>
-      <td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>
+      <!--<td style="font-size:75%;color:var(--text-3)">${esc(o.note)}</td>-->
       <td style="display:flex;gap:4px">
         <button class="btn btn-ghost btn-sm" onclick="openOrderModal(null,'${o.id}')" style="width:36px;justify-content:center;padding:5px 0">✏️</button>
         <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')" style="width:36px;justify-content:center;padding:5px 0">🗑</button>
