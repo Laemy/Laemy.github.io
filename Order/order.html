@@ -44,6 +44,10 @@
   .mi-name{font-size:87.5%;font-weight:700;color:var(--navy)}
   .mi-flavor{font-size: 70%;color: #ffffff;margin-top: 2px;border: 1px solid #ccc;border-radius: 5px;padding: 0 5px;background: var(--text-3);}
   .mi-price{font-size:75%;color:var(--text-2);margin-top:2px}
+  .menu-cat{display:flex;align-items:center;gap:10px;margin:18px 2px 10px;font-size:93.75%;font-weight:700;color:var(--navy)}
+  .menu-cat-note{font-size:75%;font-weight:600;color:#fff;background:var(--text-3);border-radius:5px;padding:1px 8px}
+  .menu-cat::before{content:'';width:4px;height:1.1em;background:var(--green);border-radius:2px;flex-shrink:0}
+  .menu-cat::after{content:'';flex:1;height:1.5px;background:var(--border)}
   .flavor-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
   .flavor-chip{border:1.5px solid var(--border);background:var(--surface);color:var(--text-2);border-radius:18px;padding:5px 12px;font-size:75%;font-family:inherit;font-weight:600;cursor:pointer}
   .flavor-chip.sel{border-color:var(--green);background:var(--green-light);color:var(--green)}
@@ -525,6 +529,12 @@ function renderMenuItems(){
   } else {
     empty.classList.add('view-hidden');
     container.innerHTML = groups.map(g=>{
+      // 價格為 0 的項目 → 視為分類標題（不可點選）
+      if(g.variants.every(v=>!Number(v.price))){
+        const title = (g.dishName||'').replace(/^[\s\-—－_=＝*＊~～]+|[\s\-—－_=＝*＊~～]+$/g,'') || g.dishName;
+        const catNote = g.variants.map(v=>(v.flavor||'').trim()).filter(Boolean).join('、');
+        return `<div class="menu-cat"><span>${esc(title)}</span>${catNote?`<span class="menu-cat-note">${esc(catNote)}</span>`:''}</div>`;
+      }
       const cur   = currentVariant(g);
       const qty   = cur ? (qtyMap[cur.id]||0) : 0;
       const prices = g.variants.map(v=>Number(v.price));
