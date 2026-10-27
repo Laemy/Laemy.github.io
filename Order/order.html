@@ -44,7 +44,11 @@
   .mi-name{font-size:87.5%;font-weight:700;color:var(--navy)}
   .mi-flavor{font-size: 70%;color: #ffffff;margin-top: 2px;border: 1px solid #ccc;border-radius: 5px;padding: 0 5px;background: var(--text-3);}
   .mi-price{font-size:75%;color:var(--text-2);margin-top:2px}
-  .qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .flavor-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .flavor-chip{border:1.5px solid var(--border);background:var(--surface);color:var(--text-2);border-radius:18px;padding:5px 12px;font-size:75%;font-family:inherit;font-weight:600;cursor:pointer}
+  .flavor-chip.sel{border-color:var(--green);background:var(--green-light);color:var(--green)}
+  .chip-qty{margin-left:6px;background:var(--green);color:#fff;border-radius:10px;padding:0 6px;font-size:90%}
+    .qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .mi-note-row{margin-top:9px}
   .mi-note-input{width:100%;padding:7px 10px;border-radius:7px;border:1.5px solid var(--border);font-size:75%;font-family:inherit;background:var(--surface);color:var(--text)}
   .mi-note-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px rgba(26,158,92,.12)}
@@ -465,13 +469,35 @@ async function init(){
   finally{ hideLoading(); }
 }
 
+let selectedVariant = {};   // 卡片 gid -> 目前選中的口味 item id
+
+function groupMenuItems(items){
+  const map = new Map();
+  items.forEach(it=>{
+    const k = (it.dishName||'').trim();
+    if(!map.has(k)) map.set(k,{gid:it.id, dishName:it.dishName, variants:[]});
+    map.get(k).variants.push(it);
+  });
+  return [...map.values()];
+}
+function currentVariant(g){
+  if(g.variants.length===1) return g.variants[0];          // 單一口味：直接使用
+  return g.variants.find(v=>v.id===selectedVariant[g.gid])  // 多口味：預設未選擇
+      || g.variants.find(v=>(qtyMap[v.id]||0)>0)
+      || null;
+}
+function needFlavor(){ showToast('請先選擇口味','error'); }
+function selectVariant(gid, itemId){
+  selectedVariant[gid] = itemId;
+  renderMenuItems();
+}
+
 function filterMenuItemsForDisplay(){
-  const term = menuSearchTerm.trim().toLowerCase();
-  if(!term) return menuItems;
-  // 模糊搜尋：以空白分詞，需同時包含每個詞（對菜名＋口味做子字串比對）
-  const terms = term.split(/\s+/).filter(Boolean);
-  return menuItems.filter(it=>{
-    const hay = (it.dishName+' '+(it.flavor||'')).toLowerCase();
+  const groups = groupMenuItems(menuItems);
+  const terms = menuSearchTerm.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if(!terms.length) return groups;
+  return groups.filter(g=>{
+    const hay = (g.dishName+' '+g.variants.map(v=>v.flavor||'').join(' ')).toLowerCase();
     return terms.every(t=>hay.includes(t));
   });
 }
@@ -490,32 +516,46 @@ function clearMenuSearch(){
 }
 
 function renderMenuItems(){
-  const list = filterMenuItemsForDisplay();
+  const groups = filterMenuItemsForDisplay();
   const container = document.getElementById('menu-items-list');
   const empty = document.getElementById('menu-items-empty');
-  if(!list.length){
+  if(!groups.length){
     container.innerHTML='';
     empty.classList.remove('view-hidden');
   } else {
     empty.classList.add('view-hidden');
-    container.innerHTML = list.map(it=>{
-      const qty = qtyMap[it.id]||0;
-      return `<div class="menu-item ${qty>0?'active':''}" id="mi-${it.id}">
+    container.innerHTML = groups.map(g=>{
+      const cur   = currentVariant(g);
+      const qty   = cur ? (qtyMap[cur.id]||0) : 0;
+      const prices = g.variants.map(v=>Number(v.price));
+      const minP = Math.min(...prices), maxP = Math.max(...prices);
+      const priceTxt = cur ? 'NT$ '+Number(cur.price).toLocaleString()
+                           : (minP===maxP ? 'NT$ '+minP.toLocaleString() : 'NT$ '+minP.toLocaleString()+' ~ '+maxP.toLocaleString());
+      const multi = g.variants.length>1;
+      const anyActive = g.variants.some(v=>(qtyMap[v.id]||0)>0);
+      const chips = multi ? `<div class="flavor-chips">` + g.variants.map(v=>{
+        const q = qtyMap[v.id]||0;
+        return `<button type="button" class="flavor-chip ${cur&&v.id===cur.id?'sel':''}" onclick="selectVariant('${g.gid}','${v.id}')">
+          ${esc(v.flavor||'原味')}　NT$ ${Number(v.price).toLocaleString()}${q>0?`<span class="chip-qty">×${q}</span>`:''}
+        </button>`;
+      }).join('') + `</div>` : '';
+      return `<div class="menu-item ${anyActive?'active':''}">
         <div class="mi-top-row">
           <div class="mi-info">
-            <div class="mi-name">${esc(it.dishName)}</div>
-            ${it.flavor?`<div class="mi-flavor">${esc(it.flavor)}</div>`:''}
-            <div class="mi-price">NT$ ${Number(it.price).toLocaleString()}</div>
+            <div class="mi-name">${esc(g.dishName)}</div>
+            ${!multi && cur && cur.flavor?`<div class="mi-flavor">${esc(cur.flavor)}</div>`:''}
+            <div class="mi-price">${priceTxt}${!cur?' ・請選擇口味':''}</div>
           </div>
           <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty('${it.id}',-1)">－</button>
-            <span class="qty-val" id="qtyval-${it.id}">${qty}</span>
-            <button class="qty-btn" onclick="changeQty('${it.id}',1)">＋</button>
+            <button class="qty-btn" onclick="${cur?`changeQty('${cur.id}',-1)`:'needFlavor()'}">－</button>
+            <span class="qty-val">${qty}</span>
+            <button class="qty-btn" onclick="${cur?`changeQty('${cur.id}',1)`:'needFlavor()'}">＋</button>
           </div>
         </div>
-        <div class="mi-note-row ${qty>0?'':'view-hidden'}" id="mi-note-row-${it.id}">
-          <input class="mi-note-input" id="note-${it.id}" placeholder="這項的備註（例：少辣、去香菜）"
-            value="${esc(noteMap[it.id]||'')}" oninput="updateNote('${it.id}',this.value)">
+        ${chips}
+        <div class="mi-note-row ${qty>0?'':'view-hidden'}">
+          ${cur?`<input class="mi-note-input" id="note-${cur.id}" placeholder="這項的備註（例：少辣、去香菜）"
+            value="${esc(noteMap[cur.id]||'')}" oninput="updateNote('${cur.id}',this.value)">`:''}
         </div>
       </div>`;
     }).join('');
@@ -566,21 +606,10 @@ function renderCart(){
 }
 
 function changeQty(itemId, delta){
-  const cur = qtyMap[itemId]||0;
-  const next = Math.max(0, cur+delta);
-  qtyMap[itemId]=next;
-  if(next===0){
-    delete noteMap[itemId];
-    const noteInput = document.getElementById('note-'+itemId);
-    if(noteInput) noteInput.value='';
-  }
-  const qtyEl = document.getElementById('qtyval-'+itemId);
-  if(qtyEl) qtyEl.textContent = next;
-  const itemEl = document.getElementById('mi-'+itemId);
-  if(itemEl) itemEl.classList.toggle('active', next>0);
-  const noteRowEl = document.getElementById('mi-note-row-'+itemId);
-  if(noteRowEl) noteRowEl.classList.toggle('view-hidden', next<=0);
-  renderCart();
+  const next = Math.max(0, (qtyMap[itemId]||0)+delta);
+  qtyMap[itemId] = next;
+  if(next===0) delete noteMap[itemId];
+  renderMenuItems();
   updateTotal();
 }
 
@@ -638,6 +667,7 @@ function renderRecent(){
 
 function resetForm(){
   qtyMap={};
+  selectedVariant={};
   noteMap={};
   if(rest.menuId && menuItems.length) renderMenuItems();
   document.getElementById('manual-items').value='';
@@ -654,6 +684,7 @@ function editOrder(id){
   if(!o) return;
   if(o.paidStatus==='已付款'){ showToast('已付款的訂單無法修改','error'); return; }
   editingOrderId = id;
+  selectedVariant = {};
 
   document.getElementById('orderer-select').value = o.orderer||'';
   document.getElementById('order-note').value = o.note||'';
