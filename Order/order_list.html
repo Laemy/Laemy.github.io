@@ -8,19 +8,28 @@
 <style>
   :root{--navy:#1E3A5F;--blue:#2D7DD2;--blue-light:#EBF3FB;--blue-mid:#B8D4F0;--green:#1A9E5C;--green-light:#E8F8F0;--red:#E74C3C;--bg:#F7F9FC;--surface:#fff;--border:#D9E4F0;--text:#1A2840;--text-2:#4A6080;--text-3:#8BA0BA;--shadow:0 2px 12px rgba(30,58,95,.08)}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-size:22px;font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:22px}
   header{background:var(--navy);color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:10}
-  .logo{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  .logo{width:30px;height:30px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
   header h1{font-size:100%;font-weight:700}
-  main{max-width:800px;margin:0 auto;padding:20px}
+  main{max-width:640px;margin:0 auto;padding:20px}
   .zone-label{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
   .zone-title{font-size:75%;font-weight:700;padding:5px 14px;border-radius:20px;white-space:nowrap}
   .open .zone-title{background:var(--green-light);color:var(--green)}
   .closed .zone-title{background:#eee;color:#888}
   .zone-line{flex:1;height:1.5px;background:var(--border)}
   .zone-wrap{margin-bottom:28px}
-  .card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;text-decoration:none;color:inherit;transition:transform .15s,border-color .15s}
-  .card:hover{transform:translateY(-2px);border-color:var(--blue-mid)}
+  .card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden}
+  .card-top{display:flex;align-items:center;gap:12px;padding:14px 16px;text-decoration:none;color:inherit;transition:background .15s}
+  .card-top:hover{background:var(--blue-light)}
+  .unpaid{border-top:1px solid var(--border);background:#FFFBF9;padding:8px 16px 10px}
+  .unpaid-head{display:flex;justify-content:space-between;font-size:68.75%;font-weight:700;color:var(--red);margin-bottom:4px}
+  .unpaid-row{display:flex;align-items:baseline;gap:10px;font-size:75%;padding:4px 0;border-bottom:1px dashed var(--border)}
+  .unpaid-row:last-child{border-bottom:none}
+  .u-name{font-weight:700;color:var(--navy);flex-shrink:0;min-width:3em}
+  .u-items{flex:1;color:var(--text-2);min-width:0;word-break:break-all}
+  .u-amt{font-weight:700;color:var(--navy);white-space:nowrap}
+  .paid-all{border-top:1px solid var(--border);background:var(--green-light);color:var(--green);font-size:68.75%;font-weight:600;padding:6px 16px}
   .card.closed-card{opacity:.65;background:#FAFBFC}
   .info{flex:1;min-width:0}
   .name{font-size:93.75%;font-weight:700;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -52,19 +61,50 @@
 <script>
 const ORDER_PAGE = 'order.html';
 
+function unpaidHtml(r, list){
+  if(!list.length) return `<div class="paid-all">✔ 全數已付款</div>`;
+  const fee = calcFee(r.serviceFee);
+  const total = list.reduce((s,o)=>s+Number(o.amount||0)+fee,0);
+  return `<div class="unpaid">
+    <div class="unpaid-head"><span>⚠ 未付款 ${list.length} 人</span><span>NT$ ${total.toLocaleString()}</span></div>
+    ${list.map(o=>`<div class="unpaid-row">
+      <span class="u-name">${esc(o.orderer)}</span>
+      <span class="u-items">${esc(o.items)||'(無品項)'}</span>
+      <span class="u-amt">NT$ ${(Number(o.amount||0)+fee).toLocaleString()}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
 function cardHtml(r, closed){
   const url = ORDER_PAGE + '?id=' + encodeURIComponent(r.id);
-  return `<a class="card ${closed?'closed-card':''}" href="${url}">
-    <div class="info">
-      <div class="name">🍽 ${esc(r.name)}</div>
-      <div class="meta">
-        <span>📅 ${r.createdAt || '—'}</span>
-        ${r.receiver ? `<span>👤 主購：${esc(r.receiver)}</span>` : ''}
-        ${r.note ? `<span>💬 ${esc(r.note)}</span>` : ''}
+  const list = unpaidMap[r.id] || [];
+  return `<div class="card ${closed?'closed-card':''}">
+    <a class="card-top" href="${url}">
+      <div class="info">
+        <div class="name">🍽 ${esc(r.name)}</div>
+        <div class="meta">
+          <span>📅 ${r.createdAt || '—'}</span>
+          ${r.receiver ? `<span>👤 主購：${esc(r.receiver)}</span>` : ''}
+          ${r.serviceFee ? `<span>🧾 服務費 ${calcFee(r.serviceFee)}／筆</span>` : ''}
+          ${r.note ? `<span>💬 ${esc(r.note)}</span>` : ''}
+        </div>
       </div>
-    </div>
-    <span class="go">${closed ? '查看' : '點餐 →'}</span>
-  </a>`;
+      <span class="go">${closed ? '查看' : '點餐 →'}</span>
+    </a>
+    ${unpaidHtml(r, list)}
+  </div>`;
+}
+
+let unpaidMap = {};   // restaurantId -> 未付款訂單[]
+
+async function loadUnpaid(ids){
+  unpaidMap = {};
+  ids.forEach(id => unpaidMap[id] = []);
+  for(let i=0;i<ids.length;i+=30){
+    const chunk = ids.slice(i,i+30);
+    const rows = await sbFetch(`orders?restaurant_id=in.(${chunk.join(',')})&paid_status=eq.${encodeURIComponent('未付款')}&select=*&order=order_date.asc`);
+    (rows||[]).forEach(row=>{ const o=dbToOrder(row); (unpaidMap[o.restaurantId]=unpaidMap[o.restaurantId]||[]).push(o); });
+  }
 }
 
 (async () => {
@@ -75,6 +115,8 @@ function cardHtml(r, closed){
     const open = all.filter(r => !r.locked).sort(byDate);
     // 已結單：取建立日期最新的 2 間，顯示時仍由舊到新
     const closed = all.filter(r => r.locked).sort(byDate).slice(-2);
+
+    await loadUnpaid([...open, ...closed].map(r => r.id));
 
     document.getElementById('list-open').innerHTML =
       open.length ? open.map(r => cardHtml(r, false)).join('')

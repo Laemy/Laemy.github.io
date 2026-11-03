@@ -15,11 +15,10 @@
     --radius:10px;--shadow:0 2px 12px rgba(30,58,95,0.08);--shadow-md:0 4px 24px rgba(30,58,95,0.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:20px;padding-bottom:90px}
-
+  body{font-size:22px;font-family:'Inter','Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;padding-bottom:90px}
   header{background:var(--navy);color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:50}
   .logo{width:30px;height:30px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:106.25%;flex-shrink:0}
-  header h1{font-size:93.75%;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  header h1{font-size:100%;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .hdr-back{margin-left:auto;font-size:68.75%;color:var(--blue-mid);text-decoration:none;flex-shrink:0}
 
   main{flex:1;padding:20px;max-width:560px;width:100%;margin:0 auto}
@@ -232,8 +231,8 @@
 <body>
 
 <header>
-  <div class="logo">🛒</div>
-  <h1 id="hdr-title">我要點餐</h1>
+  <div class="logo">📝</div>
+  <h1 id="hdr-title" onClick="window.location.href='order_list.html'">我要點餐</h1>
 </header>
 
 <main>
