@@ -743,6 +743,9 @@ async function deleteOrderRow(id){
   if(!o) return;
   if(o.paidStatus==='已付款'){ showToast('已付款的訂單無法刪除','error'); return; }
   if(!confirm(`確定刪除 ${o.orderer} 的這筆訂單？`)) return;
+  try{
+    if(await fetchLockedLive()){ applyLockedUI(); showToast('此開團已結單，無法刪除訂單','error'); return; }
+  }catch(e){ showToast('無法確認結單狀態：'+e.message,'error'); return; }
   showLoading();
   try{
     await OrdersAPI.delete(id);
@@ -754,8 +757,45 @@ async function deleteOrderRow(id){
   finally{ hideLoading(); }
 }
 
+// ── 送出前：向資料庫重新確認是否已結單（避免使用頁面載入時的舊狀態）──
+async function fetchLockedLive(){
+  const rows = await sbFetch(`restaurants?id=eq.${encodeURIComponent(restId)}&select=is_locked`);
+  return !!(rows && rows[0] && rows[0].is_locked);
+}
+
+// 偵測到已結單時，把頁面切換成結單狀態
+function applyLockedUI(){
+  rest.locked = true;
+  editingOrderId = null;
+  document.getElementById('edit-banner').classList.add('view-hidden');
+  document.getElementById('btn-submit').textContent = '✔ 送出訂單';
+  document.getElementById('locked-banner').classList.remove('view-hidden');
+  document.getElementById('order-form-area').classList.add('locked-fade');
+  document.getElementById('sticky-footer').style.display = 'none';
+  document.getElementById('detail-col')?.classList.remove('expanded');
+  document.getElementById('cart-backdrop')?.classList.remove('show');
+  renderRecent();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
 async function submitOrder(){
   if(rest.locked){ showToast('已結單，無法送出訂單','error'); return; }
+
+  // 送出前先即時查詢資料庫的結單狀態
+  showLoading();
+  try{
+    const locked = await fetchLockedLive();
+    if(locked){
+      applyLockedUI();
+      showToast('此開團已結單，無法送出訂單','error');
+      return;
+    }
+  }catch(e){
+    showToast('無法確認結單狀態，請稍後再試：'+e.message,'error');
+    return;
+  }finally{
+    hideLoading();
+  }
   const orderer = document.getElementById('orderer-select').value;
   if(!orderer){ showToast('請先選擇你的名字','error'); return; }
   saveOrdererName(orderer);
