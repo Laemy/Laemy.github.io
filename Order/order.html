@@ -367,7 +367,7 @@
 let rest = null;
 let menuItems = [];
 let qtyMap = {};      // itemId -> qty
-let noteMap = {};     // itemId -> 該餐點備註（例：少辣、去香菜）
+let noteMap = {};     // itemId -> 該餐點備註（例：加辣、半糖、去冰）
 let orders = [];
 let editingOrderId = null;   // 目前正在修改的訂單 id（未付款訂單才可修改）
 let menuSearchTerm = '';     // 菜單模糊搜尋關鍵字
@@ -563,7 +563,7 @@ function renderMenuItems(){
         </div>
         ${chips}
         <div class="mi-note-row ${qty>0?'':'view-hidden'}">
-          ${cur?`<input class="mi-note-input" id="note-${cur.id}" placeholder="這項的備註（例：少辣、去香菜）"
+          ${cur?`<input class="mi-note-input" id="note-${cur.id}" placeholder="這項備註（例：加辣、半糖、去冰）"
             value="${esc(noteMap[cur.id]||'')}" oninput="updateNote('${cur.id}',this.value)">`:''}
         </div>
       </div>`;
