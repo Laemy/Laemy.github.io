@@ -50,13 +50,13 @@
       <div id="list-open"></div>
     </div>
     <div class="zone-wrap closed">
-      <div class="zone-label"><span class="zone-title">🔒 已結單（最新 2 間）</span><div class="zone-line"></div></div>
+      <div class="zone-label"><span class="zone-title">🔒 已結單（最新 5 間）</span><div class="zone-line"></div></div>
       <div id="list-closed"></div>
     </div>
   </div>
 </main>
 
-<!-- 若本頁放在 /ma/ 子資料夾，請改為 ../db.js 與 ../order.html -->
+
 <script src="db.js"></script>
 <script>
 const ORDER_PAGE = 'order.html';
@@ -109,12 +109,12 @@ async function loadUnpaid(ids){
 
 (async () => {
   try {
-    const all = await RestaurantsAPI.getAll();   // 已依 created_at 由舊到新
+    const all = await RestaurantsAPI.get10();   // 已依 created_at 由舊到新
     const byDate = (a, b) => (a.createdAt || '').localeCompare(b.createdAt || '');  // 穩定排序，同日維持原建立順序
 
     const open = all.filter(r => !r.locked).sort(byDate);
-    // 已結單：取建立日期最新的 2 間，顯示時仍由舊到新
-    const closed = all.filter(r => r.locked).sort(byDate).slice(-2);
+    // 已結單：取建立日期最新的 5 間，顯示時仍由舊到新
+    const closed = all.filter(r => r.locked).sort(byDate).slice(-5).reverse();;
 
     await loadUnpaid([...open, ...closed].map(r => r.id));
 

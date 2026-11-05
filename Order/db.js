@@ -126,6 +126,10 @@ const RestaurantsAPI = {
     const rows = await sbFetch('restaurants?select=*&order=created_at.asc');
     return rows.map(dbToRestaurant);
   },
+  async get10() {
+    const rows = await sbFetch('restaurants?select=*&order=created_at.desc&limit=10');
+    return rows.map(dbToRestaurant);
+  },
   async insert(r) {
     const rows = await sbFetch('restaurants', {
       method: 'POST',
