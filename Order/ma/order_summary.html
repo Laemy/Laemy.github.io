@@ -56,6 +56,8 @@
   tfoot td{padding:10px 14px;font-weight:700;background:var(--bg);border-top:2px solid var(--border)}
 
   .empty-note{font-size:75%;color:var(--text-3);padding:16px;text-align:center}
+  .warn-note{background:var(--red-light);border:1.5px solid #f5b7b1;color:var(--red);border-radius:10px;padding:12px 16px;font-size:75%;line-height:1.8;margin:-16px 0 28px}
+  .warn-note strong{color:var(--navy)}
 
   .copy-box{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:28px}
   .copy-textarea{width:100%;resize:vertical;min-height:160px;padding:12px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-family:'Menlo','Consolas',monospace;font-size:81.25%;line-height:1.9}
@@ -123,6 +125,7 @@
       </table>
       <div id="agg-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生品項加總（可能為手動輸入或批量匯入的訂單）。</div>
     </div>
+    <div id="agg-warn" class="warn-note view-hidden"></div>
 
     <div class="section-header">
       <h2>📋 複製給賣家（純文字明細）</h2>
@@ -215,6 +218,16 @@ async function init(){
         });
       }
     });
+    // 未納入加總的訂單（沒有 itemsDetail，例如手動新增／批量匯入）
+    const missing = orders.filter(o=>!(Array.isArray(o.itemsDetail) && o.itemsDetail.length) && (Number(o.amount)||0)>0);
+    const warnEl = document.getElementById('agg-warn');
+    if(hasDetail && missing.length){
+      warnEl.innerHTML = `⚠ 有 <strong>${missing.length}</strong> 筆訂單未包含在上方【品項加總】與【複製給賣家】內，下單前請另行確認：<br>` +
+        missing.map(o=>`・<strong>${esc(o.orderer)}</strong>：${esc(o.items)||'(無品項)'}（NT$ ${Number(o.amount||0).toLocaleString()}）`).join('<br>');
+      warnEl.classList.remove('view-hidden');
+    } else {
+      warnEl.classList.add('view-hidden');
+    }
     const aggRows = Object.values(aggMap).sort((a,b)=>b.subtotal-a.subtotal);
     document.getElementById('agg-count').textContent = aggRows.length+' 項';
     const aggTotal = aggRows.reduce((s,r)=>s+r.subtotal,0);
