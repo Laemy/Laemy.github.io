@@ -20,6 +20,7 @@
   header{background:var(--navy);color:#fff;padding:0 32px;height:60px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
   .logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:112.5%}
   header h1{font-size:106.25%;font-weight:700}
+  header .headLink{color:#fff;padding:7px 16px 7px 7px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap}
   .tab-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:0 32px;display:flex}
   .tab-btn{padding:14px 22px;font-size:87.5%;font-weight:500;color:var(--text-2);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .18s,border-color .18s;white-space:nowrap}
   .tab-btn:hover{color:var(--blue)}.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:700}
@@ -338,8 +339,10 @@
 <header>
   <div class="logo-icon">🍱</div>
   <h1>訂餐對帳系統</h1>
-  <a href="menu.html" style="margin-left:auto;background:#7D3C98;color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">🍜 菜單管理</a>
-  <a href="reconcile.html" style="background:var(--orange);color:#fff;padding:7px 16px;border-radius:8px;font-size:81.25%;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;white-space:nowrap">🧾 跨餐廳對帳</a>
+  
+  <a class="headLink" href="../order_list.html" style="margin-left:auto;background:#3c9856;"> 🔖 點餐列表</a>
+  <a class="headLink" href="menu.html" style="background:#7D3C98;">🍜 菜單管理</a>
+  <a class="headLink" href="reconcile.html" style="background:var(--orange);">🧾 對帳</a>
 </header>
 
 <div class="tab-bar">
