@@ -428,7 +428,7 @@ async function init(){
     if(!rest){ document.getElementById('not-found').style.display='block'; hideLoading(); return; }
 
     document.title = rest.name+' — 我要點餐';
-    document.getElementById('hdr-title').textContent = rest.name;
+    document.getElementById('hdr-title').textContent = "【"+rest.name+"】"+(rest.receiver?"by "+esc(rest.receiver):"");
     document.getElementById('hero-name').textContent = '🍽 '+rest.name;
     const mi=[];
     if(rest.receiver) mi.push('👤 主購：'+esc(rest.receiver));
