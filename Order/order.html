@@ -43,6 +43,7 @@
   .mi-name{font-size:87.5%;font-weight:700;color:var(--navy)}
   .mi-flavor{font-size: 70%;color: #ffffff;margin-top: 2px;border: 1px solid #ccc;border-radius: 5px;padding: 0 5px;background: var(--text-3);}
   .mi-price{font-size:75%;color:var(--text-2);margin-top:2px}
+  .mi-price span{font-size:80%;color:#7c7979};
   .menu-cat{display:flex;align-items:center;gap:10px;margin:18px 2px 10px;font-size:93.75%;font-weight:700;color:var(--navy)}
   .menu-cat-note{font-size:75%;font-weight:600;color:#fff;background:var(--text-3);border-radius:5px;padding:1px 8px}
   .menu-cat::before{content:'';width:4px;height:1.1em;background:var(--green);border-radius:2px;flex-shrink:0}
@@ -50,6 +51,7 @@
   .flavor-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
   .flavor-chip{border:1.5px solid var(--border);background:var(--surface);color:var(--text-2);border-radius:18px;padding:5px 12px;font-size:75%;font-family:inherit;font-weight:600;cursor:pointer}
   .flavor-chip.sel{border-color:var(--green);background:var(--green-light);color:var(--green)}
+  .flavor-chip-price{font-size:90%;color:var(--text-2);}
   .chip-qty{margin-left:6px;background:var(--green);color:#fff;border-radius:10px;padding:0 6px;font-size:90%}
     .qty-ctrl{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .mi-note-row{margin-top:9px}
@@ -333,7 +335,7 @@
 <div class="sticky-footer" id="sticky-footer" style="display:none">
   <div class="sf-total">
     <div class="sf-total-lbl">目前總金額</div>
-    <div class="sf-total-val" id="sf-total-val">NT$ 0</div>
+    <div class="sf-total-val" id="sf-total-val">$ 0</div>
   </div>
   <button class="btn-submit" id="btn-submit" onclick="submitOrder()">✔ 送出訂單</button>
 </div>
@@ -432,7 +434,7 @@ async function init(){
     document.getElementById('hero-name').textContent = '🍽 '+rest.name;
     const mi=[];
     if(rest.receiver) mi.push('👤 主購：'+esc(rest.receiver));
-    if(rest.serviceFee) mi.push('🧾 服務費：NT$ '+Number(rest.serviceFee).toLocaleString()+' ／筆（結帳時會另加）');
+    if(rest.serviceFee) mi.push('🧾 服務費：$ '+Number(rest.serviceFee).toLocaleString()+' ／筆（結帳時會另加）');
     if(rest.note) mi.push('💬 '+esc(rest.note));
     document.getElementById('hero-meta').innerHTML = mi.map(m=>`<div>${m}</div>`).join('');
 
@@ -538,14 +540,14 @@ function renderMenuItems(){
       const qty   = cur ? (qtyMap[cur.id]||0) : 0;
       const prices = g.variants.map(v=>Number(v.price));
       const minP = Math.min(...prices), maxP = Math.max(...prices);
-      const priceTxt = cur ? 'NT$ '+Number(cur.price).toLocaleString()
-                           : (minP===maxP ? 'NT$ '+minP.toLocaleString() : 'NT$ '+minP.toLocaleString()+' ~ '+maxP.toLocaleString());
+      const priceTxt = cur ? '$ '+Number(cur.price).toLocaleString()
+                           : (minP===maxP ? '$ '+minP.toLocaleString() : '$ '+minP.toLocaleString()+' ~ '+maxP.toLocaleString());
       const multi = g.variants.length>1;
       const anyActive = g.variants.some(v=>(qtyMap[v.id]||0)>0);
       const chips = multi ? `<div class="flavor-chips">` + g.variants.map(v=>{
         const q = qtyMap[v.id]||0;
         return `<button type="button" class="flavor-chip ${cur&&v.id===cur.id?'sel':''}" onclick="selectVariant('${g.gid}','${v.id}')">
-          ${esc(v.flavor||'原味')}　NT$ ${Number(v.price).toLocaleString()}${q>0?`<span class="chip-qty">×${q}</span>`:''}
+          ${esc(v.flavor||'原味')}　<span class="flavor-chip-price">$ ${Number(v.price).toLocaleString()}</span>${q>0?`<span class="chip-qty">×${q}</span>`:''}
         </button>`;
       }).join('') + `</div>` : '';
       return `<div class="menu-item ${anyActive?'active':''}">
@@ -553,7 +555,7 @@ function renderMenuItems(){
           <div class="mi-info">
             <div class="mi-name">${esc(g.dishName)}</div>
             ${!multi && cur && cur.flavor?`<div class="mi-flavor">${esc(cur.flavor)}</div>`:''}
-            <div class="mi-price">${priceTxt}${!cur?' ・請選擇口味':''}</div>
+            <div class="mi-price">${priceTxt} ${!cur?'<span> ・請選擇口味</span>':''}</div>
           </div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="${cur?`changeQty('${cur.id}',-1)`:'needFlavor()'}">－</button>
@@ -605,10 +607,10 @@ function renderCart(){
     return `<div class="cart-row">
       <div class="cart-row-info">
         <div class="cart-row-name">${esc(it.dishName)}${it.flavor?`<span class="cart-row-flavor">（${esc(it.flavor)}）</span>`:''}</div>
-        <div class="cart-row-sub">NT$ ${Number(it.price).toLocaleString()} × ${qty}</div>
+        <div class="cart-row-sub">$ ${Number(it.price).toLocaleString()} × ${qty}</div>
         ${noteTxt?`<div class="cart-row-note">📝 ${esc(noteTxt)}</div>`:''}
       </div>
-      <div class="cart-row-amt">NT$ ${(it.price*qty).toLocaleString()}</div>
+      <div class="cart-row-amt">$ ${(it.price*qty).toLocaleString()}</div>
       <button class="cart-row-remove" title="移除" onclick="changeQty('${it.id}',${-qty})">✕</button>
     </div>`;
   }).join('');
@@ -634,7 +636,7 @@ function updateTotal(){
   } else {
     total = Number(document.getElementById('manual-amount')?.value)||0;
   }
-  document.getElementById('sf-total-val').textContent = 'NT$ '+total.toLocaleString();
+  document.getElementById('sf-total-val').textContent = '$ '+total.toLocaleString();
   return total;
 }
 document.addEventListener('input', (e)=>{ if(e.target && e.target.id==='manual-amount') updateTotal(); });
@@ -668,7 +670,7 @@ function renderRecent(){
       return `<div class="recent-row ${o.id===editingOrderId?'editing':''}" id="rr-${o.id}">
         <span class="rr-name">${esc(o.orderer)}</span>
         <span class="rr-items">${esc(o.items)||'(無品項)'}</span>
-        <span class="rr-amt">NT$ ${Number(o.amount||0).toLocaleString()}</span>
+        <span class="rr-amt">$ ${Number(o.amount||0).toLocaleString()}</span>
         ${actions}
       </div>`;
     }).join('');
