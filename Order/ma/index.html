@@ -436,7 +436,7 @@
       </div>
       <div class="form-group"><label>地址</label><input class="form-control" id="rest-address" placeholder="高雄市..."></div>
       <div class="form-row">
-        <div class="form-group"><label>收款人</label><input class="form-control" id="rest-receiver" placeholder="例：王小明"></div>
+        <div class="form-group"><label>收款人</label><select class="form-control" id="rest-receiver"><option value="">— 請選擇收款人 —</option></select></div>
         <div class="form-group"><label>服務費 (元／筆)</label><input class="form-control" id="rest-service-fee" type="number" min="0" placeholder="0"></div>
       </div>
       <div class="form-group">
@@ -906,8 +906,20 @@ function toggleAcc(id) {
 }
 
 // ═══════════════════ MODALS ═══════════════════
+const RECEIVER_STORAGE_KEY = 'edda_lastReceiver';
+
+// 填入收款人下拉選單（選項來自 MEMBER_LIST；若舊資料的收款人不在名單內，也會保留為選項）
+function fillReceiverSelect(selected) {
+  const sel = document.getElementById('rest-receiver');
+  const names = MEMBER_LIST.map(m => typeof m === 'object' ? m.name : m);
+  if (selected && !names.includes(selected)) names.push(selected);
+  sel.innerHTML = '<option value="">— 請選擇收款人 —</option>' +
+    names.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  sel.value = selected || '';
+}
+
 function openRestaurantModal(id) {
-  ['rest-edit-id','rest-name','rest-contact','rest-address','rest-receiver','rest-note'].forEach(x=>document.getElementById(x).value='');
+  ['rest-edit-id','rest-name','rest-contact','rest-address','rest-note'].forEach(x=>document.getElementById(x).value='');
   document.getElementById('rest-service-fee').value=0;
   document.getElementById('rest-date').value=todayStr();
   document.getElementById('modal-rest-title').textContent='新增餐廳';
@@ -918,9 +930,11 @@ function openRestaurantModal(id) {
   menuSel.value='';
 
   // 新增餐廳時，自動帶入上次使用的收款人（同一瀏覽器 session 記憶）
+  fillReceiverSelect('');
   if (!id) {
-    const lastReceiver = sessionStorage.getItem('lastReceiver');
-    if (lastReceiver) document.getElementById('rest-receiver').value = lastReceiver;
+    let lastReceiver = '';
+    try { lastReceiver = localStorage.getItem(RECEIVER_STORAGE_KEY) || ''; } catch(e) {}
+    if (lastReceiver) fillReceiverSelect(lastReceiver);
   }
   if (id) {
     const r=restaurants.find(x=>x.id===id);
@@ -930,7 +944,7 @@ function openRestaurantModal(id) {
       document.getElementById('rest-name').value       =r.name;
       document.getElementById('rest-contact').value    =r.contact||'';
       document.getElementById('rest-address').value    =r.address||'';
-      document.getElementById('rest-receiver').value   =r.receiver||'';
+      fillReceiverSelect(r.receiver||'');
       document.getElementById('rest-service-fee').value=r.serviceFee||0;
       document.getElementById('rest-note').value       =r.note||'';
       document.getElementById('rest-date').value       =r.createdAt||todayStr();
@@ -1013,7 +1027,7 @@ async function saveRestaurant() {
     note:document.getElementById('rest-note').value.trim(),
     locked: prevLocked };
   // 記住這次填寫的收款人，下次新增餐廳時自動帶入
-  if (obj.receiver) sessionStorage.setItem('lastReceiver', obj.receiver);
+  if (obj.receiver) { try { localStorage.setItem(RECEIVER_STORAGE_KEY, obj.receiver); } catch(e) {} }
   showLoading(editId?'更新中...':'新增中...');
   try {
     if (editId) { await RestaurantsAPI.update(editId, obj); showToast('餐廳資料已更新 ✓'); }
