@@ -64,6 +64,8 @@
   .copy-textarea:focus{outline:none;border-color:var(--blue)}
   .copy-actions{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
   .copy-hint{font-size:68.75%;color:var(--text-3)}
+  #menuNoteArea{font-size:75%;color:var(--text-2);justify-content: flex-end;}
+  #menuNoteArea #menuNote{ background-color:#e7b7b7;color:#4b2929;padding:0 10px;}
 
   .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:8px;font-size:81.25%;font-weight:500;box-shadow:var(--shadow-md);z-index:200;transform:translateY(10px);opacity:0;transition:all .25s;pointer-events:none}
   .toast.show{transform:translateY(0);opacity:1}
@@ -135,10 +137,13 @@
       <textarea class="copy-textarea" id="plain-text-summary" readonly onclick="this.select()"></textarea>
       <div class="copy-actions">
         <button class="btn btn-primary" onclick="copyPlainSummary()">📋 複製明細</button>
-        <span class="copy-hint">格式：品名(口味、備註)*數量，每項一行，方便直接貼給店家</span>
+        <span class="copy-hint">格式：品名(口味、備註)*數量，方便直接貼給店家，依金額高→低排列；若菜單有備註會附在最後</span>
       </div>
+	  <div id="menuNoteArea" class="copy-actions">菜單備註：<span id="menuNote"></span></div>
       <div id="plain-empty" class="empty-note view-hidden">此開團尚無透過點餐頁送出的結構化訂單，無法產生純文字明細。</div>
+
     </div>
+
 
     <div class="section-header">
       <h2>👤 依人明細</h2>
@@ -196,6 +201,16 @@ async function init(){
     const orders = await OrdersAPI.getByRestaurant(restId);
     const fee = calcFee(rest.serviceFee);
 
+	// 若此開團有使用菜單，取得菜單備註（附在「複製給賣家」最後）
+	let menuNote = '';
+	if(rest.menuId){
+	  try{
+		const allMenus = await MenusAPI.getAll();
+		const m = allMenus.find(x=>x.id===rest.menuId);
+		menuNote = ((m && m.note) || '').trim();
+	  }catch(e){ /* 取不到備註不影響主流程 */ }
+	}
+
     // Hero stats
     const totalAmt = orders.reduce((s,o)=>s+Number(o.amount||0)+fee,0);
     const unpaidAmt= orders.filter(o=>o.paidStatus==='未付款').reduce((s,o)=>s+Number(o.amount||0)+fee,0);
@@ -252,16 +267,26 @@ async function init(){
     if(!hasDetail || !aggRows.length){
       document.getElementById('plain-text-summary').value = '';
       document.getElementById('plain-empty').classList.remove('view-hidden');
+	  document.getElementById('menuNoteArea').classList.add('view-hidden');
     } else {
       document.getElementById('plain-empty').classList.add('view-hidden');
-      const plainText = aggRows
+      let plainText = aggRows
         .slice()
-        .sort((a,b)=>a.dishName.localeCompare(b.dishName,'zh'))
+        .sort((a,b)=> b.subtotal - a.subtotal || a.dishName.localeCompare(b.dishName,'zh'))
         .map(r=>{
           const label = [r.flavor, r.note].filter(Boolean).join('、');
           return `${r.dishName}${label?'('+label+')':''}*${r.qty}`;
         })
         .join('\n');
+      // 有使用菜單且菜單有備註
+      if(menuNote){
+	  	document.getElementById('menuNoteArea').classList.remove('view-hidden');
+		document.getElementById('menuNote').textContent =  menuNote;
+      }else{
+		document.getElementById('menuNoteArea').classList.add('view-hidden');
+	  
+	  }
+	  
       document.getElementById('plain-text-summary').value = plainText;
     }
 
